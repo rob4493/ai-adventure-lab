@@ -20,6 +20,10 @@ npm run lint
 npm run preview
 ```
 
+## PWA Notes
+
+The app includes a web app manifest and service worker for install-style browser behavior and basic offline app-shell caching. Final app icons and theme colors are intentionally left for a later branding pass.
+
 ## Project Structure
 
 - `src/data/levels.js` defines the level sequence and progression metadata.

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy } from "lucide-react";
+import { Sparkles, Trophy } from "lucide-react";
 import StarRating from "../components/StarRating";
 
 const FEEDBACK_URL = "https://forms.gle/Y4RE3SGALJJzw9bo6";
@@ -9,11 +9,16 @@ export default function ResultsScreen({
   score,
   maxScore,
   stars,
+  previousBest,
+  isNewBest,
   replayLevel,
   nextLevel,
   canAdvanceToNextLevel,
   goLevels,
 }) {
+  const improvement = score - previousBest;
+  const hasPreviousBest = previousBest > 0;
+
   return (
     <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
       
@@ -36,6 +41,13 @@ export default function ResultsScreen({
           <p className="text-white/75">
             {level?.title}
           </p>
+
+          {isNewBest && (
+            <div className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-200/40 bg-cyan-200/15 px-3 py-1 text-sm font-bold text-white">
+              <Sparkles size={16} aria-hidden="true" />
+              New Best
+            </div>
+          )}
         </div>
 
         <div className="p-6">
@@ -52,6 +64,50 @@ export default function ResultsScreen({
             <h2 className="text-4xl font-bold">
               {score}/{maxScore}
             </h2>
+          </div>
+
+          <div className="mb-6 grid grid-cols-2 gap-3">
+            <div className="app-inset-surface rounded-xl p-3 text-center">
+              <p className="text-[11px] font-bold uppercase text-slate-500">
+                XP This Run
+              </p>
+
+              <p className="mt-1 text-xl font-bold text-white">
+                {score}
+              </p>
+            </div>
+
+            <div className="app-inset-surface rounded-xl p-3 text-center">
+              <p className="text-[11px] font-bold uppercase text-slate-500">
+                Previous Best
+              </p>
+
+              <p className="mt-1 text-xl font-bold text-white">
+                {hasPreviousBest ? previousBest : "New"}
+              </p>
+            </div>
+          </div>
+
+          <div className="app-surface mb-6 rounded-2xl p-4">
+            <p className="app-kicker mb-2 text-xs font-bold uppercase">
+              What You Practiced
+            </p>
+
+            <h2 className="mb-2 text-lg font-bold text-white">
+              {level?.skill}
+            </h2>
+
+            <p className="text-sm leading-relaxed text-slate-300">
+              {level?.takeaway}
+            </p>
+
+            <p className="mt-3 text-sm font-bold text-amber-200">
+              {isNewBest
+                ? hasPreviousBest
+                  ? `Improved by ${improvement} XP.`
+                  : "First completion recorded."
+                : "Replay this level to improve your best score."}
+            </p>
           </div>
 
           <div className="space-y-3">

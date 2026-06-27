@@ -4,29 +4,29 @@ import StarRating from "./StarRating";
 export default function LevelCard({ level, startLevel }) {
   return (
     <div
-      className={`rounded-2xl p-4 border transition ${
+      className={`app-level-card rounded-2xl border p-4 pl-5 transition ${
         level.unlocked
           ? "app-surface border-slate-700/70"
-          : "bg-slate-950/50 border-slate-800/80 opacity-70"
+          : "app-level-card-locked bg-slate-950/50 border-slate-800/80 opacity-70"
       }`}
     >
-      <div className="flex items-start justify-between gap-3 mb-3">
+      <div className="flex items-start justify-between gap-3 mb-4">
         <div className="min-w-0">
-          <p className="text-xs font-bold uppercase text-violet-300">
-            {level.world}
-          </p>
-
           <h3 className="text-lg font-bold text-white leading-snug">
             {level.title}
           </h3>
         </div>
 
         {level.completed && (
-          <CheckCircle className="text-emerald-300" size={20} />
+          <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 p-1">
+            <CheckCircle className="text-emerald-300" size={18} />
+          </div>
         )}
 
         {!level.completed && !level.unlocked && (
-          <Lock className="text-slate-500" size={18} />
+          <div className="rounded-full border border-slate-700 bg-slate-950/70 p-1">
+            <Lock className="text-slate-500" size={16} />
+          </div>
         )}
       </div>
 

@@ -4,6 +4,7 @@ import HomeScreen from "./screens/HomeScreen";
 import LevelSelect from "./screens/LevelSelect";
 import GameplayScreen from "./screens/GameplayScreen";
 import ResultsScreen from "./screens/ResultsScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 
 import levels from "./data/levels";
 import {
@@ -44,6 +45,8 @@ export default function App() {
   const [lastScore, setLastScore] = useState(0);
   const [lastMaxScore, setLastMaxScore] = useState(40);
   const [lastStars, setLastStars] = useState(0);
+  const [lastPreviousBest, setLastPreviousBest] = useState(0);
+  const [lastIsNewBest, setLastIsNewBest] = useState(false);
 
   const completedCount = levels.filter((level) =>
     progress.completedLevelIds.includes(level.id)
@@ -64,6 +67,10 @@ export default function App() {
     setScreen("levels");
   };
 
+  const goToSettings = () => {
+    setScreen("settings");
+  };
+
   const startLevel = (level) => {
     if (!level.unlocked) return;
 
@@ -74,9 +81,15 @@ export default function App() {
   const finishLevel = (score, stars, maxScore = 40) => {
     if (!selectedLevel) return;
 
+    const previousBest =
+      progress.scoresByLevelId[selectedLevel.id] ?? 0;
+    const isNewBest = score > previousBest;
+
     setLastScore(score);
     setLastMaxScore(maxScore);
     setLastStars(stars);
+    setLastPreviousBest(previousBest);
+    setLastIsNewBest(isNewBest);
 
     setProgress((currentProgress) => {
       const nextProgress = applyLevelResult(
@@ -134,6 +147,8 @@ export default function App() {
     setLastScore(0);
     setLastMaxScore(40);
     setLastStars(0);
+    setLastPreviousBest(0);
+    setLastIsNewBest(false);
     setScreen("home");
   };
 
@@ -145,7 +160,17 @@ export default function App() {
           totalXp={totalXp}
           completedCount={completedCount}
           levelCount={levels.length}
+          goToSettings={goToSettings}
+        />
+      )}
+
+      {screen === "settings" && (
+        <SettingsScreen
+          completedCount={completedCount}
+          goHome={goHome}
+          levelCount={levels.length}
           resetProgress={resetProgress}
+          totalXp={totalXp}
         />
       )}
 
@@ -171,6 +196,8 @@ export default function App() {
           score={lastScore}
           maxScore={lastMaxScore}
           stars={lastStars}
+          previousBest={lastPreviousBest}
+          isNewBest={lastIsNewBest}
           replayLevel={replayLevel}
           nextLevel={nextLevel}
           canAdvanceToNextLevel={canAdvanceToNextLevel}

@@ -26,19 +26,25 @@ export default function LevelSelect({
           &lt; Back
         </button>
 
-        <h1 className="text-3xl font-bold mb-2 leading-tight">
-          Select Level
-        </h1>
+        <div className="app-panel mb-5 rounded-2xl p-5">
+          <p className="app-kicker mb-2 text-xs font-bold uppercase">
+            Learning Path
+          </p>
 
-        <p className="text-slate-300 mb-6 leading-relaxed">
-          Progress unlocks one challenge at a time. Replay completed
-          levels to improve your best XP and stars.
-        </p>
+          <h1 className="text-3xl font-bold mb-2 leading-tight">
+            Select Level
+          </h1>
+
+          <p className="text-slate-300 leading-relaxed">
+            Progress unlocks one challenge at a time. Replay completed
+            levels to improve your best XP and stars.
+          </p>
+        </div>
 
         <div className="space-y-6">
           {Object.entries(worlds).map(([world, worldLevels]) => (
             <section key={world}>
-              <h2 className="mb-3 text-sm font-bold uppercase text-cyan-300/80">
+              <h2 className="app-human-kicker mb-3 text-sm font-bold uppercase">
                 {world}
               </h2>
 
