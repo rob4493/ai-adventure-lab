@@ -169,6 +169,232 @@ const promptFixContent = {
       },
     ],
   },
+  privacyShield: {
+    missionLabel: "Safety Check",
+    placeholder: "Write a safer prompt...",
+    rounds: [
+      {
+        instructions: "Rewrite this prompt to avoid sharing private details:",
+        originalPrompt:
+          "Write a post about me using my full name, school, address, and after-school schedule.",
+        examplePrompt:
+          "Write a friendly short bio for a school club page using only my hobbies, no full name, no address, and no schedule.",
+        concept:
+          "Privacy-aware prompts tell the AI what personal details to avoid, especially identifying or location-based information.",
+        criteria: [
+          {
+            phrase: "short bio",
+            points: 10,
+            label: "Defines a safe output",
+          },
+          {
+            phrase: "hobbies",
+            points: 10,
+            label: "Uses safer context",
+          },
+          {
+            phrase: "no full name",
+            points: 10,
+            label: "Protects identity",
+          },
+          {
+            phrase: "no address",
+            points: 10,
+            label: "Avoids location details",
+          },
+        ],
+      },
+      {
+        instructions: "Make this chatbot prompt safer:",
+        originalPrompt:
+          "Help me plan my week. I live at 22 Pine Street and walk home alone at 4 PM.",
+        examplePrompt:
+          "Help me plan my week using general time blocks, no address, no exact route, and no private routine details.",
+        concept:
+          "A safer prompt can keep the useful goal while removing identifying routines and location details.",
+        criteria: [
+          {
+            phrase: "general time blocks",
+            points: 10,
+            label: "Keeps planning useful",
+          },
+          {
+            phrase: "no address",
+            points: 10,
+            label: "Removes location",
+          },
+          {
+            phrase: "no exact route",
+            points: 10,
+            label: "Protects movement",
+          },
+          {
+            phrase: "private routine",
+            points: 10,
+            label: "Names the safety risk",
+          },
+        ],
+      },
+      {
+        instructions: "Rewrite this prompt so it avoids exposing someone else:",
+        originalPrompt:
+          "Summarize my friend's problem and include her name, phone number, and private messages.",
+        examplePrompt:
+          "Summarize the situation anonymously, remove phone number, remove private messages, and focus on general advice.",
+        concept:
+          "Privacy also applies to other people. A good prompt removes details they did not agree to share.",
+        criteria: [
+          {
+            phrase: "anonymously",
+            points: 10,
+            label: "Protects identity",
+          },
+          {
+            phrase: "remove phone number",
+            points: 10,
+            label: "Removes contact info",
+          },
+          {
+            phrase: "remove private messages",
+            points: 10,
+            label: "Protects consent",
+          },
+          {
+            phrase: "general advice",
+            points: 10,
+            label: "Keeps the useful goal",
+          },
+        ],
+      },
+    ],
+    starThresholds: [
+      {
+        minPercent: 85,
+        stars: 3,
+      },
+      {
+        minPercent: 50,
+        stars: 2,
+      },
+      {
+        minPercent: 1,
+        stars: 1,
+      },
+    ],
+  },
+  biasLens: {
+    missionLabel: "Fairness Check",
+    placeholder: "Write a fairer prompt...",
+    rounds: [
+      {
+        instructions: "Rewrite this prompt so it uses fair criteria:",
+        originalPrompt:
+          "Pick the best person for the job based on their photo and name.",
+        examplePrompt:
+          "Compare the candidates using the same job-related criteria, avoid personal traits, and explain any missing information needed for a fair decision.",
+        concept:
+          "Fairness prompts should define consistent criteria and ask what information is missing before making a judgment.",
+        criteria: [
+          {
+            phrase: "same",
+            points: 10,
+            label: "Uses consistent comparison",
+          },
+          {
+            phrase: "job-related",
+            points: 10,
+            label: "Focuses on relevant criteria",
+          },
+          {
+            phrase: "avoid personal traits",
+            points: 10,
+            label: "Reduces bias risk",
+          },
+          {
+            phrase: "missing information",
+            points: 10,
+            label: "Asks what else is needed",
+          },
+        ],
+      },
+      {
+        instructions: "Improve this prompt so it checks representation:",
+        originalPrompt:
+          "Tell me what students think about AI from these three quotes.",
+        examplePrompt:
+          "Summarize the quotes, identify whose perspectives are missing, avoid overgeneralizing, and suggest what additional voices to include.",
+        concept:
+          "Bias checks often start by asking who is represented, who is missing, and whether the evidence supports the conclusion.",
+        criteria: [
+          {
+            phrase: "summarize",
+            points: 10,
+            label: "Uses the evidence",
+          },
+          {
+            phrase: "missing",
+            points: 10,
+            label: "Checks gaps",
+          },
+          {
+            phrase: "avoid overgeneralizing",
+            points: 10,
+            label: "Limits claims",
+          },
+          {
+            phrase: "additional voices",
+            points: 10,
+            label: "Improves representation",
+          },
+        ],
+      },
+      {
+        instructions: "Rewrite this prompt to avoid unfair assumptions:",
+        originalPrompt:
+          "Guess which students are good at coding based on their hobbies.",
+        examplePrompt:
+          "Evaluate coding readiness using the same skills-based criteria, ignore stereotypes, ask for project examples, and explain uncertainty.",
+        concept:
+          "Fair prompts avoid stereotypes and focus on evidence that actually relates to the decision.",
+        criteria: [
+          {
+            phrase: "skills-based",
+            points: 10,
+            label: "Uses relevant evidence",
+          },
+          {
+            phrase: "ignore stereotypes",
+            points: 10,
+            label: "Reduces bias",
+          },
+          {
+            phrase: "project examples",
+            points: 10,
+            label: "Asks for evidence",
+          },
+          {
+            phrase: "uncertainty",
+            points: 10,
+            label: "Avoids overclaiming",
+          },
+        ],
+      },
+    ],
+    starThresholds: [
+      {
+        minPercent: 85,
+        stars: 3,
+      },
+      {
+        minPercent: 50,
+        stars: 2,
+      },
+      {
+        minPercent: 1,
+        stars: 1,
+      },
+    ],
+  },
 };
 
 export default promptFixContent;

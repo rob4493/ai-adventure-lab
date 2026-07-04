@@ -1,8 +1,35 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Sparkles, Trophy } from "lucide-react";
 import StarRating from "../components/StarRating";
 
 const FEEDBACK_URL = "https://forms.gle/Y4RE3SGALJJzw9bo6";
+
+function CountUp({ value, duration = 850 }) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    let animationFrame;
+    const startTime = performance.now();
+
+    const tick = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - (1 - progress) ** 3;
+
+      setDisplayValue(Math.round(value * eased));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(tick);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [duration, value]);
+
+  return displayValue;
+}
 
 export default function ResultsScreen({
   level,
@@ -22,7 +49,12 @@ export default function ResultsScreen({
   return (
     <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
       
-      <div className="app-panel w-full max-w-sm rounded-2xl overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.28 }}
+        className="app-panel w-full max-w-sm rounded-2xl overflow-hidden"
+      >
 
         <div className="app-mode-header p-6 text-center">
 
@@ -43,10 +75,22 @@ export default function ResultsScreen({
           </p>
 
           {isNewBest && (
-            <div className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-200/40 bg-cyan-200/15 px-3 py-1 text-sm font-bold text-white">
+            <motion.div
+              initial={{ scale: 0.88, boxShadow: "0 0 0 rgba(103, 232, 249, 0)" }}
+              animate={{
+                scale: [0.88, 1.08, 1],
+                boxShadow: [
+                  "0 0 0 rgba(103, 232, 249, 0)",
+                  "0 0 28px rgba(251, 191, 36, 0.45)",
+                  "0 0 14px rgba(103, 232, 249, 0.18)",
+                ],
+              }}
+              transition={{ duration: 0.75, ease: "easeOut" }}
+              className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-200/40 bg-cyan-200/15 px-3 py-1 text-sm font-bold text-white"
+            >
               <Sparkles size={16} aria-hidden="true" />
               New Best
-            </div>
+            </motion.div>
           )}
         </div>
 
@@ -62,7 +106,7 @@ export default function ResultsScreen({
             </p>
 
             <h2 className="text-4xl font-bold">
-              {score}/{maxScore}
+              <CountUp value={score} />/{maxScore}
             </h2>
           </div>
 
@@ -73,7 +117,7 @@ export default function ResultsScreen({
               </p>
 
               <p className="mt-1 text-xl font-bold text-white">
-                {score}
+                <CountUp value={score} />
               </p>
             </div>
 
@@ -146,7 +190,7 @@ export default function ResultsScreen({
 
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

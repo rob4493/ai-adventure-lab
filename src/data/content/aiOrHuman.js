@@ -84,6 +84,19 @@ const aiOrHumanContent = {
         concept:
           "Human writing often anchors meaning in memory: places, sounds, feelings, and small details that do not need to be perfectly efficient.",
       },
+      {
+        statement:
+          "It is important to consider both the benefits and risks of technology in modern society.",
+        correctAnswer: "ai",
+        feedback: {
+          correct:
+            "This is broad, balanced, and generic. It sounds useful, but it does not reveal a specific speaker or situation.",
+          incorrect:
+            "The sentence is polished and safe, but it lacks lived detail or a clear personal point of view.",
+        },
+        concept:
+          "AI text often defaults to balanced, general statements. Watch for writing that sounds reasonable but could fit almost any context.",
+      },
     ],
   },
   patternPrediction: {
@@ -171,6 +184,19 @@ const aiOrHumanContent = {
         },
         concept:
           "Confidence is not the same as truth or humanness. AI-generated reasoning often presents a neat rule even when more checking is needed.",
+      },
+      {
+        statement:
+          "Wait, I first thought it was adding 4 each time, but that breaks on the third number, so I need another rule.",
+        correctAnswer: "human",
+        feedback: {
+          correct:
+            "This shows false starts and revision, which feels like a person working through the pattern.",
+          incorrect:
+            "The self-correction is a strong clue. People often reveal the messy path, not just the final answer.",
+        },
+        concept:
+          "A visible thinking process can be more human than a perfect answer. Revision, hesitation, and checking are useful signals.",
       },
     ],
   },

@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import {
   getCriteriaScore,
@@ -125,7 +126,12 @@ export default function PromptFix({
           </button>
 
           {submitted && (
-            <div className="app-surface mt-5 rounded-2xl p-4">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.24 }}
+              className="app-surface mt-5 rounded-2xl p-4"
+            >
               <h2 className="text-2xl font-bold mb-2">
                 {roundScore}/{maxRoundScore} points
               </h2>
@@ -160,15 +166,18 @@ export default function PromptFix({
                   const matched = matchedCriteria.includes(criterion);
 
                   return (
-                    <div
+                    <motion.div
                       key={criterion.phrase}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.18 }}
                       className={
                         matched ? "text-emerald-300" : "text-slate-400"
                       }
                     >
                       {matched ? "Included: " : "Missing: "}
                       {criterion.label}
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -190,7 +199,7 @@ export default function PromptFix({
                   Try Again
                 </button>
               )}
-            </div>
+            </motion.div>
           )}
 
         </div>

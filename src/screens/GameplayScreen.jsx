@@ -2,6 +2,7 @@ import PromptFix from "../gameModes/PromptFix";
 import AiOrHuman from "../gameModes/AiOrHuman";
 import HallucinationHunt from "../gameModes/HallucinationHunt";
 import PromptBuilder from "../gameModes/PromptBuilder";
+import QuestionChoice from "../gameModes/QuestionChoice";
 
 export default function GameplayScreen({
   level,
@@ -38,6 +39,14 @@ export default function GameplayScreen({
 
       {level.type === "prompt_builder" && (
         <PromptBuilder
+          level={level}
+          goBack={goBack}
+          finishLevel={finishLevel}
+        />
+      )}
+
+      {level.type === "question_choice" && (
+        <QuestionChoice
           level={level}
           goBack={goBack}
           finishLevel={finishLevel}

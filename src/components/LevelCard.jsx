@@ -1,9 +1,24 @@
+import { motion } from "framer-motion";
 import { CheckCircle, Lock } from "lucide-react";
 import StarRating from "./StarRating";
 
 export default function LevelCard({ level, startLevel }) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        boxShadow:
+          level.unlocked && !level.completed
+            ? [
+                "0 0 0 rgba(103, 232, 249, 0)",
+                "0 0 26px rgba(103, 232, 249, 0.18)",
+                "0 0 0 rgba(103, 232, 249, 0)",
+              ]
+            : "0 0 0 rgba(103, 232, 249, 0)",
+      }}
+      transition={{ duration: 0.34 }}
       className={`app-level-card rounded-2xl border p-4 pl-5 transition ${
         level.unlocked
           ? "app-surface border-slate-700/70"
@@ -15,6 +30,12 @@ export default function LevelCard({ level, startLevel }) {
           <h3 className="text-lg font-bold text-white leading-snug">
             {level.title}
           </h3>
+
+          {level.description && (
+            <p className="mt-1 text-sm leading-relaxed text-slate-400">
+              {level.description}
+            </p>
+          )}
         </div>
 
         {level.completed && (
@@ -57,6 +78,6 @@ export default function LevelCard({ level, startLevel }) {
             : "Play Level"
           : "Locked"}
       </button>
-    </div>
+    </motion.div>
   );
 }

@@ -1,5 +1,20 @@
 import LevelCard from "../components/LevelCard";
 
+const worldDetails = {
+  "World 1": {
+    title: "World 1: AI Basics",
+    description: "Learn to spot AI patterns, factual slips, and reasoning style.",
+  },
+  "World 2": {
+    title: "World 2: Prompt Skills",
+    description: "Practice clearer prompts, stronger structure, and better follow-up questions.",
+  },
+  "World 3": {
+    title: "World 3: Trust & Safety",
+    description: "Build judgment around sources, privacy, and fairness.",
+  },
+};
+
 export default function LevelSelect({
   levels,
   startLevel,
@@ -44,9 +59,17 @@ export default function LevelSelect({
         <div className="space-y-6">
           {Object.entries(worlds).map(([world, worldLevels]) => (
             <section key={world}>
-              <h2 className="app-human-kicker mb-3 text-sm font-bold uppercase">
-                {world}
-              </h2>
+              <div className="mb-3">
+                <h2 className="app-human-kicker text-sm font-bold uppercase">
+                  {worldDetails[world]?.title ?? world}
+                </h2>
+
+                {worldDetails[world]?.description && (
+                  <p className="mt-1 text-sm leading-relaxed text-slate-400">
+                    {worldDetails[world].description}
+                  </p>
+                )}
+              </div>
 
               <div className="space-y-4">
                 {worldLevels.map((level) => (

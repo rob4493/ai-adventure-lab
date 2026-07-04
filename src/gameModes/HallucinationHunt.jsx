@@ -1,8 +1,61 @@
+import { motion } from "framer-motion";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  SearchCheck,
+  ShieldQuestion,
+} from "lucide-react";
 import { useState } from "react";
 import {
   getQuizRoundScore,
   getStarsFromScore,
 } from "../utils/scoring";
+
+const getAnswerTileStyle = (option) => {
+  const label = option.label.toLowerCase();
+
+  if (label === "true") {
+    return {
+      Icon: CheckCircle2,
+      accent: "text-emerald-200",
+      glow: "rgba(52, 211, 153, 0.32)",
+      ring: "border-emerald-300/45",
+      selected: "border-emerald-300/80 bg-emerald-300/15",
+      subtitle: "Supported by the facts",
+    };
+  }
+
+  if (label === "false") {
+    return {
+      Icon: AlertTriangle,
+      accent: "text-amber-200",
+      glow: "rgba(251, 191, 36, 0.32)",
+      ring: "border-amber-300/45",
+      selected: "border-amber-300/80 bg-amber-300/15",
+      subtitle: "A claim to challenge",
+    };
+  }
+
+  if (label === "reliable") {
+    return {
+      Icon: SearchCheck,
+      accent: "text-cyan-200",
+      glow: "rgba(103, 232, 249, 0.34)",
+      ring: "border-cyan-300/45",
+      selected: "border-cyan-300/80 bg-cyan-300/15",
+      subtitle: "Good evidence signals",
+    };
+  }
+
+  return {
+    Icon: ShieldQuestion,
+    accent: "text-rose-200",
+    glow: "rgba(251, 113, 133, 0.3)",
+    ring: "border-rose-300/45",
+    selected: "border-rose-300/80 bg-rose-300/15",
+    subtitle: "Needs more checking",
+  };
+};
 
 export default function HallucinationHunt({
   level,
@@ -14,6 +67,7 @@ export default function HallucinationHunt({
   const [correct, setCorrect] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [pendingScore, setPendingScore] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [totalScore, setTotalScore] = useState(0);
 
   const {
@@ -34,6 +88,7 @@ export default function HallucinationHunt({
       scoring
     );
 
+    setSelectedAnswer(answer);
     setCorrect(isCorrect);
     setPendingScore(roundScore);
     setAnswered(true);
@@ -43,6 +98,7 @@ export default function HallucinationHunt({
     setAttempts((currentAttempts) => currentAttempts + 1);
     setAnswered(false);
     setCorrect(false);
+    setSelectedAnswer(null);
     setPendingScore(0);
   };
 
@@ -63,6 +119,7 @@ export default function HallucinationHunt({
     setAnswered(false);
     setCorrect(false);
     setAttempts(0);
+    setSelectedAnswer(null);
     setPendingScore(0);
   };
 
@@ -103,16 +160,70 @@ export default function HallucinationHunt({
 
           <div className="grid grid-cols-2 gap-3">
 
-            {options.map((option) => (
-              <button
-                key={option.label}
-                disabled={answered}
-                onClick={() => chooseAnswer(option.value)}
-                className={`rounded-2xl ${option.className} p-4 font-bold`}
-              >
-                {option.label}
-              </button>
-            ))}
+            {options.map((option) => {
+              const style = getAnswerTileStyle(option);
+              const Icon = style.Icon;
+              const isSelected = selectedAnswer === option.value;
+
+              return (
+                <motion.button
+                  key={option.label}
+                  disabled={answered}
+                  onClick={() => chooseAnswer(option.value)}
+                  whileHover={!answered ? { y: -2 } : undefined}
+                  whileTap={!answered ? { scale: 0.98 } : undefined}
+                  animate={
+                    isSelected
+                      ? {
+                          scale: [1, 1.035, 1],
+                          boxShadow: correct
+                            ? [
+                                "0 0 0 rgba(52, 211, 153, 0)",
+                                "0 0 24px rgba(52, 211, 153, 0.45)",
+                                "0 0 10px rgba(52, 211, 153, 0.2)",
+                              ]
+                            : [
+                                "0 0 0 rgba(251, 191, 36, 0)",
+                                `0 0 24px ${style.glow}`,
+                                `0 0 10px ${style.glow}`,
+                              ],
+                        }
+                      : { scale: 1 }
+                  }
+                  transition={{ duration: 0.32 }}
+                  className={`group relative min-h-32 overflow-hidden rounded-2xl border p-4 text-left transition disabled:cursor-not-allowed ${
+                    isSelected
+                      ? style.selected
+                      : `app-inset-surface ${style.ring} hover:bg-slate-900/70`
+                  } ${answered && !isSelected ? "opacity-55" : ""}`}
+                >
+                  <span
+                    className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100"
+                    style={{
+                      background: `radial-gradient(circle at 35% 20%, ${style.glow}, transparent 60%)`,
+                    }}
+                  />
+
+                  <span className="relative flex h-full flex-col justify-between gap-3">
+                    <span
+                      className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${style.accent}`}
+                    >
+                      <Icon size={22} aria-hidden="true" />
+                    </span>
+
+                    <span>
+                      <span className="block text-xl font-black text-white">
+                        {option.label}
+                      </span>
+
+                      <span className="mt-1 block text-xs font-semibold leading-relaxed text-slate-400">
+                        {style.subtitle}
+                      </span>
+                    </span>
+                  </span>
+                </motion.button>
+              );
+            })}
 
           </div>
 

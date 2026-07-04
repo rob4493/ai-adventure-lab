@@ -64,9 +64,9 @@ export default function HomeScreen({
           <div className="mb-6 grid grid-cols-3 gap-2 text-center">
             <div className="app-inset-surface rounded-xl p-3">
               <p className="text-[11px] font-bold uppercase text-slate-500">
-                Modes
+                Worlds
               </p>
-              <p className="mt-1 text-lg font-bold">4</p>
+              <p className="mt-1 text-lg font-bold">3</p>
             </div>
 
             <div className="app-inset-surface rounded-xl p-3">
