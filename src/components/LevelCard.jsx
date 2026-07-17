@@ -3,6 +3,46 @@ import { CheckCircle, Lock } from "lucide-react";
 import StarRating from "./StarRating";
 
 export default function LevelCard({ level, startLevel }) {
+  if (level.completed) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.28 }}
+        className="app-surface rounded-2xl border border-emerald-300/20 p-3"
+      >
+        <div className="flex items-center gap-3">
+          <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 p-1">
+            <CheckCircle className="text-emerald-300" size={17} />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <h3 className="text-base font-bold leading-snug text-white">
+                {level.title}
+              </h3>
+
+              <p className="text-xs font-semibold text-slate-400">
+                {level.score} XP
+              </p>
+            </div>
+
+            <div className="mt-1">
+              <StarRating stars={level.stars} />
+            </div>
+          </div>
+
+          <button
+            onClick={() => startLevel(level)}
+            className="shrink-0 rounded-xl border border-cyan-300/35 bg-cyan-300/10 px-3 py-2 text-xs font-black text-cyan-100 transition hover:bg-cyan-300/20"
+          >
+            Replay
+          </button>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

@@ -18,6 +18,8 @@ This is currently a playable prototype. It has:
 
 It is not yet connected to a backend. Player progress is local to the browser/device.
 
+For a more detailed product direction and next-step plan, see [ROADMAP.md](./ROADMAP.md).
+
 ## Learning Goals
 
 The app is designed around practical AI literacy skills:
@@ -129,8 +131,21 @@ Final app icons and theme colors can be refined in a later branding pass. The cu
 ## Suggested Next Improvements
 
 - Add more rounds to each level so the lessons feel deeper.
+- Add concept-level tracking so results can show what players struggled with.
+- Add a review screen for missed concepts and weaker skills.
 - Add lightweight browser/mobile playthrough testing.
 - Add screenshots or short GIFs to this README.
-- Add final app icons and lock in the theme color.
 - Improve accessibility with keyboard focus checks and screen reader labels.
-- Add a small backend later if progress should sync across devices.
+- Plan future accounts, cloud progress, and classroom/teacher dashboard data.
+
+## Longer-Term Direction
+
+The strongest early audience may be organizations that already run digital literacy, STEM, youth learning, or workforce development programs, such as libraries, community colleges, after-school STEM programs, and youth technology nonprofits.
+
+Longer term, the app could grow toward:
+
+- student accounts and cloud-synced progress
+- teacher classes and assignments
+- concept-level progress reports
+- an instructor-led room mode
+- organization-level dashboards

@@ -71,7 +71,7 @@ export default function LevelSelect({
                 )}
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {worldLevels.map((level) => (
                   <LevelCard
                     key={level.id}
