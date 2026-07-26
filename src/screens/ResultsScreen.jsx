@@ -38,6 +38,8 @@ export default function ResultsScreen({
   stars,
   previousBest,
   isNewBest,
+  worldSummary,
+  reviewSummary,
   replayLevel,
   nextLevel,
   canAdvanceToNextLevel,
@@ -153,6 +155,86 @@ export default function ResultsScreen({
                 : "Replay this level to improve your best score."}
             </p>
           </div>
+
+          {worldSummary && (
+            <div className="app-surface mb-6 rounded-2xl border border-emerald-300/25 p-4">
+              <p className="text-xs font-bold uppercase text-emerald-300">
+                World Complete
+              </p>
+
+              <h2 className="mt-1 text-lg font-bold text-white">
+                {worldSummary.summaryTitle}
+              </h2>
+
+              <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                {worldSummary.summary}
+              </p>
+
+              <p className="mt-3 text-sm font-bold text-cyan-200">
+                {worldSummary.nextFocus}
+              </p>
+            </div>
+          )}
+
+          {reviewSummary && (
+            <div className="app-surface mb-6 rounded-2xl p-4">
+              <p className="app-kicker mb-3 text-xs font-bold uppercase">
+                Review Summary
+              </p>
+
+              <div className="grid gap-3">
+                <div className="app-inset-surface rounded-xl border border-emerald-300/20 p-3">
+                  <p className="text-xs font-bold uppercase text-emerald-300">
+                    You Did Well
+                  </p>
+
+                  <ul className="mt-2 space-y-2 text-sm leading-relaxed text-slate-300">
+                    {reviewSummary.didWell.map((item) => (
+                      <li key={item}>- {item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="app-inset-surface rounded-xl border border-amber-300/20 p-3">
+                  <p className="text-xs font-bold uppercase text-amber-200">
+                    Concepts To Review
+                  </p>
+
+                  {reviewSummary.reviewTopics?.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {reviewSummary.reviewTopics.map((topic) => (
+                        <span
+                          key={topic}
+                          className="rounded-full border border-amber-300/25 bg-amber-300/10 px-2 py-1 text-[11px] font-bold text-amber-100"
+                        >
+                          {topic}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {reviewSummary.needsReview.length > 0 ? (
+                    <ul className="mt-2 space-y-2 text-sm leading-relaxed text-slate-300">
+                      {reviewSummary.needsReview.map((item) => (
+                        <li key={item}>- {item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                      Nothing urgent. Replay later to sharpen your score.
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {reviewSummary.replayRecommended && (
+                <p className="mt-3 text-sm font-bold text-cyan-200">
+                  Replay this level if you want to strengthen the review
+                  concepts before moving on.
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="space-y-3">
 

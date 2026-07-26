@@ -1,36 +1,106 @@
 # AI Adventure Lab Roadmap
 
-This file captures the current product direction, what has been built so far, and the strongest next steps.
+This roadmap captures the current product direction, what exists now, and the strongest next steps.
 
 ## Current Position
 
-AI Adventure Lab is no longer just a quiz prototype. It is becoming an interactive AI literacy learning tool.
+AI Adventure Lab is becoming an interactive AI literacy training app. The current playable experience is the Student path, but the codebase now supports audience tracks so the product can expand beyond students.
 
-The strongest value is teaching judgment around AI:
+The core value is teaching judgment around AI:
 
-- when to trust or question an AI response
+- when to trust, question, or verify an AI response
 - how to spot hallucinations and confident mistakes
 - how to check sources instead of accepting links blindly
-- how to protect personal/private information
-- how to recognize bias, stereotypes, and missing perspectives
-- how to build better prompts with role, task, context, constraints, format, and examples
-
-The current app is best described as a playable student prototype.
+- how to protect personal and private information
+- how to recognize bias, stereotypes, missing perspectives, and unfair shortcuts
+- how to build prompts with role, task, context, constraints, format, and examples
 
 ## What Has Been Built
 
-- Mobile-first React/Vite app structure.
-- Home screen with intro, progress summary, settings/about, and feedback link support.
-- Level select screen grouped by worlds.
-- Sequential progression with locked, unlocked, completed, and replay states.
-- Local progress persistence using `localStorage`.
-- XP, stars, best score tracking, results screen, and new-best behavior.
-- PWA groundwork with manifest and service worker.
-- Data-driven level/content structure.
-- Visual theme with circuit/star assets and polished cards/buttons.
-- Compact completed level rows on the level select screen.
+- Mobile-first React/Vite app structure
+- Home, level select, gameplay, results, review, and settings screens
+- Audience-track foundation with Student playable and future tracks planned
+- Per-track local progress stored in `localStorage`
+- Sequential progression with locked, unlocked, completed, replay, and review states
+- XP, stars, best score tracking, results summaries, and new-best behavior
+- Completed-level Review buttons with fallback review summaries for older progress
+- Concept-level tracking by topic, including strong and review counts
+- End-of-world summaries after completing each world
+- PWA groundwork with manifest and service worker
+- Data-driven level/content structure
+- Visual theme with circuit/star assets and polished cards/buttons
+- Compact completed level rows on the level select screen
+- Expanded real-world content across the current Student path
+- Cleanup of old Prompt Fix mode after Prompt Builder replaced that experience
 
-## Current Levels
+## Current Audience Tracks
+
+### Student
+
+Playable now.
+
+Focus:
+
+- schoolwork help
+- tutoring and projects
+- source checking
+- prompt building
+- privacy with friends/family
+- classroom fairness and bias
+
+### Everyday User
+
+Planned.
+
+Potential focus:
+
+- health-advice caution
+- news and viral claims
+- shopping research
+- social media
+- scams and suspicious messages
+- family privacy
+
+### Job Seeker
+
+Planned.
+
+Potential focus:
+
+- resumes
+- cover letters
+- job posts
+- interview prep
+- career advice
+- application privacy
+
+### Small Business Owner
+
+Planned.
+
+Potential focus:
+
+- customer messages
+- marketing copy
+- reviews
+- vendor research
+- simple policy drafts
+- customer-data privacy
+
+### Workplace User
+
+Planned.
+
+Potential focus:
+
+- emails
+- meeting summaries
+- reports
+- confidential information
+- source checking
+- fair workplace decisions
+
+## Current Student Levels
 
 1. AI vs Human
 2. Hallucination Hunt
@@ -41,26 +111,62 @@ The current app is best described as a playable student prototype.
 7. Privacy Shield
 8. Bias Lens
 
-## Recent Learning Loop Improvements
+## Learning Loop
 
-Several levels were rebuilt around a clearer learning loop:
+The strongest current lesson format is:
 
 1. Show a scenario.
-2. Show the AI response.
+2. Show a weak or risky AI response.
 3. Ask the player to judge or choose the best next step.
 4. Give immediate feedback.
 5. Show how AI should have responded.
 6. Reinforce the core concept.
 
-This now powers Ask Better Questions, Source Scanner, Privacy Shield, and Bias Lens.
+This powers Ask Better Questions, Source Scanner, Privacy Shield, and Bias Lens.
 
-Prompt Builder now uses a step-by-step builder with a live prompt preview, responsive desktop layout, and a stronger-prompt comparison when the player does not earn full points.
+Prompt Builder uses a step-by-step block builder with live prompt preview, responsive layout, and stronger-prompt comparison.
 
-## Best Early Audience
+## Near-Term Priority
 
-The strongest first users are likely not individual teachers. A better early path is through organizations that already run digital literacy, STEM, youth learning, or workforce programs.
+### 1. Stabilize The Playable Student Path
 
-Best first pilot targets:
+- playtest with a small group
+- check phone and desktop layouts
+- improve wording where players hesitate
+- balance difficulty and scoring
+- add screenshots or GIFs to README
+- do accessibility checks for keyboard focus and screen-reader labels
+
+### 2. Build A Review Hub
+
+- use saved concept stats across levels
+- show strongest concepts and weak concepts
+- let players replay weak levels from one place
+- eventually generate targeted practice from missed concepts
+
+### 3. Create The First Non-Student Track
+
+Best first candidates:
+
+- Everyday User, because the audience is broad and examples are easy to test
+- Job Seeker, because the use case is concrete and valuable
+
+The first track should reuse existing game modes before adding new mechanics.
+
+### 4. Prepare For Backend Later
+
+Only after the solo-player experience feels stable:
+
+- authentication
+- cloud-synced progress
+- user profiles
+- best score vs latest score
+- replay history
+- privacy policy and data handling notes
+
+## Possible Pilot Audiences
+
+Good early testing groups:
 
 - libraries
 - community colleges
@@ -71,30 +177,11 @@ Best first pilot targets:
 - public learning centers
 - youth technology nonprofits
 
-These groups are often more flexible than K-12 districts and may be able to pilot a small program faster.
+These groups may be easier to pilot with than K-12 districts at the beginning.
 
-Later audiences:
+## Longer-Term Product Direction
 
-- high schools
-- school districts
-- charter schools
-- colleges and universities
-- corporate training teams
-- government agencies
-- nonprofit training programs
-
-## Product Roles To Plan For
-
-### Student
-
-- login
-- XP and badges
-- saved progress
-- resume where they left off
-- practice mode
-- completed lessons and personal performance summary
-
-### Teacher or Instructor
+### Teacher Or Instructor Tools
 
 - create classes
 - invite students
@@ -104,105 +191,19 @@ Later audiences:
 - reset assignments
 - export results
 
-### Administrator
+### Instructor-Led Mode
 
-- manage teachers
-- school/program-wide reporting
-- license management
-- analytics
-
-## Strong Product Differentiator
-
-The feature that could make this feel like a real education product is a Teacher Dashboard.
-
-Useful dashboard signals:
-
-- class completion by level
-- average score by concept
-- concepts students struggle with
-- time spent per lesson
-- assignment status
-- exportable reports
-
-Example teacher insight:
-
-> Students are doing well on privacy and bias, but source verification scores are low. Tomorrow's discussion should focus on checking citations, dates, and source details.
-
-This turns the app from a self-paced game into a classroom planning tool.
-
-## Instructor Mode Opportunity
-
-Another strong direction is instructor-led play:
-
-- teacher starts a room
-- students join with a code
+- instructor starts a room
+- learners join with a code
 - everyone answers the same challenge
 - live results appear
-- teacher leads discussion around the choices
+- instructor leads discussion around the choices
 
-This would work well for libraries, after-school programs, workshops, and classrooms.
+### Dashboard Differentiator
 
-## Suggested Next Steps
+A future dashboard could turn gameplay into useful teaching insight:
 
-### 1. Finish The Student Prototype
-
-Focus on making the current solo-player app feel complete and testable.
-
-- add more rounds per existing level
-- improve content quality and variety
-- add end-of-world summaries
-- improve accessibility and keyboard navigation
-- test on phone and desktop
-- add screenshots or short GIFs to README
-
-### 2. Improve Evidence Of Learning
-
-Before building large admin tools, capture better learning signals.
-
-- track missed concepts
-- show review summaries
-- store best score and latest score separately
-- add per-level concept tags
-- add simple analytics-ready progress shape
-
-### 3. Add Accounts And Cloud Progress
-
-Move beyond local-only progress when the student experience is stable.
-
-- authentication
-- cloud-synced progress
-- user profile
-- reset/replay history
-- basic privacy policy and data handling notes
-
-### 4. Build A Small Teacher Dashboard
-
-Start simple.
-
-- create a class
-- add demo students
-- view completion by level
-- view average score by skill/concept
-- see which levels need review
-
-### 5. Pilot With A Real Organization
-
-Good pilot targets:
-
-- local library digital literacy program
-- community college intro course
-- after-school STEM group
-- youth technology nonprofit
-
-The goal is feedback, not scale.
-
-Pilot questions:
-
-- Do learners understand the lessons?
-- Which levels feel confusing?
-- Which concepts feel most useful?
-- Would an instructor use this with a group?
-- What reporting would make it more useful?
+> Learners are doing well on privacy and bias, but source verification scores are low. The next discussion should focus on checking citations, dates, and source details.
 
 ## Business Model Thoughts
 
@@ -212,16 +213,15 @@ Possible model:
 
 - free tier: limited lessons for anyone
 - premium individual: full curriculum, badges, practice mode
-- education license: teacher dashboard, classroom management, reporting
-- enterprise/government: custom branding, onboarding, analytics
+- education license: instructor dashboard, classroom management, reporting
+- enterprise/government: custom tracks, onboarding, analytics
 
-## Near-Term Build Priority
+## Next Build Choices
 
-The next best build work should probably be:
+Recommended next choices:
 
-1. Polish and expand student lessons.
-2. Add concept-level tracking to results.
-3. Add a simple review/missed-concepts screen.
-4. Add screenshots and testing notes.
-5. Plan the data model for future accounts/classes.
-
+1. Run a full phone and desktop playtest.
+2. Add screenshots to the README.
+3. Build the review hub.
+4. Create the first Everyday User or Job Seeker content set.
+5. Draft a backend-ready progress data model.

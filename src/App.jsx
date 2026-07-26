@@ -4,9 +4,13 @@ import HomeScreen from "./screens/HomeScreen";
 import LevelSelect from "./screens/LevelSelect";
 import GameplayScreen from "./screens/GameplayScreen";
 import ResultsScreen from "./screens/ResultsScreen";
+import ReviewScreen from "./screens/ReviewScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 
-import levels from "./data/levels";
+import audienceTracks, {
+  DEFAULT_TRACK_ID,
+  getTrackById,
+} from "./data/tracks";
 import {
   applyLevelResult,
   createInitialProgress,
@@ -16,18 +20,57 @@ import {
 
 const STORAGE_KEY = "ai-learning-progress";
 
+const createInitialAppProgress = () => ({
+  activeTrackId: DEFAULT_TRACK_ID,
+  progressByTrackId: {
+    [DEFAULT_TRACK_ID]: createInitialProgress(),
+  },
+});
+
+const normalizeTrackProgress = (progress = {}) => ({
+  ...createInitialProgress(),
+  ...(progress ?? {}),
+});
+
+const normalizeSavedProgress = (savedProgress) => {
+  const initialAppProgress = createInitialAppProgress();
+
+  if (savedProgress?.progressByTrackId) {
+    const activeTrack = getTrackById(savedProgress.activeTrackId);
+
+    return {
+      activeTrackId: activeTrack?.id ?? DEFAULT_TRACK_ID,
+      progressByTrackId: {
+        ...initialAppProgress.progressByTrackId,
+        ...Object.fromEntries(
+          Object.entries(savedProgress.progressByTrackId).map(
+            ([trackId, trackProgress]) => [
+              trackId,
+              normalizeTrackProgress(trackProgress),
+            ]
+          )
+        ),
+      },
+    };
+  }
+
+  return {
+    ...initialAppProgress,
+    progressByTrackId: {
+      [DEFAULT_TRACK_ID]: normalizeTrackProgress(savedProgress),
+    },
+  };
+};
+
 const loadProgress = () => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
 
-    if (!saved) return createInitialProgress();
+    if (!saved) return createInitialAppProgress();
 
-    return {
-      ...createInitialProgress(),
-      ...JSON.parse(saved),
-    };
+    return normalizeSavedProgress(JSON.parse(saved));
   } catch {
-    return createInitialProgress();
+    return createInitialAppProgress();
   }
 };
 
@@ -40,28 +83,55 @@ export default function App() {
 
   const [selectedLevel, setSelectedLevel] = useState(null);
 
-  const [progress, setProgress] = useState(loadProgress);
+  const [appProgress, setAppProgress] = useState(loadProgress);
 
   const [lastScore, setLastScore] = useState(0);
   const [lastMaxScore, setLastMaxScore] = useState(40);
   const [lastStars, setLastStars] = useState(0);
   const [lastPreviousBest, setLastPreviousBest] = useState(0);
   const [lastIsNewBest, setLastIsNewBest] = useState(false);
+  const [lastWorldSummary, setLastWorldSummary] = useState(null);
+  const [lastReviewSummary, setLastReviewSummary] = useState(null);
 
-  const completedCount = levels.filter((level) =>
+  const activeTrack = useMemo(
+    () => getTrackById(appProgress.activeTrackId),
+    [appProgress.activeTrackId]
+  );
+  const activeLevels = activeTrack.levels;
+  const activeWorldDetails = activeTrack.worlds;
+  const progress =
+    appProgress.progressByTrackId[activeTrack.id] ??
+    createInitialProgress();
+
+  const completedCount = activeLevels.filter((level) =>
     progress.completedLevelIds.includes(level.id)
   ).length;
 
   const levelsWithProgress = useMemo(
     () =>
-      getLevelsWithProgress(levels, progress),
-    [progress]
+      getLevelsWithProgress(activeLevels, progress),
+    [activeLevels, progress]
   );
 
   const totalXp = useMemo(
-    () => getTotalXp(levels, progress),
-    [progress]
+    () => getTotalXp(activeLevels, progress),
+    [activeLevels, progress]
   );
+
+  const saveAppProgress = (nextAppProgress) => {
+    saveProgress(nextAppProgress);
+    setAppProgress(nextAppProgress);
+  };
+
+  const saveTrackProgress = (nextTrackProgress) => {
+    saveAppProgress({
+      ...appProgress,
+      progressByTrackId: {
+        ...appProgress.progressByTrackId,
+        [activeTrack.id]: nextTrackProgress,
+      },
+    });
+  };
 
   const goToLevels = () => {
     setScreen("levels");
@@ -71,6 +141,26 @@ export default function App() {
     setScreen("settings");
   };
 
+  const selectTrack = (trackId) => {
+    const nextTrack = getTrackById(trackId);
+
+    if (!nextTrack?.isAvailable) return;
+
+    saveAppProgress({
+      ...appProgress,
+      activeTrackId: nextTrack.id,
+      progressByTrackId: {
+        ...appProgress.progressByTrackId,
+        [nextTrack.id]:
+          appProgress.progressByTrackId[nextTrack.id] ??
+          createInitialProgress(),
+      },
+    });
+    setSelectedLevel(null);
+    setLastWorldSummary(null);
+    setLastReviewSummary(null);
+  };
+
   const startLevel = (level) => {
     if (!level.unlocked) return;
 
@@ -78,7 +168,19 @@ export default function App() {
     setScreen("gameplay");
   };
 
-  const finishLevel = (score, stars, maxScore = 40) => {
+  const reviewLevel = (level) => {
+    if (!level.completed || !level.reviewSummary) return;
+
+    setSelectedLevel(level);
+    setScreen("review");
+  };
+
+  const finishLevel = (
+    score,
+    stars,
+    maxScore = 40,
+    reviewSummary = null
+  ) => {
     if (!selectedLevel) return;
 
     const previousBest =
@@ -90,19 +192,36 @@ export default function App() {
     setLastStars(stars);
     setLastPreviousBest(previousBest);
     setLastIsNewBest(isNewBest);
+    setLastReviewSummary(reviewSummary);
 
-    setProgress((currentProgress) => {
-      const nextProgress = applyLevelResult(
-        currentProgress,
-        selectedLevel.id,
-        score,
-        stars
+    const nextProgress = applyLevelResult(
+      progress,
+      selectedLevel.id,
+      score,
+      stars,
+      reviewSummary
+    );
+    const worldLevels = activeLevels.filter(
+      (level) => level.world === selectedLevel.world
+    );
+    const isFinalWorldLevel =
+      worldLevels[worldLevels.length - 1]?.id === selectedLevel.id;
+    const completedWorld =
+      isFinalWorldLevel &&
+      worldLevels.every((level) =>
+        nextProgress.completedLevelIds.includes(level.id)
       );
 
-      saveProgress(nextProgress);
+    setLastWorldSummary(
+      completedWorld
+        ? {
+            ...activeWorldDetails[selectedLevel.world],
+            levelCount: worldLevels.length,
+          }
+        : null
+    );
 
-      return nextProgress;
-    });
+    saveTrackProgress(nextProgress);
 
     setScreen("results");
   };
@@ -125,6 +244,13 @@ export default function App() {
     setScreen("gameplay");
   };
 
+  const replaySpecificLevel = (level) => {
+    if (!level.unlocked) return;
+
+    setSelectedLevel(level);
+    setScreen("gameplay");
+  };
+
   const nextLevel = () => {
     if (canAdvanceToNextLevel) {
       setSelectedLevel(nextPlayableLevel);
@@ -141,14 +267,15 @@ export default function App() {
   const resetProgress = () => {
     const nextProgress = createInitialProgress();
 
-    saveProgress(nextProgress);
-    setProgress(nextProgress);
+    saveTrackProgress(nextProgress);
     setSelectedLevel(null);
     setLastScore(0);
     setLastMaxScore(40);
     setLastStars(0);
     setLastPreviousBest(0);
     setLastIsNewBest(false);
+    setLastWorldSummary(null);
+    setLastReviewSummary(null);
     setScreen("home");
   };
 
@@ -157,9 +284,12 @@ export default function App() {
       {screen === "home" && (
         <HomeScreen
           goToLevels={goToLevels}
+          activeTrack={activeTrack}
+          tracks={audienceTracks}
+          selectTrack={selectTrack}
           totalXp={totalXp}
           completedCount={completedCount}
-          levelCount={levels.length}
+          levelCount={activeLevels.length}
           goToSettings={goToSettings}
         />
       )}
@@ -167,8 +297,9 @@ export default function App() {
       {screen === "settings" && (
         <SettingsScreen
           completedCount={completedCount}
+          activeTrack={activeTrack}
           goHome={goHome}
-          levelCount={levels.length}
+          levelCount={activeLevels.length}
           resetProgress={resetProgress}
           totalXp={totalXp}
         />
@@ -177,8 +308,18 @@ export default function App() {
       {screen === "levels" && (
         <LevelSelect
           levels={levelsWithProgress}
+          track={activeTrack}
           startLevel={startLevel}
+          reviewLevel={reviewLevel}
           goHome={goHome}
+        />
+      )}
+
+      {screen === "review" && (
+        <ReviewScreen
+          level={selectedLevel}
+          goLevels={() => setScreen("levels")}
+          replayLevel={replaySpecificLevel}
         />
       )}
 
@@ -198,6 +339,8 @@ export default function App() {
           stars={lastStars}
           previousBest={lastPreviousBest}
           isNewBest={lastIsNewBest}
+          worldSummary={lastWorldSummary}
+          reviewSummary={lastReviewSummary}
           replayLevel={replayLevel}
           nextLevel={nextLevel}
           canAdvanceToNextLevel={canAdvanceToNextLevel}

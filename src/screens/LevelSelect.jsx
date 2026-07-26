@@ -1,23 +1,11 @@
 import LevelCard from "../components/LevelCard";
-
-const worldDetails = {
-  "World 1": {
-    title: "World 1: AI Basics",
-    description: "Learn to spot AI patterns, factual slips, and reasoning style.",
-  },
-  "World 2": {
-    title: "World 2: Prompt Skills",
-    description: "Practice clearer prompts, stronger structure, and better follow-up questions.",
-  },
-  "World 3": {
-    title: "World 3: Trust & Safety",
-    description: "Build judgment around sources, privacy, and fairness.",
-  },
-};
+import worldDetails from "../data/worlds";
 
 export default function LevelSelect({
   levels,
+  reviewLevel,
   startLevel,
+  track,
   goHome,
 }) {
   const worlds = levels.reduce((groups, level) => {
@@ -47,10 +35,14 @@ export default function LevelSelect({
           </p>
 
           <h1 className="text-3xl font-bold mb-2 leading-tight">
-            Select Level
+            {track.title}
           </h1>
 
           <p className="text-slate-300 leading-relaxed">
+            {track.description}
+          </p>
+
+          <p className="mt-3 text-sm text-slate-400">
             Progress unlocks one challenge at a time. Replay completed
             levels to improve your best XP and stars.
           </p>
@@ -76,6 +68,7 @@ export default function LevelSelect({
                   <LevelCard
                     key={level.id}
                     level={level}
+                    reviewLevel={reviewLevel}
                     startLevel={startLevel}
                   />
                 ))}

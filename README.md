@@ -1,100 +1,96 @@
 # AI Adventure Lab
 
-AI Adventure Lab is a mobile-first React/Vite prototype that teaches AI literacy through short, interactive game levels. The goal is to help players understand how people and AI can work together: AI can be useful, but human judgment still matters.
+AI Adventure Lab is a mobile-first React/Vite prototype for learning practical AI literacy through short, game-like challenges.
 
-Players progress through bite-size lessons about recognizing AI writing patterns, spotting hallucinations, building better prompts, checking sources, protecting privacy, and noticing bias or fairness issues.
+The app teaches a simple idea: AI can be useful, but people still need judgment. Players practice asking better questions, checking sources, protecting privacy, spotting bias, and building stronger prompts.
 
-## Project Status
+## Current Status
 
-This is currently a playable prototype. It has:
+This is a playable local-first prototype. The active playable path is currently `Student`. Additional audience tracks are visible in the app as planned paths so the project can expand toward everyday users, job seekers, small business owners, and workplace users without rebuilding the core game engines.
 
-- a mobile-first home screen and level select flow
-- sequential level progression with locked and completed states
-- XP, stars, best scores, and results summaries
-- saved local progress using `localStorage`
-- multiple data-driven mini-game formats
-- a settings/about screen with reset progress and feedback link support
-- PWA installability groundwork with a manifest and service worker
+Built features:
 
-It is not yet connected to a backend. Player progress is local to the browser/device.
+- mobile-first home screen, level select, gameplay, results, review, and settings screens
+- audience-track foundation with per-track local progress
+- sequential level progression with locked, completed, replay, and review states
+- XP, stars, best scores, new-best indicators, and end-of-world summaries
+- review summaries showing strengths, missed concepts, and concepts to revisit
+- concept-level tracking by topic for future reporting and targeted practice
+- saved browser progress using `localStorage`
+- data-driven content files for adding rounds without editing game components
+- PWA groundwork with manifest and service worker
+- feedback link and reset-progress controls
 
-For a more detailed product direction and next-step plan, see [ROADMAP.md](./ROADMAP.md).
+There is no backend yet. Progress is saved only in the current browser on the current device.
 
-## Learning Goals
+## Audience Tracks
 
-The app is designed around practical AI literacy skills:
+The app is being prepared to support multiple user paths:
 
-- Ask better questions before accepting an answer.
-- Notice when AI gives confident but unsupported information.
-- Check whether a source is actually useful and verifiable.
-- Avoid sharing unnecessary private information.
-- Watch for bias, stereotypes, missing perspectives, and unfair shortcuts.
-- Build prompts with enough role, task, context, constraints, format, and examples.
+- `Student`: playable now; schoolwork, tutoring, projects, sources, privacy, and classroom fairness
+- `Everyday User`: planned; health caution, shopping research, social media, scams, family privacy, and news claims
+- `Job Seeker`: planned; resumes, cover letters, job posts, interviews, and application privacy
+- `Small Business Owner`: planned; customer messages, marketing copy, reviews, vendors, and data privacy
+- `Workplace User`: planned; emails, summaries, reports, confidential information, and fair decisions
+
+The long-term pattern is: same game modes, different scenarios by audience.
 
 ## Current Levels
 
-- AI vs Human: spot signals that make writing feel AI-generated or personally human.
-- Hallucination Hunt: judge AI-style factual claims and watch for confident mistakes.
-- Pattern Prediction: compare polished AI-style reasoning with messier human reasoning.
-- Prompt Builder: assemble stronger prompts from role, task, context, constraints, format, and examples.
-- Ask Better Questions: review a weak AI response, choose the best follow-up question, and see how AI should have responded.
-- Source Scanner: inspect AI-provided source details and decide whether they are reliable or risky.
-- Privacy Shield: choose safer ways to ask AI for help without oversharing private details.
-- Bias Lens: spot unfair shortcuts and choose more balanced AI responses.
+The Student path currently includes:
+
+- AI vs Human
+- Hallucination Hunt
+- Pattern Prediction
+- Prompt Builder
+- Ask Better Questions
+- Source Scanner
+- Privacy Shield
+- Bias Lens
+
+Recent rounds include real-world situations such as schoolwork help, resume and cover-letter support, health-advice caution, viral claims, fake citations, friend/family privacy, social media posts, employment-gap bias, and resource-based recommendations.
 
 ## Learning Loop
 
-Several levels use a shared choice-based lesson format:
+Several levels use a shared choice-based loop:
 
 1. Read a scenario.
-2. Review the AI's response.
+2. Review the AI response.
 3. Choose the best answer or judgment.
 4. Get immediate feedback.
 5. See how AI should have responded.
 6. Review the core concept.
 
-This keeps the levels shorter while making the teaching moment clearer.
-
-For example, Source Scanner shows a weak AI source response, asks the player whether it is reliable or risky, then shows a better response that includes details such as source title, organization, author, date, and a short summary.
-
-## Game Modes
-
-The app currently uses these main gameplay components:
-
-- `AiOrHuman`: multiple rounds where the player decides whether writing feels AI-generated or human-written.
-- `HallucinationHunt`: true/false style rounds for factual claims and confident AI mistakes.
-- `PromptBuilder`: block-based prompt construction using role, task, context, constraints, format, and examples.
-- `QuestionChoice`: scenario-based choice lessons used by Ask Better Questions, Source Scanner, Privacy Shield, and Bias Lens.
-
-The newer `QuestionChoice` format is useful for lessons where the player should evaluate a flawed AI response and compare it against a better one.
-
-## Progression
-
-Progress is saved in `localStorage` under the browser's local storage for this app. It includes:
-
-- completed level IDs
-- best score per level
-- earned stars per level
-- total XP based on known level scores
-- level unlock state based on prior completions
-
-Players can reset progress from the settings/about screen.
+Prompt Builder uses a step-by-step block builder with live prompt preview and a stronger-prompt comparison when the player misses points.
 
 ## Content System
 
-Most level content is data-driven.
+Most app content is data-driven:
 
-- `src/data/levels.js` defines the level order, title, world, type, skill, description, takeaway, and content reference.
-- `src/data/content/aiOrHuman.js` contains AI vs Human and Pattern Prediction rounds.
-- `src/data/content/hallucinationHunt.js` contains Hallucination Hunt content.
-- `src/data/content/promptBuilder.js` contains prompt-building challenges.
-- `src/data/content/questionChoice.js` contains the newer scenario-based lessons.
+- `src/data/tracks.js` defines audience tracks, availability, descriptions, focus areas, worlds, and level sets.
+- `src/data/levels.js` defines the current Student level sequence.
+- `src/data/worlds.js` defines world titles, descriptions, and completion summaries.
+- `src/data/content/aiOrHuman.js` stores AI vs Human and Pattern Prediction rounds.
+- `src/data/content/hallucinationHunt.js` stores Hallucination Hunt rounds.
+- `src/data/content/promptBuilder.js` stores prompt-building challenges.
+- `src/data/content/questionChoice.js` stores Ask Better Questions, Source Scanner, Privacy Shield, and Bias Lens rounds.
 
-Adding a new level usually means:
+To add a level, add content in `src/data/content/`, add a level entry in `src/data/levels.js`, and choose the correct `type` so `GameplayScreen` routes it to the right mini-game.
 
-1. Add content to the appropriate file in `src/data/content/`.
-2. Add a level entry in `src/data/levels.js`.
-3. Pick the correct `type` so `GameplayScreen` routes to the right mini-game.
+## Progress Storage
+
+Progress is stored in `localStorage` under `ai-learning-progress`.
+
+Stored data includes:
+
+- active audience track
+- completed level IDs by track
+- best score and earned stars by level
+- saved review summaries by level
+- concept stats by topic
+- total XP calculated from known level scores
+
+Older single-track progress is migrated into the Student track automatically.
 
 ## Scripts
 
@@ -106,46 +102,28 @@ npm run preview
 npm test
 ```
 
-Script notes:
-
-- `npm run dev` starts the local Vite dev server.
-- `npm run build` creates a production build in `dist/`.
-- `npm run lint` runs ESLint.
-- `npm test` runs the lightweight Node test suite.
-- `npm run preview` serves the production build locally.
-
-## PWA Notes
-
-The app includes a web app manifest and service worker for install-style browser behavior and basic offline app-shell caching.
-
-Final app icons and theme colors can be refined in a later branding pass. The current setup is enough to continue testing install-style behavior, especially on mobile browsers.
+- `npm run dev`: start the Vite dev server
+- `npm run build`: create a production build in `dist/`
+- `npm run lint`: run ESLint
+- `npm test`: run the Node test suite
+- `npm run preview`: serve the production build locally
 
 ## Project Structure
 
-- `src/data/levels.js` defines the level sequence and progression metadata.
-- `src/data/content/` stores the data-driven round content for each game mode.
-- `src/gameModes/` contains the interactive gameplay components.
-- `src/screens/` contains the home, level select, gameplay routing, settings, and results screens.
-- `src/components/` contains shared UI pieces such as level cards.
+- `src/components/`: shared UI components
+- `src/data/`: track, level, world, and content data
+- `src/gameModes/`: gameplay components
+- `src/screens/`: app screens
+- `src/utils/`: scoring, progress, and review-summary logic
+- `public/`: PWA manifest, favicon, and service worker
 
-## Suggested Next Improvements
+## Next Improvements
 
-- Add more rounds to each level so the lessons feel deeper.
-- Add concept-level tracking so results can show what players struggled with.
-- Add a review screen for missed concepts and weaker skills.
-- Add lightweight browser/mobile playthrough testing.
-- Add screenshots or short GIFs to this README.
-- Improve accessibility with keyboard focus checks and screen reader labels.
-- Plan future accounts, cloud progress, and classroom/teacher dashboard data.
+- Playtest the Student path with a small group.
+- Add screenshots or GIFs to this README.
+- Add a targeted review/practice hub using saved concept stats.
+- Improve accessibility with keyboard and screen-reader checks.
+- Create the first non-student track, likely Everyday User or Job Seeker.
+- Plan backend data shape for accounts, cloud progress, and future dashboards.
 
-## Longer-Term Direction
-
-The strongest early audience may be organizations that already run digital literacy, STEM, youth learning, or workforce development programs, such as libraries, community colleges, after-school STEM programs, and youth technology nonprofits.
-
-Longer term, the app could grow toward:
-
-- student accounts and cloud-synced progress
-- teacher classes and assignments
-- concept-level progress reports
-- an instructor-led room mode
-- organization-level dashboards
+See [ROADMAP.md](./ROADMAP.md) for product direction and longer-term planning.

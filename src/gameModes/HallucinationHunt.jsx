@@ -10,6 +10,7 @@ import {
   getQuizRoundScore,
   getStarsFromScore,
 } from "../utils/scoring";
+import { createLevelReviewSummary } from "../utils/reviewSummary";
 
 const getAnswerTileStyle = (option) => {
   const label = option.label.toLowerCase();
@@ -69,6 +70,7 @@ export default function HallucinationHunt({
   const [pendingScore, setPendingScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [totalScore, setTotalScore] = useState(0);
+  const [roundReviews, setRoundReviews] = useState([]);
 
   const {
     instructions,
@@ -104,17 +106,31 @@ export default function HallucinationHunt({
 
   const continueLevel = () => {
     const nextScore = totalScore + pendingScore;
+    const nextRoundReviews = [
+      ...roundReviews,
+      {
+        concept: round.concept,
+        status: correct && attempts === 0 ? "strong" : "review",
+        topic: round.topic ?? level.skill,
+      },
+    ];
 
     if (roundIndex === rounds.length - 1) {
       finishLevel(
         nextScore,
         getStarsFromScore(nextScore, maxScore),
-        maxScore
+        maxScore,
+        createLevelReviewSummary({
+          maxScore,
+          roundReviews: nextRoundReviews,
+          score: nextScore,
+        })
       );
       return;
     }
 
     setTotalScore(nextScore);
+    setRoundReviews(nextRoundReviews);
     setRoundIndex((currentIndex) => currentIndex + 1);
     setAnswered(false);
     setCorrect(false);

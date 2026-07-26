@@ -6,6 +6,7 @@ import {
   getSelectedOptions,
   getStarsFromScore,
 } from "../utils/scoring";
+import { createLevelReviewSummary } from "../utils/reviewSummary";
 
 export default function PromptBuilder({
   level,
@@ -17,6 +18,7 @@ export default function PromptBuilder({
   const [selectedBlocks, setSelectedBlocks] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [totalScore, setTotalScore] = useState(0);
+  const [roundReviews, setRoundReviews] = useState([]);
 
   const {
     instructions,
@@ -100,17 +102,32 @@ export default function PromptBuilder({
 
   const continueLevel = () => {
     const nextScore = totalScore + roundScore;
+    const nextRoundReviews = [
+      ...roundReviews,
+      {
+        concept: round.concept,
+        status:
+          roundScore === maxRoundScore ? "strong" : "review",
+        topic: round.topic ?? level.skill,
+      },
+    ];
 
     if (roundIndex === rounds.length - 1) {
       finishLevel(
         nextScore,
         getStarsFromScore(nextScore, maxScore, starThresholds),
-        maxScore
+        maxScore,
+        createLevelReviewSummary({
+          maxScore,
+          roundReviews: nextRoundReviews,
+          score: nextScore,
+        })
       );
       return;
     }
 
     setTotalScore(nextScore);
+    setRoundReviews(nextRoundReviews);
     setRoundIndex((currentIndex) => currentIndex + 1);
     setStepIndex(0);
     setSelectedBlocks({});

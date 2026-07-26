@@ -10,6 +10,7 @@ import {
 const FEEDBACK_URL = "https://forms.gle/Y4RE3SGALJJzw9bo6";
 
 export default function SettingsScreen({
+  activeTrack,
   completedCount,
   goHome,
   levelCount,
@@ -53,7 +54,21 @@ export default function SettingsScreen({
             prompt practice.
           </p>
 
-          <div className="mb-5 grid grid-cols-2 gap-3">
+          <div className="mb-5 grid gap-3 sm:grid-cols-3">
+            <div className="app-inset-surface rounded-xl p-3">
+              <p className="text-[11px] font-bold uppercase text-slate-500">
+                Path
+              </p>
+
+              <p className="mt-1 text-lg font-bold">
+                {activeTrack.title}
+              </p>
+
+              <p className="text-xs text-slate-500">
+                active track
+              </p>
+            </div>
+
             <div className="app-inset-surface rounded-xl p-3">
               <p className="text-[11px] font-bold uppercase text-slate-500">
                 Progress

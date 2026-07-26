@@ -1,15 +1,30 @@
 import {
   BrainCircuit,
+  BriefcaseBusiness,
   FlaskConical,
+  GraduationCap,
   Handshake,
+  House,
   Route,
   Settings,
   Sparkles,
+  Users,
 } from "lucide-react";
 
+const trackIcons = {
+  everyday: House,
+  "job-seeker": BriefcaseBusiness,
+  "small-business": Users,
+  student: GraduationCap,
+  workplace: BriefcaseBusiness,
+};
+
 export default function HomeScreen({
+  activeTrack,
   goToLevels,
   goToSettings,
+  selectTrack,
+  tracks,
   totalXp,
   completedCount,
   levelCount,
@@ -34,6 +49,66 @@ export default function HomeScreen({
             challenges, get feedback after each choice, and practice the
             judgment skills behind better prompts and safer AI use.
           </p>
+
+          <div className="mb-6">
+            <div className="mb-3 flex items-end justify-between gap-3">
+              <div>
+                <p className="app-kicker text-xs font-bold uppercase">
+                  Choose Your Path
+                </p>
+
+                <h2 className="mt-1 text-xl font-bold text-white">
+                  {activeTrack.title}
+                </h2>
+              </div>
+
+              <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-3 py-1 text-xs font-bold text-emerald-100">
+                Active
+              </span>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {tracks.map((track) => {
+                const Icon = trackIcons[track.id] ?? BrainCircuit;
+                const isActive = track.id === activeTrack.id;
+
+                return (
+                  <button
+                    key={track.id}
+                    disabled={!track.isAvailable}
+                    onClick={() => selectTrack(track.id)}
+                    className={`rounded-xl border p-4 text-left transition ${
+                      isActive
+                        ? "border-cyan-300/70 bg-cyan-300/12 shadow-[0_0_24px_rgba(103,232,249,0.16)]"
+                        : "border-slate-700/70 bg-slate-950/35 hover:border-cyan-300/35"
+                    } ${
+                      track.isAvailable
+                        ? "text-white"
+                        : "cursor-not-allowed opacity-55"
+                    }`}
+                  >
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <Icon
+                        size={20}
+                        aria-hidden="true"
+                        className={isActive ? "text-cyan-100" : "text-slate-300"}
+                      />
+
+                      <span className="rounded-full border border-slate-600/70 px-2 py-0.5 text-[10px] font-black uppercase text-slate-300">
+                        {track.label}
+                      </span>
+                    </div>
+
+                    <p className="font-bold">{track.title}</p>
+
+                    <p className="mt-1 text-sm leading-relaxed text-slate-400">
+                      {track.description}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
           <div className="mb-6 grid gap-3 sm:grid-cols-3">
             <div className="app-surface rounded-xl p-4">
@@ -86,6 +161,7 @@ export default function HomeScreen({
 
           <button
             onClick={goToLevels}
+            disabled={!activeTrack.isAvailable}
             className="app-button app-button-primary text-lg"
           >
             <BrainCircuit size={28} aria-hidden="true" />

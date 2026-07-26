@@ -2,8 +2,14 @@ import { motion } from "framer-motion";
 import { CheckCircle, Lock } from "lucide-react";
 import StarRating from "./StarRating";
 
-export default function LevelCard({ level, startLevel }) {
+export default function LevelCard({
+  level,
+  reviewLevel,
+  startLevel,
+}) {
   if (level.completed) {
+    const hasReview = Boolean(level.reviewSummary);
+
     return (
       <motion.div
         initial={{ opacity: 0, y: 8 }}
@@ -32,12 +38,23 @@ export default function LevelCard({ level, startLevel }) {
             </div>
           </div>
 
-          <button
-            onClick={() => startLevel(level)}
-            className="shrink-0 rounded-xl border border-cyan-300/35 bg-cyan-300/10 px-3 py-2 text-xs font-black text-cyan-100 transition hover:bg-cyan-300/20"
-          >
-            Replay
-          </button>
+          <div className="grid shrink-0 gap-2">
+            {hasReview && (
+              <button
+                onClick={() => reviewLevel(level)}
+                className="rounded-xl border border-amber-300/35 bg-amber-300/10 px-3 py-2 text-xs font-black text-amber-100 transition hover:bg-amber-300/20"
+              >
+                Review
+              </button>
+            )}
+
+            <button
+              onClick={() => startLevel(level)}
+              className="rounded-xl border border-cyan-300/35 bg-cyan-300/10 px-3 py-2 text-xs font-black text-cyan-100 transition hover:bg-cyan-300/20"
+            >
+              Replay
+            </button>
+          </div>
         </div>
       </motion.div>
     );

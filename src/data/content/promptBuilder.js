@@ -1790,6 +1790,285 @@ promptBuilderContent.blockBuilder = {
     promptBuilderContent.blockBuilder.rounds[1],
     promptBuilderContent.promptFoundations.rounds[2],
     promptBuilderContent.blockBuilder.rounds[2],
+    {
+      goal: "Create a prompt that compares two choices fairly before making a recommendation.",
+      concept:
+        "Comparison prompts are stronger when they name the decision, criteria, constraints, output format, and ask for tradeoffs instead of one quick answer.",
+      categories: [
+        {
+          id: "role",
+          label: "Role",
+          options: [
+            {
+              id: "decision-coach",
+              label: "Decision coach",
+              text: "Act as a practical decision coach.",
+              points: 15,
+              feedback:
+                "A decision-coach role fits a comparison task and encourages balanced guidance.",
+            },
+            {
+              id: "salesperson",
+              label: "Salesperson",
+              text: "Act as a salesperson trying to convince me.",
+              points: 4,
+              feedback:
+                "A persuasive role can bias the answer before the tradeoffs are examined.",
+            },
+          ],
+        },
+        {
+          id: "task",
+          label: "Task",
+          options: [
+            {
+              id: "compare-recommend",
+              label: "Compare and recommend",
+              text: "Compare these two options and recommend which fits my needs better.",
+              points: 20,
+              feedback:
+                "This asks for both comparison and a final recommendation tied to the user's needs.",
+            },
+            {
+              id: "pick-one",
+              label: "Pick one",
+              text: "Pick the best option.",
+              points: 6,
+              feedback:
+                "This is too thin because it does not ask the AI to explain tradeoffs or fit.",
+            },
+          ],
+        },
+        {
+          id: "context",
+          label: "Context",
+          options: [
+            {
+              id: "needs-budget",
+              label: "Needs and budget",
+              text: "I care most about cost, reliability, ease of use, and whether it will still be useful next year.",
+              points: 15,
+              feedback:
+                "Clear criteria help the AI compare based on what matters instead of guessing.",
+            },
+            {
+              id: "no-details",
+              label: "No details",
+              text: "I just want the better one.",
+              points: 3,
+              feedback:
+                "Without criteria, the AI may recommend based on generic assumptions.",
+            },
+          ],
+        },
+        {
+          id: "constraints",
+          label: "Constraints",
+          options: [
+            {
+              id: "avoid-hype",
+              label: "Avoid hype",
+              text: "Do not rely on marketing language; explain any uncertainty or missing information.",
+              points: 15,
+              feedback:
+                "This tells the AI to slow down and avoid overconfident recommendations.",
+            },
+            {
+              id: "fast-answer",
+              label: "Fast answer",
+              text: "Keep it very short and do not ask questions.",
+              points: 4,
+              feedback:
+                "This may be quick, but it discourages the AI from checking missing context.",
+            },
+          ],
+        },
+        {
+          id: "format",
+          label: "Format",
+          options: [
+            {
+              id: "table-summary",
+              label: "Table and summary",
+              text: "Use a small table, then give a short recommendation with the main tradeoff.",
+              points: 20,
+              feedback:
+                "A table makes comparison easier, and a tradeoff summary keeps the recommendation useful.",
+            },
+            {
+              id: "long-paragraph",
+              label: "Long paragraph",
+              text: "Write one long paragraph.",
+              points: 5,
+              feedback:
+                "A long paragraph is harder to scan when comparing options.",
+            },
+          ],
+        },
+        {
+          id: "example",
+          label: "Example",
+          options: [
+            {
+              id: "tradeoff-example",
+              label: "Tradeoff example",
+              text: "Example summary: Option A is cheaper, but Option B is more reliable for daily use.",
+              points: 15,
+              feedback:
+                "An example shows the AI the kind of balanced comparison you want.",
+            },
+            {
+              id: "no-example",
+              label: "No example",
+              text: "No example needed.",
+              points: 5,
+              feedback:
+                "Skipping examples can still work, but examples often improve the final structure.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      goal: "Create a prompt that asks for resume feedback without oversharing private details.",
+      topic: "Job-search privacy",
+      concept:
+        "Job-search prompts are stronger when they include role, goal, relevant experience, privacy boundaries, output format, and examples.",
+      categories: [
+        {
+          id: "role",
+          label: "Role",
+          options: [
+            {
+              id: "career-coach",
+              label: "Career coach",
+              text: "Act as a practical career coach.",
+              points: 15,
+              feedback:
+                "A career-coach role fits resume feedback and keeps the advice focused on the application.",
+            },
+            {
+              id: "dramatic-editor",
+              label: "Dramatic editor",
+              text: "Act as someone trying to make my story dramatic.",
+              points: 3,
+              feedback:
+                "A dramatic role can exaggerate the resume instead of improving it honestly.",
+            },
+          ],
+        },
+        {
+          id: "task",
+          label: "Task",
+          options: [
+            {
+              id: "resume-feedback",
+              label: "Resume feedback",
+              text: "Review this resume summary and suggest improvements for a [job title] application.",
+              points: 20,
+              feedback:
+                "This gives the AI a clear review task and ties feedback to a specific job target.",
+            },
+            {
+              id: "rewrite-everything",
+              label: "Rewrite everything",
+              text: "Rewrite my entire resume for me.",
+              points: 7,
+              feedback:
+                "That can be useful later, but feedback first helps the user understand what needs improvement.",
+            },
+          ],
+        },
+        {
+          id: "context",
+          label: "Context",
+          options: [
+            {
+              id: "job-context",
+              label: "Role and goals",
+              text: "The role is [job title], and I want feedback on clarity, skills, and whether my experience matches the posting.",
+              points: 15,
+              feedback:
+                "This gives the AI the job target and the exact kind of feedback needed.",
+            },
+            {
+              id: "no-context",
+              label: "No context",
+              text: "Make it better.",
+              points: 3,
+              feedback:
+                "This is too vague. The AI has to guess what better means and what job the resume is for.",
+            },
+          ],
+        },
+        {
+          id: "constraints",
+          label: "Constraints",
+          options: [
+            {
+              id: "privacy-boundaries",
+              label: "Privacy boundaries",
+              text: "Do not include my phone number, address, email, exact school schedule, or references' contact details.",
+              points: 15,
+              feedback:
+                "Clear privacy boundaries help the AI avoid exposing sensitive information.",
+            },
+            {
+              id: "personal-details",
+              label: "Personal details",
+              text: "Use all personal details so it sounds real.",
+              points: 4,
+              feedback:
+                "A resume prompt should not require unnecessary private details to sound specific.",
+            },
+          ],
+        },
+        {
+          id: "format",
+          label: "Format",
+          options: [
+            {
+              id: "bullet-feedback",
+              label: "Bullet feedback",
+              text: "Return 3 strengths, 3 improvements, and a short revised summary.",
+              points: 20,
+              feedback:
+                "This format is easy to review and turns advice into concrete next steps.",
+            },
+            {
+              id: "long-paragraph",
+              label: "Long paragraph",
+              text: "Write one long paragraph.",
+              points: 5,
+              feedback:
+                "Long paragraphs make it harder to compare strengths, gaps, and edits.",
+            },
+          ],
+        },
+        {
+          id: "example",
+          label: "Example",
+          options: [
+            {
+              id: "example-summary",
+              label: "Example feedback",
+              text: "Example feedback: Strong action verb, but add a measurable result.",
+              points: 15,
+              feedback:
+                "A small example teaches the AI what kind of practical feedback you want.",
+            },
+            {
+              id: "no-example",
+              label: "No example",
+              text: "No example needed.",
+              points: 5,
+              feedback:
+                "This can still work, but an example makes the feedback style clearer.",
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 

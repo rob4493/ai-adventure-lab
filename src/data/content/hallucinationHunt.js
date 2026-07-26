@@ -92,6 +92,18 @@ const hallucinationHuntContent = {
         concept:
           "Do not grade AI answers by tone alone. Check evidence, uncertainty, and whether the claim can be verified.",
       },
+      {
+        fact: "Marie Curie was the first person to win Nobel Prizes in two different scientific fields.",
+        correctAnswer: true,
+        feedback: {
+          correct:
+            "Correct. Curie won Nobel Prizes in Physics and Chemistry.",
+          incorrect:
+            "This one is true. Some impressive-sounding claims are accurate, but they still deserve exact checking.",
+        },
+        concept:
+          "Good verification is balanced. The goal is not to reject every surprising fact, but to check whether the exact claim is supported.",
+      },
     ],
   },
   sourceScanner: {

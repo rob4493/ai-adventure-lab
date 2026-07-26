@@ -97,6 +97,19 @@ const aiOrHumanContent = {
         concept:
           "AI text often defaults to balanced, general statements. Watch for writing that sounds reasonable but could fit almost any context.",
       },
+      {
+        statement:
+          "I wrote the whole paragraph, deleted it, and then rewrote it worse somehow.",
+        correctAnswer: "human",
+        feedback: {
+          correct:
+            "The self-deprecating revision detail feels like a person describing a messy writing process.",
+          incorrect:
+            "AI can imitate humor, but this has a specific frustration and a natural, imperfect rhythm.",
+        },
+        concept:
+          "Human writing often includes process, irritation, and small contradictions that do not sound optimized.",
+      },
     ],
   },
   patternPrediction: {
@@ -197,6 +210,19 @@ const aiOrHumanContent = {
         },
         concept:
           "A visible thinking process can be more human than a perfect answer. Revision, hesitation, and checking are useful signals.",
+      },
+      {
+        statement:
+          "The pattern appears to be increasing by a consistent recursive relationship, so the next term is the most logical continuation.",
+        correctAnswer: "ai",
+        feedback: {
+          correct:
+            "This sounds AI-like because it is formal, vague, and confident without showing the actual pattern.",
+          incorrect:
+            "The wording feels polished, but it avoids concrete scratch work or a clear human checking process.",
+        },
+        concept:
+          "AI explanations can sound sophisticated while staying vague. Watch for formal language that does not actually show the reasoning.",
       },
     ],
   },
