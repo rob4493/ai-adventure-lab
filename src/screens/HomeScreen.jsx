@@ -20,10 +20,12 @@ const trackIcons = {
 };
 
 export default function HomeScreen({
+  activePath,
   activeTrack,
   goToLevels,
   goToSettings,
   selectTrack,
+  selectTrackPath,
   tracks,
   totalXp,
   completedCount,
@@ -59,6 +61,7 @@ export default function HomeScreen({
 
                 <h2 className="mt-1 text-xl font-bold text-white">
                   {activeTrack.title}
+                  {activeTrack.gradeBands ? `: ${activePath.title}` : ""}
                 </h2>
               </div>
 
@@ -108,6 +111,58 @@ export default function HomeScreen({
                 );
               })}
             </div>
+
+            {activeTrack.gradeBands && (
+              <div className="mt-4 rounded-2xl border border-slate-700/70 bg-slate-950/30 p-4">
+                <div className="mb-3">
+                  <p className="app-kicker text-xs font-bold uppercase">
+                    Student Grade Range
+                  </p>
+
+                  <p className="mt-1 text-sm leading-relaxed text-slate-400">
+                    Choose the grade range so lessons stay age-appropriate.
+                    More ranges will unlock as content is written.
+                  </p>
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {activeTrack.gradeBands.map((gradeBand) => {
+                    const isActive = gradeBand.id === activePath.id;
+
+                    return (
+                      <button
+                        key={gradeBand.id}
+                        disabled={!gradeBand.isAvailable}
+                        onClick={() =>
+                          selectTrackPath(activeTrack.id, gradeBand.id)
+                        }
+                        className={`rounded-xl border p-3 text-left transition ${
+                          isActive
+                            ? "border-amber-300/70 bg-amber-300/12"
+                            : "border-slate-700/70 bg-slate-950/35 hover:border-amber-300/35"
+                        } ${
+                          gradeBand.isAvailable
+                            ? "text-white"
+                            : "cursor-not-allowed opacity-55"
+                        }`}
+                      >
+                        <div className="mb-2 flex items-center justify-between gap-2">
+                          <p className="font-bold">{gradeBand.title}</p>
+
+                          <span className="rounded-full border border-slate-600/70 px-2 py-0.5 text-[10px] font-black uppercase text-slate-300">
+                            {gradeBand.label}
+                          </span>
+                        </div>
+
+                        <p className="text-sm leading-relaxed text-slate-400">
+                          {gradeBand.description}
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mb-6 grid gap-3 sm:grid-cols-3">

@@ -6,12 +6,10 @@ const hallucinationHuntContent = {
       {
         value: true,
         label: "True",
-        className: "bg-emerald-500 hover:bg-emerald-600",
       },
       {
         value: false,
         label: "False",
-        className: "bg-red-500 hover:bg-red-600",
       },
     ],
     scoring: {
@@ -21,88 +19,108 @@ const hallucinationHuntContent = {
     },
     rounds: [
       {
-        fact: "Sydney is the capital city of Australia.",
-        correctAnswer: false,
-        feedback: {
-          correct:
-            "Correct. Canberra is the capital of Australia, even though Sydney is larger and more famous.",
-          incorrect:
-            "This is a classic hallucination trap: Sydney is well known, but Canberra is the capital.",
-        },
-        concept:
-          "Fame is not the same as accuracy. When an answer names the most familiar option, slow down and verify.",
-      },
-      {
-        fact: "The Great Wall of China is visible from the Moon with the unaided eye.",
-        correctAnswer: false,
-        feedback: {
-          correct:
-            "Correct. This popular claim is misleading; it is not visible from the Moon to the naked eye.",
-          incorrect:
-            "This sounds familiar, which is why it is a useful hallucination example, but it is false.",
-        },
-        concept:
-          "Repeated claims can feel true. AI can reproduce common myths unless you check against reliable facts.",
-      },
-      {
-        fact: "Water freezes at 0 degrees Celsius at standard atmospheric pressure.",
+        fact: "For a U.S. history assignment, AI says: The Declaration of Independence was signed in 1776.",
         correctAnswer: true,
         feedback: {
           correct:
-            "Correct. This is a reliable basic science fact, assuming standard atmospheric pressure.",
+            "Correct. The Declaration of Independence was adopted in 1776, and this is a stable history fact.",
           incorrect:
-            "This one is true. Pressure can change freezing behavior, but the standard reference point is 0 degrees Celsius.",
+            "This one is true. Good fact-checking means recognizing supported facts too.",
         },
+        topic: "Stable history facts",
         concept:
-          "Good fact-checking means rejecting false claims without becoming suspicious of every ordinary true statement.",
+          "Fact-checking is calibrated trust: verify claims, but do not assume every ordinary fact is false.",
       },
       {
-        fact: "Albert Einstein won the Nobel Prize for his theory of relativity.",
+        fact: "For an English presentation, AI says: Shakespeare wrote the novel Pride and Prejudice.",
         correctAnswer: false,
         feedback: {
           correct:
-            "Correct. Einstein won the Nobel Prize for his explanation of the photoelectric effect, not relativity.",
+            "Correct. Pride and Prejudice was written by Jane Austen, not Shakespeare.",
           incorrect:
-            "Relativity is his most famous work, which makes the false claim sound believable.",
+            "This is false. The answer uses a famous author name, but it connects that author to the wrong work.",
         },
+        topic: "Familiar-name traps",
         concept:
-          "A fact can attach the right person to the wrong reason. Check the exact claim, not just whether the names sound related.",
+          "AI can attach the right kind of famous name to the wrong fact. Check the exact claim, not just whether the name sounds familiar.",
       },
       {
-        fact: "The human heart has four chambers.",
+        fact: "For biology homework, AI says: Mitochondria help cells release usable energy from food.",
         correctAnswer: true,
         feedback: {
           correct:
-            "Correct. The heart has two atria and two ventricles.",
+            "Correct. Mitochondria are involved in cellular respiration and energy production.",
           incorrect:
-            "This is a standard biology fact: two upper chambers and two lower chambers.",
+            "This is a standard biology fact. The wording is simplified, but the core idea is true.",
         },
+        topic: "Science basics",
         concept:
-          "Fact-checking includes recognizing stable, well-supported facts. The goal is calibrated trust, not blanket doubt.",
+          "Some simplified explanations are still accurate. The goal is to check the core claim and the level of precision needed.",
       },
       {
-        fact: "A confident AI answer should be trusted more than a cautious answer.",
+        fact: "For a college-planning question, AI says: The FAFSA deadline is the same for every state and never changes.",
         correctAnswer: false,
         feedback: {
           correct:
-            "Correct. Confidence in wording is not proof of accuracy.",
+            "Correct. Financial aid deadlines can vary by federal, state, school, and year. Students should verify official FAFSA and college pages.",
           incorrect:
-            "This is false. AI can sound confident while being wrong or incomplete.",
+            "This is false. Deadlines and requirements can vary, so current official sources matter.",
         },
+        topic: "Changing deadlines",
         concept:
-          "Do not grade AI answers by tone alone. Check evidence, uncertainty, and whether the claim can be verified.",
+          "High-stakes deadlines need current official sources. AI may sound confident while missing state, school, or year differences.",
       },
       {
-        fact: "Marie Curie was the first person to win Nobel Prizes in two different scientific fields.",
+        fact: "For a health-class project, AI says: Energy drinks are harmless for all teenagers because they are sold in stores.",
+        correctAnswer: false,
+        feedback: {
+          correct:
+            "Correct. Being sold in stores does not mean something is harmless for everyone. Caffeine and other ingredients can carry risks.",
+          incorrect:
+            "This is false and overconfident. Health claims need credible sources and caution.",
+        },
+        topic: "Health overconfidence",
+        concept:
+          "Health claims deserve extra caution. Availability, popularity, or confident wording does not prove safety.",
+      },
+      {
+        fact: "For a current-events essay, AI says: An article from 2018 always proves what is happening today.",
+        correctAnswer: false,
+        feedback: {
+          correct:
+            "Correct. Old sources can be useful background, but current-event claims need current context and updates.",
+          incorrect:
+            "This is false. Dates matter when laws, policies, events, or statistics change.",
+        },
+        topic: "Source freshness",
+        concept:
+          "A source can be real but outdated. Current questions need current evidence.",
+      },
+      {
+        fact: "For a statistics slide, AI says: A chart with no source, date, sample size, or method can still be treated as strong evidence if it looks professional.",
+        correctAnswer: false,
+        feedback: {
+          correct:
+            "Correct. Professional design does not replace source and method details.",
+          incorrect:
+            "This is false. Charts need source, date, sample, method, and context before they should be trusted.",
+        },
+        topic: "Chart evidence",
+        concept:
+          "Statistics need traceable evidence. Design can make weak claims look stronger than they are.",
+      },
+      {
+        fact: "For a scholarship essay, AI says: You should verify quotes before using them, even if they sound like something a famous person would say.",
         correctAnswer: true,
         feedback: {
           correct:
-            "Correct. Curie won Nobel Prizes in Physics and Chemistry.",
+            "Correct. Quotes should be checked against a reliable source before being used in school or application writing.",
           incorrect:
-            "This one is true. Some impressive-sounding claims are accurate, but they still deserve exact checking.",
+            "This one is true. A quote sounding believable is not enough evidence.",
         },
+        topic: "Quote verification",
         concept:
-          "Good verification is balanced. The goal is not to reject every surprising fact, but to check whether the exact claim is supported.",
+          "Quotes need traceable sources. Style or familiarity cannot prove someone said something.",
       },
     ],
   },
@@ -113,12 +131,10 @@ const hallucinationHuntContent = {
       {
         value: true,
         label: "Reliable",
-        className: "bg-emerald-500 hover:bg-emerald-600",
       },
       {
         value: false,
         label: "Risky",
-        className: "bg-red-500 hover:bg-red-600",
       },
     ],
     scoring: {

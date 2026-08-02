@@ -6,12 +6,12 @@ The app teaches a simple idea: AI can be useful, but people still need judgment.
 
 ## Current Status
 
-This is a playable local-first prototype. The active playable path is currently `Student`. Additional audience tracks are visible in the app as planned paths so the project can expand toward everyday users, job seekers, small business owners, and workplace users without rebuilding the core game engines.
+This is a playable local-first prototype. The active playable paths are currently `Student > High School` and `Everyday User`.
 
 Built features:
 
 - mobile-first home screen, level select, gameplay, results, review, and settings screens
-- audience-track foundation with per-track local progress
+- audience-track and student grade-band foundation with per-path local progress
 - sequential level progression with locked, completed, replay, and review states
 - XP, stars, best scores, new-best indicators, and end-of-world summaries
 - review summaries showing strengths, missed concepts, and concepts to revisit
@@ -25,19 +25,28 @@ There is no backend yet. Progress is saved only in the current browser on the cu
 
 ## Audience Tracks
 
-The app is being prepared to support multiple user paths:
+The app supports multiple user paths:
 
-- `Student`: playable now; schoolwork, tutoring, projects, sources, privacy, and classroom fairness
-- `Everyday User`: planned; health caution, shopping research, social media, scams, family privacy, and news claims
+- `Student`: High School playable now; Elementary, Middle School, and College / Adult Learner planned
+- `Everyday User`: playable now; viral claim checking and scam-message detection
 - `Job Seeker`: planned; resumes, cover letters, job posts, interviews, and application privacy
 - `Small Business Owner`: planned; customer messages, marketing copy, reviews, vendors, and data privacy
 - `Workplace User`: planned; emails, summaries, reports, confidential information, and fair decisions
 
-The long-term pattern is: same game modes, different scenarios by audience.
+The long-term pattern is: same game modes, different scenarios by audience and grade range.
+
+## Student Grade Bands
+
+The Student track is split into grade ranges so content can stay age-appropriate:
+
+- `Elementary`: planned; simple fact checks, safe sharing, helpful questions, and kind AI use
+- `Middle School`: planned; projects, tutoring hints, group chat privacy, and basic sources
+- `High School`: playable now; stronger source checks, prompt building, privacy, bias, job-search examples, and health caution
+- `College / Adult Learner`: planned; research, academic integrity, career prep, workplace-style prompts, and advanced source standards
 
 ## Current Levels
 
-The Student path currently includes:
+The High School Student path currently includes:
 
 - AI vs Human
 - Hallucination Hunt
@@ -48,7 +57,19 @@ The Student path currently includes:
 - Privacy Shield
 - Bias Lens
 
-Recent rounds include real-world situations such as schoolwork help, resume and cover-letter support, health-advice caution, viral claims, fake citations, friend/family privacy, social media posts, employment-gap bias, and resource-based recommendations.
+Recent rounds include real-world situations such as student essays, teacher emails, clubs, robotics, schoolwork help, resume and cover-letter support, health-advice caution, viral claims, fake citations, friend/family privacy, social media posts, employment-gap bias, and source checks for school presentations.
+
+## Everyday User Levels
+
+The first Everyday User mini-path includes:
+
+- Viral Claim Scanner
+- Scam Shield
+
+These levels focus on high-risk everyday AI use cases:
+
+- news and viral claims: source quality, original reporting, dates, and independent confirmation
+- scams and suspicious messages: pressure tactics, risky links, verification steps, and account safety
 
 ## Learning Loop
 
@@ -67,8 +88,10 @@ Prompt Builder uses a step-by-step block builder with live prompt preview and a 
 
 Most app content is data-driven:
 
-- `src/data/tracks.js` defines audience tracks, availability, descriptions, focus areas, worlds, and level sets.
+- `CONTENT_GUIDE.md` defines content standards for High School Student and Everyday User scenarios.
+- `src/data/tracks.js` defines audience tracks, student grade bands, availability, descriptions, worlds, and level sets.
 - `src/data/levels.js` defines the current Student level sequence.
+- `src/data/everydayLevels.js` defines the current Everyday User level sequence.
 - `src/data/worlds.js` defines world titles, descriptions, and completion summaries.
 - `src/data/content/aiOrHuman.js` stores AI vs Human and Pattern Prediction rounds.
 - `src/data/content/hallucinationHunt.js` stores Hallucination Hunt rounds.
@@ -77,20 +100,22 @@ Most app content is data-driven:
 
 To add a level, add content in `src/data/content/`, add a level entry in `src/data/levels.js`, and choose the correct `type` so `GameplayScreen` routes it to the right mini-game.
 
+For High School Student content, use realistic grades 9-12 scenarios such as essays, rubrics, projects, tutoring, source checking, school AI-use rules, clubs, college/career prep, privacy with peers, and fair decision-making.
+
 ## Progress Storage
 
 Progress is stored in `localStorage` under `ai-learning-progress`.
 
 Stored data includes:
 
-- active audience track
-- completed level IDs by track
+- active audience track and selected student grade band
+- completed level IDs by learning path
 - best score and earned stars by level
 - saved review summaries by level
 - concept stats by topic
 - total XP calculated from known level scores
 
-Older single-track progress is migrated into the Student track automatically.
+Older single-track progress is migrated into the High School Student path automatically.
 
 ## Scripts
 
@@ -123,7 +148,7 @@ npm test
 - Add screenshots or GIFs to this README.
 - Add a targeted review/practice hub using saved concept stats.
 - Improve accessibility with keyboard and screen-reader checks.
-- Create the first non-student track, likely Everyday User or Job Seeker.
-- Plan backend data shape for accounts, cloud progress, and future dashboards.
+- Playtest the first Everyday User levels.
+- Decide the next Everyday User category after playtesting.
 
 See [ROADMAP.md](./ROADMAP.md) for product direction and longer-term planning.

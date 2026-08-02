@@ -12,46 +12,47 @@ const questionChoiceContent = {
     rounds: [
       {
         scenario:
-          "A student says: I need help choosing a topic for my project.",
+          "A high school student says: I need a topic for my argumentative essay about technology.",
         aiResponse:
-          "You should do your project about volcanoes. They are exciting and easy to explain.",
+          "Write about how phones are bad for teens. That topic is easy and teachers understand it.",
         betterResponse:
-          "I can help. What topics are you already interested in, what class is this for, and are there any project requirements?",
+          "I can help narrow it down. What class is this for, what does the rubric require, what technology issues interest you, and do you need sources from a database or class list?",
         prompt: "What should you ask next?",
-        topic: "Missing context",
-        correctAnswer: "interests",
+        topic: "Essay requirements",
+        correctAnswer: "rubric",
         options: [
           {
-            id: "interests",
-            label: "What topics are you already interested in?",
+            id: "rubric",
+            label:
+              "What does the rubric require, what interests you, and what source rules do you have?",
             feedback:
-              "This is the best next question because it uncovers motivation before suggesting topics.",
+              "Correct. A strong topic depends on assignment rules, student interest, and source requirements.",
           },
           {
             id: "write-it",
-            label: "Do you want me to write the whole project?",
+            label: "Do you want me to write the essay for you?",
             feedback:
-              "This skips the student's thinking and does not clarify the goal.",
+              "That skips the student's thinking and encourages misuse.",
           },
           {
-            id: "stress",
-            label: "Why is school stressful?",
+            id: "easy",
+            label: "Do you want the easiest topic possible?",
             feedback:
-              "This may matter later, but it does not help choose a project topic yet.",
+              "Ease can matter, but the first step is understanding the assignment and the student's angle.",
           },
         ],
         concept:
-          "A good next question finds the missing context needed for a useful answer.",
+          "High school essay help should start with the rubric, source rules, topic interests, and assignment goal.",
       },
       {
         scenario:
-          "Someone says: I want to use AI for my homework.",
+          "A student says: My teacher said we can use AI for our history assignment, but I am not sure how much is allowed.",
         aiResponse:
-          "Paste the homework here and I will give you the final answers.",
+          "Paste the prompt and I will write a complete answer that sounds like you.",
         betterResponse:
-          "Before I help, what does your teacher allow, and what part are you trying to understand? I can explain, give hints, or check your work.",
+          "What does the teacher allow AI to do, and what part do you want help with? I can explain the topic, help plan, quiz you, or give feedback without writing the final submission.",
         prompt: "Which question best supports responsible AI use?",
-        topic: "Responsible schoolwork",
+        topic: "Academic integrity",
         correctAnswer: "allowed",
         options: [
           {
@@ -62,7 +63,8 @@ const questionChoiceContent = {
           },
           {
             id: "allowed",
-            label: "What does your teacher allow, and what part are you trying to learn?",
+            label:
+              "What does your teacher allow, and what part are you trying to understand?",
             feedback:
               "This question checks both rules and learning purpose before giving advice.",
           },
@@ -74,22 +76,23 @@ const questionChoiceContent = {
           },
         ],
         concept:
-          "Good AI literacy asks about rules, goals, and learning needs before using AI on schoolwork.",
+          "Responsible school AI use starts by checking teacher rules and focusing on learning support, not copied final answers.",
       },
       {
         scenario:
-          "A friend says: I do not know if I should join the robotics club.",
+          "A student says: I do not know if I should take AP Biology next year or choose an easier science class.",
         aiResponse:
-          "Yes, you should join. Robotics is useful and will look good later.",
+          "Take AP Biology. Harder classes look better for college.",
         betterResponse:
-          "What sounds exciting about robotics, and what worries you about joining? We can compare the pros, concerns, and time commitment.",
+          "What are your goals, current workload, science interest, other commitments, and what does your counselor or teacher recommend? We can compare tradeoffs instead of assuming harder is always better.",
         prompt: "What is the best next question?",
-        topic: "Decision tradeoffs",
+        topic: "Course planning tradeoffs",
         correctAnswer: "tradeoff",
         options: [
           {
             id: "tradeoff",
-            label: "What sounds exciting about it, and what are you worried about?",
+            label:
+              "What are your goals, workload, interest level, and other commitments?",
             feedback:
               "This reveals both motivation and constraint, which makes later advice more useful.",
           },
@@ -101,54 +104,55 @@ const questionChoiceContent = {
           },
           {
             id: "popular",
-            label: "Is robotics popular at your school?",
+            label: "Will the harder class impress people?",
             feedback:
-              "Popularity could matter, but it is less useful than the person's own goals and concerns.",
+              "Impressing people is less useful than understanding fit, workload, and goals.",
           },
         ],
         concept:
-          "When someone is deciding, ask about goals, worries, tradeoffs, and constraints before recommending.",
+          "Course decisions should consider goals, workload, interest, support, and tradeoffs before recommending.",
       },
       {
         scenario:
-          "A user asks AI: What should I eat to be healthier?",
+          "A student says: I have three tests next week and do not know how to study.",
         aiResponse:
-          "Start a strict diet and cut out most carbs. That is the healthiest choice.",
+          "Study everything for five hours every night. That is the safest plan.",
         betterResponse:
-          "I can share general ideas, but first: do you have allergies, health needs, budget limits, or foods you avoid?",
+          "What subjects are the tests, when are they, what topics feel weakest, and how much time do you realistically have each day? I can help build a balanced study plan.",
         prompt: "Which question should come before advice?",
-        topic: "Personal constraints",
-        correctAnswer: "needs",
+        topic: "Study planning",
+        correctAnswer: "schedule",
         options: [
           {
-            id: "needs",
-            label: "Do you have allergies, health needs, budget limits, or foods you avoid?",
+            id: "schedule",
+            label:
+              "What subjects, dates, weak topics, and available study time are you working with?",
             feedback:
-              "This checks important constraints before suggesting food advice.",
+              "Correct. A realistic study plan needs timing, priorities, and weak areas.",
           },
           {
-            id: "trend",
-            label: "Do you want the trendiest diet?",
+            id: "all-night",
+            label: "Can you stay up all night before each test?",
             feedback:
-              "Trendy does not mean safe, useful, or appropriate.",
+              "All-night plans are usually unrealistic and can hurt learning.",
           },
           {
             id: "favorite",
-            label: "What is your favorite color?",
+            label: "Which teacher gives the easiest tests?",
             feedback:
-              "This is not relevant to a healthier eating recommendation.",
+              "That does not identify what the student needs to learn or how to plan time.",
           },
         ],
         concept:
-          "Advice can become risky when it ignores personal constraints, safety needs, or context.",
+          "Study help should ask about deadlines, weak topics, and realistic time before making a plan.",
       },
       {
         scenario:
-          "A student says: I am stuck on this math problem.",
+          "A student says: I am stuck on this algebra problem and have to show my work.",
         aiResponse:
           "Here is the answer. Copy this into your worksheet.",
         betterResponse:
-          "What have you tried so far, and where did you get stuck? I can give a hint or walk through the next step.",
+          "What have you tried so far, and which step confused you? I can give a hint, explain the next move, or check your work without doing the whole problem for you.",
         prompt: "Which question helps without taking over?",
         topic: "Tutoring without taking over",
         correctAnswer: "tried",
@@ -177,11 +181,11 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A student asks AI: Can you help me make my science fair idea better?",
+          "A student asks AI: Can you help me improve my science fair idea about phone use and sleep?",
         aiResponse:
-          "Sure. Make a volcano. Volcanoes are always a good science fair project.",
+          "Sure. Say phones ruin sleep. That will be easy to prove.",
         betterResponse:
-          "I can help improve it. What topic are you curious about, what materials can you use, and does your project need a testable question?",
+          "I can help turn it into a testable question. What can you measure safely, what variables can you compare, and what does your teacher require for the experiment?",
         prompt: "What should AI ask before suggesting an idea?",
         topic: "Project requirements",
         correctAnswer: "requirements",
@@ -189,7 +193,7 @@ const questionChoiceContent = {
           {
             id: "requirements",
             label:
-              "What are you curious about, what materials do you have, and what are the project rules?",
+              "What can you measure safely, what variables can you compare, and what are the project rules?",
             feedback:
               "This asks about interest, constraints, and requirements before giving advice.",
           },
@@ -211,11 +215,11 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks AI: I have a bad headache and feel dizzy. What should I do?",
+          "A student asks AI: I felt dizzy after soccer practice and have a bad headache. What should I do?",
         aiResponse:
           "Drink water and take pain medicine. You probably just need rest.",
         betterResponse:
-          "I can share general information, but a bad headache with dizziness can sometimes be serious. Is it sudden or severe, and do you have confusion, weakness, chest pain, injury, fever, or vision changes? If symptoms are severe, unusual, or getting worse, contact a medical professional or emergency services.",
+          "I can share general information, but dizziness with a bad headache after practice can sometimes be serious. Did you hit your head, feel confused, have vision changes, weakness, vomiting, chest pain, or symptoms that are severe or getting worse? Tell a trusted adult, coach, nurse, or medical professional right away if any warning signs are present.",
         prompt: "What should AI ask or say before giving advice?",
         topic: "Health urgency",
         correctAnswer: "check-urgency",
@@ -242,17 +246,17 @@ const questionChoiceContent = {
           },
         ],
         concept:
-          "Health prompts need caution. AI should ask about urgency and avoid pretending to diagnose.",
+          "High school health questions need caution. AI should check warning signs and point students toward trusted adults or medical help when symptoms could be serious.",
       },
       {
         scenario:
-          "A job seeker asks AI to help write a cover letter.",
+          "A student asks AI to help write a cover letter for a part-time job after school.",
         aiResponse:
           "Sure. What is the job title? I can write a polished letter for you.",
         betterResponse:
-          "I can help draft it. What role are you applying for, what experience should I highlight, what tone do you want, and are there details you do not want included?",
+          "I can help draft or improve it. What job are you applying for, what experience from school, clubs, volunteering, or past work should I highlight, what tone do you want, and what private details should I leave out?",
         prompt: "What should AI ask next?",
-        topic: "Job-search context",
+        topic: "Part-time job context",
         correctAnswer: "job-context",
         options: [
           {
@@ -276,7 +280,7 @@ const questionChoiceContent = {
           },
         ],
         concept:
-          "Career prompts improve when AI asks about role, evidence, tone, and privacy boundaries.",
+          "Career prompts for students improve when AI asks about the role, relevant experience, tone, and privacy boundaries.",
       },
     ],
   },
@@ -293,11 +297,11 @@ const questionChoiceContent = {
     rounds: [
       {
         scenario:
-          "A student asks AI for a source about the Moon's gravity.",
+          "A student asks AI for a source about whether school start times affect teen sleep.",
         aiResponse:
-          "Here is a link about the Moon's gravity: spacefacts-example.com/moon-gravity. It says the Moon has lower gravity than Earth.",
+          "Here is a link about teen sleep: school-sleep-facts.example.com. It says later start times help students.",
         betterResponse:
-          "Here is a source from NASA, titled: Moon Fact Sheet, published by: NASA Goddard Space Flight Center, author: NASA, updated on: January 11, 2024. It lists the Moon's surface gravity and shows it is about one-sixth of Earth's gravity.",
+          "Here is a stronger source: American Academy of Pediatrics, titled: School Start Times for Adolescents, published in: Pediatrics, author: Adolescent Sleep Working Group, date: 2014. It explains evidence and recommendations about later school start times and teen sleep.",
         prompt: "Is this source response reliable or risky?",
         topic: "Weak citation details",
         correctAnswer: "risky",
@@ -320,7 +324,7 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks AI for evidence about teen screen time and sleep.",
+          "A student asks AI for evidence about teen screen time and sleep for a health-class presentation.",
         aiResponse:
           "Here is a source from the Journal of Adolescent Health, titled: Screen Media Use and Sleep in Adolescents, published in: 2023, author: the study researchers listed on the article, link type: DOI or journal page. It reviews evidence about screen timing and sleep quality.",
         betterResponse:
@@ -347,11 +351,11 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks AI for a source on a new phone's battery life.",
+          "A student asks AI for a source about current college application deadlines.",
         aiResponse:
-          "This article from 2019 explains the battery life, so it should answer your question.",
+          "This article from 2019 explains application deadlines, so it should answer your question.",
         betterResponse:
-          "Here is a better source type: the manufacturer's official specs page, titled: Battery and Power Specifications for [phone model], published by: [manufacturer], updated for: the current model year. It lists battery capacity, charging details, and expected battery performance.",
+          "Here is a better source type: the college's official admissions page, titled: Application Deadlines, published by: [college admissions office], updated for: the current application cycle. It should list the deadline, term, and application type.",
         prompt: "Is this source response reliable or risky?",
         topic: "Source freshness",
         correctAnswer: "risky",
@@ -370,15 +374,15 @@ const questionChoiceContent = {
           },
         ],
         concept:
-          "Source quality depends on the topic. Dates matter more when information changes quickly.",
+          "Source quality depends on the topic. Dates matter more when deadlines, policies, or requirements change.",
       },
       {
         scenario:
-          "A user asks AI whether a surprising health claim is true.",
+          "A student asks AI whether an energy drink claim is safe to use in a health presentation.",
         aiResponse:
-          "This blog post proves it. The author says doctors are hiding the truth, but the post does not list studies, medical organizations, dates, or named experts.",
+          "This fitness blog proves energy drinks are harmless. The author says doctors exaggerate the risks, but the post does not list studies, medical organizations, dates, or named experts.",
         betterResponse:
-          "Here is a stronger source from the CDC or NIH, titled: [health topic] Overview, published by: a named public health organization, updated on: the page's listed review date, author: medical or expert review team. It summarizes the claim using evidence and safety guidance.",
+          "Here is a stronger source pattern: a CDC, NIH, Mayo Clinic, or peer-reviewed medical source, titled: [energy drink or caffeine topic], published by: a named health organization or journal, updated on: the listed review date, author: medical or expert review team. It should summarize evidence and safety guidance.",
         prompt: "Is this source response reliable or risky?",
         topic: "High-stakes evidence",
         correctAnswer: "risky",
@@ -401,11 +405,11 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks AI for a source about a historical event.",
+          "A student asks AI for a source proving a quote was said by Frederick Douglass.",
         aiResponse:
-          "According to History Archive Weekly, article title: 'The Hidden Treaty of 1842,' author: Dr. Elena Morris, published April 12, 2021. I could not find a working link or independent references to this article.",
+          "According to History Archive Weekly, article title: 'Forgotten Speeches of Frederick Douglass,' author: Dr. Elena Morris, published April 12, 2021. I could not find a working link or independent references to this article.",
         betterResponse:
-          "Here is a better source path: use a library database or museum archive entry, titled: [verified event or treaty name], published by: a university press, museum, archive, or encyclopedia, author: named historian or institution, date: listed publication date. It should summarize the event and provide a working catalog or archive link.",
+          "Here is a better source path: use a primary source archive, Library of Congress item, museum archive, university press, or reputable encyclopedia entry, titled: [speech/document title], author: Frederick Douglass or named historian/institution, date: listed publication or archive date, link: working archive or catalog page. It should show where the quote appears.",
         prompt: "Is this source response reliable or risky?",
         topic: "Unverifiable citations",
         correctAnswer: "risky",
@@ -428,7 +432,7 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks AI for sources about whether homework improves learning.",
+          "A student asks AI for sources about whether homework improves learning for a debate.",
         aiResponse:
           "Here are three sources: education-study.net, homeworktruths.blog, and learnbetter-fast.info. They all say homework works.",
         betterResponse:
@@ -455,7 +459,7 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks AI for a source about AI use in classrooms.",
+          "A student asks AI for a source about AI use in classrooms for a school board speech.",
         aiResponse:
           "According to The 2024 Global AI Classroom Report by Dr. Melissa Grant, published by the International Learning Council, 92% of schools improved grades with AI. I cannot provide a working link.",
         betterResponse:
@@ -482,7 +486,7 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks whether a viral claim about recycling is true.",
+          "A student asks whether a viral claim about recycling is reliable enough for an environmental science project.",
         aiResponse:
           "Here are three links, and they all say the same thing. The pages use similar wording and none list authors, dates, or original data.",
         betterResponse:
@@ -1108,6 +1112,356 @@ const questionChoiceContent = {
         ],
         concept:
           "Resources can reflect access, not talent or motivation.",
+      },
+    ],
+  },
+  viralClaimScanner: {
+    instructions:
+      "Decide whether the AI's response helps verify a viral claim or repeats it too quickly.",
+    successTitle: "Good Claim Check!",
+    retryTitle: "Check The Claim",
+    scoring: {
+      correctScore: 40,
+      retryCorrectScore: 25,
+      incorrectScore: 10,
+    },
+    rounds: [
+      {
+        scenario:
+          "A user sees a screenshot claiming a major grocery chain is closing all stores next week.",
+        aiResponse:
+          "That sounds serious. The screenshot says it is happening, so it is probably true.",
+        betterResponse:
+          "I would not trust a screenshot alone. Check the company's official site, verified social channels, recent local news, and the date/context of the claim before sharing it.",
+        prompt: "Is this AI response reliable or risky?",
+        topic: "Screenshot verification",
+        correctAnswer: "risky",
+        options: [
+          {
+            id: "reliable",
+            label: "Reliable",
+            feedback:
+              "A screenshot is easy to crop, fake, or remove from context. It needs outside verification.",
+          },
+          {
+            id: "risky",
+            label: "Risky",
+            feedback:
+              "Correct. The AI accepted the screenshot instead of checking original sources.",
+          },
+        ],
+        concept:
+          "Viral screenshots need verification from original or trusted sources before sharing.",
+      },
+      {
+        scenario:
+          "A user asks AI about a viral post saying a new law was passed today.",
+        aiResponse:
+          "Yes, the law passed today. Many people are talking about it online.",
+        betterResponse:
+          "I should verify this with an official government page, bill tracker, or trusted news report. I would check the date, jurisdiction, exact bill name, and whether it actually passed or was only proposed.",
+        prompt: "What is missing before trusting the claim?",
+        topic: "Original source check",
+        correctAnswer: "official-source",
+        options: [
+          {
+            id: "popular",
+            label: "Enough people are talking about it.",
+            feedback:
+              "Popularity is not evidence. Viral attention can spread mistakes quickly.",
+          },
+          {
+            id: "official-source",
+            label:
+              "An official source, date, location, and exact law or bill name.",
+            feedback:
+              "Correct. Legal and news claims need exact source details and context.",
+          },
+          {
+            id: "short-summary",
+            label: "A shorter summary of the post.",
+            feedback:
+              "A shorter summary can still repeat an unsupported claim.",
+          },
+        ],
+        concept:
+          "A claim about laws or government action needs the original source, date, place, and exact status.",
+      },
+      {
+        scenario:
+          "A user sees an article from 2019 being shared with the caption: This just happened.",
+        aiResponse:
+          "The article proves the event is happening now because it describes the same issue.",
+        betterResponse:
+          "The article may be real but old. I would check the publication date, whether there are newer updates, and whether the caption is misrepresenting old news as current.",
+        prompt: "What is the main risk?",
+        topic: "Old news as new",
+        correctAnswer: "date-context",
+        options: [
+          {
+            id: "date-context",
+            label:
+              "The article may be old and shared without current context.",
+            feedback:
+              "Correct. Real articles can still mislead when the date or context is changed.",
+          },
+          {
+            id: "article-length",
+            label: "The article is too long.",
+            feedback:
+              "Length is not the issue. The issue is whether old information is being presented as new.",
+          },
+          {
+            id: "same-topic",
+            label: "The same topic means it is current.",
+            feedback:
+              "A topic can repeat over time. You still need the current date and update status.",
+          },
+        ],
+        concept:
+          "Old information can be reshared as if it is new. Dates and updates matter.",
+      },
+      {
+        scenario:
+          "A viral chart claims that 92% of people support a new policy, but it gives no survey source.",
+        aiResponse:
+          "The chart looks professional, so the statistic is likely accurate.",
+        betterResponse:
+          "A professional-looking chart is not enough. I would look for who conducted the survey, sample size, date, question wording, funding source, and a link to the original data.",
+        prompt: "Which detail matters most before trusting the chart?",
+        topic: "Chart source details",
+        correctAnswer: "survey-details",
+        options: [
+          {
+            id: "design",
+            label: "Whether the chart looks clean and professional.",
+            feedback:
+              "Design can make weak data look convincing. It is not proof.",
+          },
+          {
+            id: "survey-details",
+            label:
+              "Who collected the data, when, how many people, and what question was asked.",
+            feedback:
+              "Correct. Data claims need source and method details.",
+          },
+          {
+            id: "shares",
+            label: "How many times the chart was shared.",
+            feedback:
+              "Shares measure attention, not accuracy.",
+          },
+        ],
+        concept:
+          "Charts and statistics need source, date, method, and context before they deserve trust.",
+      },
+      {
+        scenario:
+          "A user asks AI if a quote from a famous scientist in a viral post is real.",
+        aiResponse:
+          "It sounds like something they would say, so the quote is probably real.",
+        betterResponse:
+          "I should not judge by style alone. I would look for the quote in a primary source, verified interview, book, speech transcript, or reputable quote archive with a citation.",
+        prompt: "Is this AI response reliable or risky?",
+        topic: "Fake expert quotes",
+        correctAnswer: "risky",
+        options: [
+          {
+            id: "reliable",
+            label: "Reliable",
+            feedback:
+              "A quote sounding believable is not enough. Famous people are often misquoted online.",
+          },
+          {
+            id: "risky",
+            label: "Risky",
+            feedback:
+              "Correct. The AI used vibes instead of verification.",
+          },
+        ],
+        concept:
+          "Quotes need traceable sources. Style alone cannot prove someone said something.",
+      },
+    ],
+  },
+  scamShield: {
+    instructions:
+      "Spot red flags in suspicious messages and choose the safest next step.",
+    successTitle: "Good Scam Check!",
+    retryTitle: "Find The Red Flag",
+    scoring: {
+      correctScore: 40,
+      retryCorrectScore: 25,
+      incorrectScore: 10,
+    },
+    rounds: [
+      {
+        scenario:
+          "A text says: Your package is delayed. Pay $1.38 in fees at delivery-update-fast.com or it will be returned today.",
+        aiResponse:
+          "The fee is small, so it is probably fine to click and pay.",
+        betterResponse:
+          "Do not click the link from the text. Check tracking through the official delivery app or website, and look for red flags like urgency, odd domains, and unexpected payment requests.",
+        prompt: "What is the safest next step?",
+        topic: "Suspicious links",
+        correctAnswer: "official-channel",
+        options: [
+          {
+            id: "pay-small-fee",
+            label: "Pay because the fee is small.",
+            feedback:
+              "Small fees are often used to get card details or account information.",
+          },
+          {
+            id: "official-channel",
+            label:
+              "Avoid the link and check the delivery through the official app or site.",
+            feedback:
+              "Correct. Verify through a trusted channel you open yourself.",
+          },
+          {
+            id: "reply",
+            label: "Reply and ask if the message is real.",
+            feedback:
+              "Replying can confirm your number is active and does not verify the sender.",
+          },
+        ],
+        concept:
+          "Suspicious links and unexpected fees should be checked through official channels, not the message itself.",
+      },
+      {
+        scenario:
+          "An email says: Your bank account is locked. Reply with your username, password, and security code to restore access.",
+        aiResponse:
+          "If the email uses your bank's logo, reply with the information so they can unlock it.",
+        betterResponse:
+          "Never send passwords or security codes by email. Open the bank's official app or website yourself, or call the number on your card to verify the issue.",
+        prompt: "What is the biggest red flag?",
+        topic: "Credential requests",
+        correctAnswer: "password-code",
+        options: [
+          {
+            id: "logo",
+            label: "The email uses a bank logo.",
+            feedback:
+              "Logos can be copied. A logo does not prove the message is real.",
+          },
+          {
+            id: "password-code",
+            label: "It asks for a password and security code.",
+            feedback:
+              "Correct. Legitimate services should not ask you to send passwords or security codes by email.",
+          },
+          {
+            id: "locked",
+            label: "The account might be locked.",
+            feedback:
+              "Account warnings can be real, but you should verify through official channels.",
+          },
+        ],
+        concept:
+          "Requests for passwords, codes, or banking details are major scam warnings.",
+      },
+      {
+        scenario:
+          "Someone messages: I accidentally sent a login code to your phone. Can you send it back to me?",
+        aiResponse:
+          "If they seem polite, send the code back so they can log in.",
+        betterResponse:
+          "Do not share the code. Login codes prove account access. The sender may be trying to get into your account, even if the message sounds friendly.",
+        prompt: "Which choice protects the user?",
+        topic: "Verification codes",
+        correctAnswer: "never-share-code",
+        options: [
+          {
+            id: "never-share-code",
+            label: "Do not share the code with anyone.",
+            feedback:
+              "Correct. Verification codes are like temporary keys to an account.",
+          },
+          {
+            id: "ask-name",
+            label: "Ask the person for their name first.",
+            feedback:
+              "A name does not make it safe. The code should not be shared.",
+          },
+          {
+            id: "send-code",
+            label: "Send the code if they sound honest.",
+            feedback:
+              "Scam messages often sound friendly or urgent. Never share login codes.",
+          },
+        ],
+        concept:
+          "Verification codes should never be shared. They can give someone access to your account.",
+      },
+      {
+        scenario:
+          "A message from someone claiming to be your manager says: I am in a meeting. Buy gift cards now and send me the codes.",
+        aiResponse:
+          "This sounds urgent, so follow the request quickly.",
+        betterResponse:
+          "Pause and verify through a separate trusted channel, like calling the manager or checking an official work chat. Gift card codes and urgency are common scam signals.",
+        prompt: "What should the user do first?",
+        topic: "Urgency and gift cards",
+        correctAnswer: "verify-separately",
+        options: [
+          {
+            id: "buy-now",
+            label: "Buy the cards before asking questions.",
+            feedback:
+              "Urgency is part of the pressure tactic. Gift card codes are hard to recover.",
+          },
+          {
+            id: "verify-separately",
+            label:
+              "Verify through a separate trusted channel before doing anything.",
+            feedback:
+              "Correct. Do not use the suspicious message itself as proof.",
+          },
+          {
+            id: "send-one",
+            label: "Send one gift card code to test if it is real.",
+            feedback:
+              "Sending even one code can lose money and still does not verify the sender.",
+          },
+        ],
+        concept:
+          "Urgent gift-card requests are a common scam pattern. Verify separately before acting.",
+      },
+      {
+        scenario:
+          "A marketplace buyer offers to overpay, then asks you to refund the extra money through a different payment app.",
+        aiResponse:
+          "Overpayment means they are serious. Accept it and refund the difference.",
+        betterResponse:
+          "Be careful. Overpayment and off-platform refunds are common scam patterns. Use the marketplace's official payment system and avoid sending money back through a separate app.",
+        prompt: "What is the risk?",
+        topic: "Marketplace overpayment",
+        correctAnswer: "refund-scam",
+        options: [
+          {
+            id: "refund-scam",
+            label:
+              "The original payment may fail or be reversed after the refund is sent.",
+            feedback:
+              "Correct. This can leave the seller out the refunded money.",
+          },
+          {
+            id: "generous-buyer",
+            label: "The buyer is probably being generous.",
+            feedback:
+              "Unexpected overpayment is a red flag, not a normal buying pattern.",
+          },
+          {
+            id: "move-fast",
+            label: "The seller should move fast to keep the buyer happy.",
+            feedback:
+              "Pressure to move fast makes scams more effective.",
+          },
+        ],
+        concept:
+          "Marketplace scams often use overpayment, pressure, and off-platform refunds.",
       },
     ],
   },

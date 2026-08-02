@@ -9,7 +9,11 @@ import SettingsScreen from "./screens/SettingsScreen";
 
 import audienceTracks, {
   DEFAULT_TRACK_ID,
+  DEFAULT_STUDENT_GRADE_BAND_ID,
+  getDefaultPathIdForTrack,
+  getProgressKey,
   getTrackById,
+  getTrackPathById,
 } from "./data/tracks";
 import {
   applyLevelResult,
@@ -19,11 +23,19 @@ import {
 } from "./utils/progress";
 
 const STORAGE_KEY = "ai-learning-progress";
+const EMPTY_LEVELS = [];
+const DEFAULT_PROGRESS_KEY = getProgressKey(
+  DEFAULT_TRACK_ID,
+  DEFAULT_STUDENT_GRADE_BAND_ID
+);
 
 const createInitialAppProgress = () => ({
+  activePathIdByTrackId: {
+    [DEFAULT_TRACK_ID]: DEFAULT_STUDENT_GRADE_BAND_ID,
+  },
   activeTrackId: DEFAULT_TRACK_ID,
-  progressByTrackId: {
-    [DEFAULT_TRACK_ID]: createInitialProgress(),
+  progressByPathId: {
+    [DEFAULT_PROGRESS_KEY]: createInitialProgress(),
   },
 });
 
@@ -35,18 +47,22 @@ const normalizeTrackProgress = (progress = {}) => ({
 const normalizeSavedProgress = (savedProgress) => {
   const initialAppProgress = createInitialAppProgress();
 
-  if (savedProgress?.progressByTrackId) {
+  if (savedProgress?.progressByPathId) {
     const activeTrack = getTrackById(savedProgress.activeTrackId);
 
     return {
+      activePathIdByTrackId: {
+        ...initialAppProgress.activePathIdByTrackId,
+        ...(savedProgress.activePathIdByTrackId ?? {}),
+      },
       activeTrackId: activeTrack?.id ?? DEFAULT_TRACK_ID,
-      progressByTrackId: {
-        ...initialAppProgress.progressByTrackId,
+      progressByPathId: {
+        ...initialAppProgress.progressByPathId,
         ...Object.fromEntries(
-          Object.entries(savedProgress.progressByTrackId).map(
-            ([trackId, trackProgress]) => [
-              trackId,
-              normalizeTrackProgress(trackProgress),
+          Object.entries(savedProgress.progressByPathId).map(
+            ([pathId, pathProgress]) => [
+              pathId,
+              normalizeTrackProgress(pathProgress),
             ]
           )
         ),
@@ -54,10 +70,32 @@ const normalizeSavedProgress = (savedProgress) => {
     };
   }
 
+  if (savedProgress?.progressByTrackId) {
+    const activeTrack = getTrackById(savedProgress.activeTrackId);
+    const legacyStudentProgress =
+      savedProgress.progressByTrackId[DEFAULT_TRACK_ID];
+
+    return {
+      activePathIdByTrackId: {
+        ...initialAppProgress.activePathIdByTrackId,
+      },
+      activeTrackId: activeTrack?.id ?? DEFAULT_TRACK_ID,
+      progressByPathId: {
+        ...initialAppProgress.progressByPathId,
+        ...(legacyStudentProgress
+          ? {
+              [DEFAULT_PROGRESS_KEY]:
+                normalizeTrackProgress(legacyStudentProgress),
+            }
+          : {}),
+      },
+    };
+  }
+
   return {
     ...initialAppProgress,
-    progressByTrackId: {
-      [DEFAULT_TRACK_ID]: normalizeTrackProgress(savedProgress),
+    progressByPathId: {
+      [DEFAULT_PROGRESS_KEY]: normalizeTrackProgress(savedProgress),
     },
   };
 };
@@ -97,10 +135,18 @@ export default function App() {
     () => getTrackById(appProgress.activeTrackId),
     [appProgress.activeTrackId]
   );
-  const activeLevels = activeTrack.levels;
-  const activeWorldDetails = activeTrack.worlds;
+  const activePathId =
+    appProgress.activePathIdByTrackId?.[activeTrack.id] ??
+    getDefaultPathIdForTrack(activeTrack);
+  const activePath = getTrackPathById(activeTrack, activePathId);
+  const progressKey = getProgressKey(
+    activeTrack.id,
+    activeTrack.gradeBands ? activePath?.id : null
+  );
+  const activeLevels = activePath?.levels ?? EMPTY_LEVELS;
+  const activeWorldDetails = activePath?.worlds ?? activeTrack.worlds;
   const progress =
-    appProgress.progressByTrackId[activeTrack.id] ??
+    appProgress.progressByPathId[progressKey] ??
     createInitialProgress();
 
   const completedCount = activeLevels.filter((level) =>
@@ -126,9 +172,9 @@ export default function App() {
   const saveTrackProgress = (nextTrackProgress) => {
     saveAppProgress({
       ...appProgress,
-      progressByTrackId: {
-        ...appProgress.progressByTrackId,
-        [activeTrack.id]: nextTrackProgress,
+      progressByPathId: {
+        ...appProgress.progressByPathId,
+        [progressKey]: nextTrackProgress,
       },
     });
   };
@@ -149,10 +195,43 @@ export default function App() {
     saveAppProgress({
       ...appProgress,
       activeTrackId: nextTrack.id,
-      progressByTrackId: {
-        ...appProgress.progressByTrackId,
-        [nextTrack.id]:
-          appProgress.progressByTrackId[nextTrack.id] ??
+      activePathIdByTrackId: {
+        ...appProgress.activePathIdByTrackId,
+        [nextTrack.id]: getDefaultPathIdForTrack(nextTrack),
+      },
+      progressByPathId: {
+        ...appProgress.progressByPathId,
+        [getProgressKey(nextTrack.id, getDefaultPathIdForTrack(nextTrack))]:
+          appProgress.progressByPathId[
+            getProgressKey(nextTrack.id, getDefaultPathIdForTrack(nextTrack))
+          ] ??
+          createInitialProgress(),
+      },
+    });
+    setSelectedLevel(null);
+    setLastWorldSummary(null);
+    setLastReviewSummary(null);
+  };
+
+  const selectTrackPath = (trackId, pathId) => {
+    const track = getTrackById(trackId);
+    const path = getTrackPathById(track, pathId);
+
+    if (!track?.isAvailable || !path?.isAvailable) return;
+
+    const nextProgressKey = getProgressKey(track.id, path.id);
+
+    saveAppProgress({
+      ...appProgress,
+      activePathIdByTrackId: {
+        ...appProgress.activePathIdByTrackId,
+        [track.id]: path.id,
+      },
+      activeTrackId: track.id,
+      progressByPathId: {
+        ...appProgress.progressByPathId,
+        [nextProgressKey]:
+          appProgress.progressByPathId[nextProgressKey] ??
           createInitialProgress(),
       },
     });
@@ -285,8 +364,10 @@ export default function App() {
         <HomeScreen
           goToLevels={goToLevels}
           activeTrack={activeTrack}
+          activePath={activePath}
           tracks={audienceTracks}
           selectTrack={selectTrack}
+          selectTrackPath={selectTrackPath}
           totalXp={totalXp}
           completedCount={completedCount}
           levelCount={activeLevels.length}
@@ -298,6 +379,7 @@ export default function App() {
         <SettingsScreen
           completedCount={completedCount}
           activeTrack={activeTrack}
+          activePath={activePath}
           goHome={goHome}
           levelCount={activeLevels.length}
           resetProgress={resetProgress}
@@ -309,6 +391,7 @@ export default function App() {
         <LevelSelect
           levels={levelsWithProgress}
           track={activeTrack}
+          learningPath={activePath}
           startLevel={startLevel}
           reviewLevel={reviewLevel}
           goHome={goHome}

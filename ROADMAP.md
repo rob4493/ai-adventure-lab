@@ -4,7 +4,7 @@ This roadmap captures the current product direction, what exists now, and the st
 
 ## Current Position
 
-AI Adventure Lab is becoming an interactive AI literacy training app. The current playable experience is the Student path, but the codebase now supports audience tracks so the product can expand beyond students.
+AI Adventure Lab is becoming an interactive AI literacy training app. The current playable experiences are the High School Student path and the first Everyday User mini-path.
 
 The core value is teaching judgment around AI:
 
@@ -19,8 +19,10 @@ The core value is teaching judgment around AI:
 
 - Mobile-first React/Vite app structure
 - Home, level select, gameplay, results, review, and settings screens
-- Audience-track foundation with Student playable and future tracks planned
-- Per-track local progress stored in `localStorage`
+- Audience-track foundation with Student grade bands
+- High School Student path playable now, with Elementary, Middle School, and College / Adult Learner planned
+- First Everyday User mini-path playable now
+- Per-path local progress stored in `localStorage`
 - Sequential progression with locked, unlocked, completed, replay, and review states
 - XP, stars, best score tracking, results summaries, and new-best behavior
 - Completed-level Review buttons with fallback review summaries for older progress
@@ -28,16 +30,18 @@ The core value is teaching judgment around AI:
 - End-of-world summaries after completing each world
 - PWA groundwork with manifest and service worker
 - Data-driven level/content structure
+- Content guide for keeping High School Student and Everyday User scenarios aligned
 - Visual theme with circuit/star assets and polished cards/buttons
 - Compact completed level rows on the level select screen
 - Expanded real-world content across the current Student path
+- High School alignment pass started for AI vs Human, Hallucination Hunt, Ask Better Questions, and Source Scanner
 - Cleanup of old Prompt Fix mode after Prompt Builder replaced that experience
 
 ## Current Audience Tracks
 
 ### Student
 
-Playable now.
+High School is playable now. Other grade ranges are planned.
 
 Focus:
 
@@ -48,18 +52,34 @@ Focus:
 - privacy with friends/family
 - classroom fairness and bias
 
+Grade ranges:
+
+- Elementary: planned; simple fact checks, safe sharing, helpful questions, and kind AI use
+- Middle School: planned; projects, tutoring hints, group chat privacy, and basic sources
+- High School: playable; stronger source checks, prompt building, privacy, bias, job-search examples, and health caution
+- College / Adult Learner: planned; research, academic integrity, career prep, workplace-style prompts, and advanced source standards
+
 ### Everyday User
 
-Planned.
+Playable now with the first two levels.
 
-Potential focus:
+Current focus:
 
-- health-advice caution
 - news and viral claims
-- shopping research
-- social media
 - scams and suspicious messages
-- family privacy
+
+Current levels:
+
+- Viral Claim Scanner
+- Scam Shield
+
+Future possible categories:
+
+- Health Caution
+- Shopping Research
+- Family And Personal Privacy
+- Everyday Finance Caution
+- Travel And Local Planning
 
 ### Job Seeker
 
@@ -100,7 +120,7 @@ Potential focus:
 - source checking
 - fair workplace decisions
 
-## Current Student Levels
+## Current High School Student Levels
 
 1. AI vs Human
 2. Hallucination Hunt
@@ -128,12 +148,13 @@ Prompt Builder uses a step-by-step block builder with live prompt preview, respo
 
 ## Near-Term Priority
 
-### 1. Stabilize The Playable Student Path
+### 1. Stabilize The Playable High School Student Path
 
 - playtest with a small group
 - check phone and desktop layouts
 - improve wording where players hesitate
 - balance difficulty and scoring
+- continue aligning older rounds to the High School content standard
 - add screenshots or GIFs to README
 - do accessibility checks for keyboard focus and screen-reader labels
 
@@ -144,14 +165,14 @@ Prompt Builder uses a step-by-step block builder with live prompt preview, respo
 - let players replay weak levels from one place
 - eventually generate targeted practice from missed concepts
 
-### 3. Create The First Non-Student Track
+### 3. Expand Everyday User Carefully
 
-Best first candidates:
+The first Everyday User playable path now exists. Next steps:
 
-- Everyday User, because the audience is broad and examples are easy to test
-- Job Seeker, because the use case is concrete and valuable
-
-The first track should reuse existing game modes before adding new mechanics.
+- playtest Viral Claim Scanner and Scam Shield
+- improve wording where users hesitate
+- decide the next category based on risk and usefulness
+- reuse existing game modes before adding new mechanics
 
 ### 4. Prepare For Backend Later
 
@@ -164,58 +185,6 @@ Only after the solo-player experience feels stable:
 - replay history
 - privacy policy and data handling notes
 
-## Possible Pilot Audiences
-
-Good early testing groups:
-
-- libraries
-- community colleges
-- workforce development organizations
-- after-school STEM programs
-- Boys & Girls Clubs
-- YMCA education programs
-- public learning centers
-- youth technology nonprofits
-
-These groups may be easier to pilot with than K-12 districts at the beginning.
-
-## Longer-Term Product Direction
-
-### Teacher Or Instructor Tools
-
-- create classes
-- invite students
-- assign lessons
-- monitor progress
-- view concept-level results
-- reset assignments
-- export results
-
-### Instructor-Led Mode
-
-- instructor starts a room
-- learners join with a code
-- everyone answers the same challenge
-- live results appear
-- instructor leads discussion around the choices
-
-### Dashboard Differentiator
-
-A future dashboard could turn gameplay into useful teaching insight:
-
-> Learners are doing well on privacy and bias, but source verification scores are low. The next discussion should focus on checking citations, dates, and source details.
-
-## Business Model Thoughts
-
-Do not start by selling to individual students.
-
-Possible model:
-
-- free tier: limited lessons for anyone
-- premium individual: full curriculum, badges, practice mode
-- education license: instructor dashboard, classroom management, reporting
-- enterprise/government: custom tracks, onboarding, analytics
-
 ## Next Build Choices
 
 Recommended next choices:
@@ -223,5 +192,5 @@ Recommended next choices:
 1. Run a full phone and desktop playtest.
 2. Add screenshots to the README.
 3. Build the review hub.
-4. Create the first Everyday User or Job Seeker content set.
+4. Playtest the Everyday User mini-path and choose the next category.
 5. Draft a backend-ready progress data model.

@@ -1,7 +1,9 @@
 import levels from "./levels";
+import everydayLevels from "./everydayLevels";
 import worldDetails from "./worlds";
 
 export const DEFAULT_TRACK_ID = "student";
+export const DEFAULT_STUDENT_GRADE_BAND_ID = "high-school";
 
 const plannedWorlds = {
   "World 1": {
@@ -21,88 +23,105 @@ const plannedWorlds = {
   },
 };
 
-const createPlannedTrack = ({
+const createAudienceTrack = ({
   description,
-  focusAreas,
   id,
+  isAvailable = false,
   label,
+  levels = [],
   title,
 }) => ({
   description,
-  focusAreas,
   id,
-  isAvailable: false,
+  isAvailable,
   label,
-  levels: [],
+  levels,
   title,
   worlds: plannedWorlds,
 });
+
+const studentGradeBands = [
+  {
+    description:
+      "Simple AI literacy for younger learners. Focuses on asking for help, checking simple facts, and protecting privacy.",
+    id: "elementary",
+    isAvailable: false,
+    label: "Planned",
+    levels: [],
+    title: "Elementary",
+    worlds: worldDetails,
+  },
+  {
+    description:
+      "Practical AI judgment for projects, tutoring, group chats, basic source checks, and social situations.",
+    id: "middle-school",
+    isAvailable: false,
+    label: "Planned",
+    levels: [],
+    title: "Middle School",
+    worlds: worldDetails,
+  },
+  {
+    description:
+      "Current playable student path for stronger source checks, prompt building, privacy, bias, job-search examples, and health caution.",
+    id: DEFAULT_STUDENT_GRADE_BAND_ID,
+    isAvailable: true,
+    label: "Playable",
+    levels,
+    title: "High School",
+    worlds: worldDetails,
+  },
+  {
+    description:
+      "Advanced AI literacy for research, academic integrity, career prep, workplace-style prompts, and stronger evidence standards.",
+    id: "college",
+    isAvailable: false,
+    label: "Planned",
+    levels: [],
+    title: "College / Adult Learner",
+    worlds: worldDetails,
+  },
+];
 
 const audienceTracks = [
   {
     description:
       "Schoolwork, projects, tutoring, sources, privacy with friends, and classroom fairness.",
-    focusAreas: [
-      "Schoolwork help",
-      "Source checking",
-      "Prompt building",
-      "Privacy and bias",
-    ],
     id: DEFAULT_TRACK_ID,
     isAvailable: true,
-    label: "Current Path",
-    levels,
+    defaultGradeBandId: DEFAULT_STUDENT_GRADE_BAND_ID,
+    gradeBands: studentGradeBands,
+    label: "Choose Grade",
+    levels: [],
     title: "Student",
     worlds: worldDetails,
   },
-  createPlannedTrack({
+  createAudienceTrack({
     description:
-      "Health caution, shopping research, social media, scams, family privacy, and news claims.",
-    focusAreas: [
-      "Health and safety",
-      "News and claims",
-      "Social media",
-      "Online scams",
-    ],
+      "Practice checking viral claims and suspicious messages before trusting, sharing, clicking, or replying.",
     id: "everyday",
-    label: "Planned",
+    label: "Playable",
+    levels: everydayLevels,
+    isAvailable: true,
     title: "Everyday User",
   }),
-  createPlannedTrack({
+  createAudienceTrack({
     description:
       "Resumes, cover letters, job posts, interview prep, career advice, and privacy in applications.",
-    focusAreas: [
-      "Resume feedback",
-      "Cover letters",
-      "Interview prep",
-      "Application privacy",
-    ],
     id: "job-seeker",
     label: "Planned",
     title: "Job Seeker",
   }),
-  createPlannedTrack({
+  createAudienceTrack({
     description:
       "Customer messages, vendor research, marketing copy, reviews, policy drafts, and data privacy.",
-    focusAreas: [
-      "Customer communication",
-      "Marketing review",
-      "Vendor research",
-      "Business privacy",
-    ],
     id: "small-business",
     label: "Planned",
     title: "Small Business Owner",
   }),
-  createPlannedTrack({
+  createAudienceTrack({
     description:
       "Emails, summaries, reports, confidential information, source checking, and fair workplace decisions.",
-    focusAreas: [
-      "Workplace writing",
-      "Reports and summaries",
-      "Confidential data",
-      "Fair decisions",
-    ],
     id: "workplace",
     label: "Planned",
     title: "Workplace User",
@@ -112,5 +131,23 @@ const audienceTracks = [
 export const getTrackById = (trackId) =>
   audienceTracks.find((track) => track.id === trackId) ??
   audienceTracks.find((track) => track.id === DEFAULT_TRACK_ID);
+
+export const getDefaultPathIdForTrack = (track) =>
+  track?.defaultGradeBandId ?? null;
+
+export const getTrackPathById = (track, pathId) => {
+  if (!track?.gradeBands) return track;
+
+  return (
+    track.gradeBands.find((gradeBand) => gradeBand.id === pathId) ??
+    track.gradeBands.find(
+      (gradeBand) => gradeBand.id === track.defaultGradeBandId
+    ) ??
+    track.gradeBands[0]
+  );
+};
+
+export const getProgressKey = (trackId, pathId) =>
+  pathId ? `${trackId}:${pathId}` : trackId;
 
 export default audienceTracks;

@@ -2,6 +2,7 @@ import LevelCard from "../components/LevelCard";
 import worldDetails from "../data/worlds";
 
 export default function LevelSelect({
+  learningPath,
   levels,
   reviewLevel,
   startLevel,
@@ -36,10 +37,11 @@ export default function LevelSelect({
 
           <h1 className="text-3xl font-bold mb-2 leading-tight">
             {track.title}
+            {track.gradeBands ? `: ${learningPath.title}` : ""}
           </h1>
 
           <p className="text-slate-300 leading-relaxed">
-            {track.description}
+            {learningPath.description}
           </p>
 
           <p className="mt-3 text-sm text-slate-400">

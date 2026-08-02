@@ -10,6 +10,7 @@ import {
 const FEEDBACK_URL = "https://forms.gle/Y4RE3SGALJJzw9bo6";
 
 export default function SettingsScreen({
+  activePath,
   activeTrack,
   completedCount,
   goHome,
@@ -65,7 +66,9 @@ export default function SettingsScreen({
               </p>
 
               <p className="text-xs text-slate-500">
-                active track
+                {activeTrack.gradeBands
+                  ? activePath.title
+                  : "active track"}
               </p>
             </div>
 
