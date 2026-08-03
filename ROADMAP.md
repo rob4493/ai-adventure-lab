@@ -1,6 +1,6 @@
 # AI Adventure Lab Roadmap
 
-This roadmap captures the current product direction, what exists now, and the strongest next steps.
+This roadmap tracks near-term product direction without duplicating the README.
 
 ## Current Position
 
@@ -15,33 +15,9 @@ The core value is teaching judgment around AI:
 - how to recognize bias, stereotypes, missing perspectives, and unfair shortcuts
 - how to build prompts with role, task, context, constraints, format, and examples
 
-## What Has Been Built
+## Current Playable Paths
 
-- Mobile-first React/Vite app structure
-- Home, level select, gameplay, results, review, and settings screens
-- Audience-track foundation with Student grade bands
-- High School Student path playable now, with Elementary, Middle School, and College / Adult Learner planned
-- First Everyday User mini-path playable now
-- Per-path local progress stored in `localStorage`
-- Sequential progression with locked, unlocked, completed, replay, and review states
-- XP, stars, best score tracking, results summaries, and new-best behavior
-- Completed-level Review buttons with fallback review summaries for older progress
-- Concept-level tracking by topic, including strong and review counts
-- End-of-world summaries after completing each world
-- PWA groundwork with manifest and service worker
-- Data-driven level/content structure
-- Content guide for keeping High School Student and Everyday User scenarios aligned
-- Visual theme with circuit/star assets and polished cards/buttons
-- Compact completed level rows on the level select screen
-- Expanded real-world content across the current Student path
-- High School alignment pass started for AI vs Human, Hallucination Hunt, Ask Better Questions, and Source Scanner
-- Cleanup of old Prompt Fix mode after Prompt Builder replaced that experience
-
-## Current Audience Tracks
-
-### Student
-
-High School is playable now. Other grade ranges are planned.
+### Student > High School
 
 Focus:
 
@@ -52,73 +28,17 @@ Focus:
 - privacy with friends/family
 - classroom fairness and bias
 
-Grade ranges:
-
-- Elementary: planned; simple fact checks, safe sharing, helpful questions, and kind AI use
-- Middle School: planned; projects, tutoring hints, group chat privacy, and basic sources
-- High School: playable; stronger source checks, prompt building, privacy, bias, job-search examples, and health caution
-- College / Adult Learner: planned; research, academic integrity, career prep, workplace-style prompts, and advanced source standards
-
 ### Everyday User
-
-Playable now with the first two levels.
 
 Current focus:
 
-- news and viral claims
+- claim checking
 - scams and suspicious messages
 
 Current levels:
 
-- Viral Claim Scanner
+- Claim Check
 - Scam Shield
-
-Future possible categories:
-
-- Health Caution
-- Shopping Research
-- Family And Personal Privacy
-- Everyday Finance Caution
-- Travel And Local Planning
-
-### Job Seeker
-
-Planned.
-
-Potential focus:
-
-- resumes
-- cover letters
-- job posts
-- interview prep
-- career advice
-- application privacy
-
-### Small Business Owner
-
-Planned.
-
-Potential focus:
-
-- customer messages
-- marketing copy
-- reviews
-- vendor research
-- simple policy drafts
-- customer-data privacy
-
-### Workplace User
-
-Planned.
-
-Potential focus:
-
-- emails
-- meeting summaries
-- reports
-- confidential information
-- source checking
-- fair workplace decisions
 
 ## Current High School Student Levels
 
@@ -169,21 +89,10 @@ Prompt Builder uses a step-by-step block builder with live prompt preview, respo
 
 The first Everyday User playable path now exists. Next steps:
 
-- playtest Viral Claim Scanner and Scam Shield
+- playtest Claim Check and Scam Shield
 - improve wording where users hesitate
 - decide the next category based on risk and usefulness
 - reuse existing game modes before adding new mechanics
-
-### 4. Prepare For Backend Later
-
-Only after the solo-player experience feels stable:
-
-- authentication
-- cloud-synced progress
-- user profiles
-- best score vs latest score
-- replay history
-- privacy policy and data handling notes
 
 ## Next Build Choices
 
@@ -193,4 +102,4 @@ Recommended next choices:
 2. Add screenshots to the README.
 3. Build the review hub.
 4. Playtest the Everyday User mini-path and choose the next category.
-5. Draft a backend-ready progress data model.
+5. Draft a backend-ready progress data model once the solo-player app feels stable.

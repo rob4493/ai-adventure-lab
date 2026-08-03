@@ -1115,9 +1115,9 @@ const questionChoiceContent = {
       },
     ],
   },
-  viralClaimScanner: {
+  claimCheck: {
     instructions:
-      "Decide whether the AI's response helps verify a viral claim or repeats it too quickly.",
+      "Decide whether the AI's response gives enough source detail to trust the claim or whether you should verify first.",
     successTitle: "Good Claim Check!",
     retryTitle: "Check The Claim",
     scoring: {
@@ -1128,60 +1128,53 @@ const questionChoiceContent = {
     rounds: [
       {
         scenario:
-          "A user sees a screenshot claiming a major grocery chain is closing all stores next week.",
+          "Someone pastes this claim into AI: NASA says the Moon's gravity is about one-sixth of Earth's gravity.",
         aiResponse:
-          "That sounds serious. The screenshot says it is happening, so it is probably true.",
+          "Yes, according to NASA's Moon Fact Sheet from NASA Goddard Space Flight Center, updated January 11, 2024, the Moon's surface gravity is about one-sixth of Earth's.",
         betterResponse:
-          "I would not trust a screenshot alone. Check the company's official site, verified social channels, recent local news, and the date/context of the claim before sharing it.",
-        prompt: "Is this AI response reliable or risky?",
-        topic: "Screenshot verification",
-        correctAnswer: "risky",
+          "This is a good response pattern: it names the source title, organization, update date, and what the source actually supports.",
+        prompt: "What should you do with this AI response?",
+        topic: "Good source pattern",
+        correctAnswer: "trust-it",
         options: [
           {
-            id: "reliable",
-            label: "Reliable",
+            id: "trust-it",
+            label: "Trust It",
             feedback:
-              "A screenshot is easy to crop, fake, or remove from context. It needs outside verification.",
+              "Correct. It gives a named source, organization, date, and a clear summary of what the source supports.",
           },
           {
-            id: "risky",
-            label: "Risky",
+            id: "verify-first",
+            label: "Verify First",
             feedback:
-              "Correct. The AI accepted the screenshot instead of checking original sources.",
+              "You should still be willing to click through later, but this response gives enough source detail to be cautiously trusted.",
           },
         ],
         concept:
-          "Viral screenshots need verification from original or trusted sources before sharing.",
+          "A trustworthy AI response makes verification easier by naming the source, organization, date, and supported claim.",
       },
       {
         scenario:
-          "A user asks AI about a viral post saying a new law was passed today.",
+          "Someone pastes this claim into AI: A new federal law bans homework in every public school starting next year.",
         aiResponse:
-          "Yes, the law passed today. Many people are talking about it online.",
+          "Yes, this is true. A lot of students are talking about it online, and schools have been moving away from homework.",
         betterResponse:
-          "I should verify this with an official government page, bill tracker, or trusted news report. I would check the date, jurisdiction, exact bill name, and whether it actually passed or was only proposed.",
-        prompt: "What is missing before trusting the claim?",
+          "I should not confirm this without evidence. A stronger response would ask for the exact law name, date, jurisdiction, and an official source such as Congress.gov, a state legislature page, or a trusted news report explaining whether it passed or was only proposed.",
+        prompt: "What should you do with this AI response?",
         topic: "Original source check",
-        correctAnswer: "official-source",
+        correctAnswer: "verify-first",
         options: [
           {
-            id: "popular",
-            label: "Enough people are talking about it.",
+            id: "trust-it",
+            label: "Trust It",
             feedback:
-              "Popularity is not evidence. Viral attention can spread mistakes quickly.",
+              "Popularity is not evidence. This response gives no official source, law name, date, or location.",
           },
           {
-            id: "official-source",
-            label:
-              "An official source, date, location, and exact law or bill name.",
+            id: "verify-first",
+            label: "Verify First",
             feedback:
-              "Correct. Legal and news claims need exact source details and context.",
-          },
-          {
-            id: "short-summary",
-            label: "A shorter summary of the post.",
-            feedback:
-              "A shorter summary can still repeat an unsupported claim.",
+              "Correct. Legal claims need exact details and an official or trusted source.",
           },
         ],
         concept:
@@ -1189,67 +1182,53 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user sees an article from 2019 being shared with the caption: This just happened.",
+          "Someone pastes this claim into AI: The CDC says adults should get at least 150 minutes of moderate-intensity physical activity each week.",
         aiResponse:
-          "The article proves the event is happening now because it describes the same issue.",
+          "Yes, here is a CDC source: Adult Activity: An Overview, published by the Centers for Disease Control and Prevention. It says adults need at least 150 minutes a week of moderate-intensity aerobic activity, plus muscle-strengthening activity on 2 days.",
         betterResponse:
-          "The article may be real but old. I would check the publication date, whether there are newer updates, and whether the caption is misrepresenting old news as current.",
-        prompt: "What is the main risk?",
-        topic: "Old news as new",
-        correctAnswer: "date-context",
+          "This is a good response pattern because it names the organization, page title, and what the source supports. For health topics, you should still check the official page directly before acting.",
+        prompt: "What should you do with this AI response?",
+        topic: "Health source details",
+        correctAnswer: "trust-it",
         options: [
           {
-            id: "date-context",
-            label:
-              "The article may be old and shared without current context.",
+            id: "trust-it",
+            label: "Trust It",
             feedback:
-              "Correct. Real articles can still mislead when the date or context is changed.",
+              "Correct. It gives a credible organization, source title, and a specific summary of what the source supports.",
           },
           {
-            id: "article-length",
-            label: "The article is too long.",
+            id: "verify-first",
+            label: "Verify First",
             feedback:
-              "Length is not the issue. The issue is whether old information is being presented as new.",
-          },
-          {
-            id: "same-topic",
-            label: "The same topic means it is current.",
-            feedback:
-              "A topic can repeat over time. You still need the current date and update status.",
+              "Direct checking is still smart for health guidance, but the AI response itself follows a strong source pattern.",
           },
         ],
         concept:
-          "Old information can be reshared as if it is new. Dates and updates matter.",
+          "For health claims, strong AI responses should name credible organizations and summarize the exact guidance they support.",
       },
       {
         scenario:
-          "A viral chart claims that 92% of people support a new policy, but it gives no survey source.",
+          "Someone pastes this claim into AI: A chart says 92% of people support a new policy.",
         aiResponse:
           "The chart looks professional, so the statistic is likely accurate.",
         betterResponse:
           "A professional-looking chart is not enough. I would look for who conducted the survey, sample size, date, question wording, funding source, and a link to the original data.",
-        prompt: "Which detail matters most before trusting the chart?",
+        prompt: "What should you do with this AI response?",
         topic: "Chart source details",
-        correctAnswer: "survey-details",
+        correctAnswer: "verify-first",
         options: [
           {
-            id: "design",
-            label: "Whether the chart looks clean and professional.",
+            id: "trust-it",
+            label: "Trust It",
             feedback:
-              "Design can make weak data look convincing. It is not proof.",
+              "Design can make weak data look convincing. This response gives no source, method, date, or sample size.",
           },
           {
-            id: "survey-details",
-            label:
-              "Who collected the data, when, how many people, and what question was asked.",
+            id: "verify-first",
+            label: "Verify First",
             feedback:
               "Correct. Data claims need source and method details.",
-          },
-          {
-            id: "shares",
-            label: "How many times the chart was shared.",
-            feedback:
-              "Shares measure attention, not accuracy.",
           },
         ],
         concept:
@@ -1257,26 +1236,53 @@ const questionChoiceContent = {
       },
       {
         scenario:
-          "A user asks AI if a quote from a famous scientist in a viral post is real.",
+          "Someone pastes this claim into AI: The National Weather Service says a severe thunderstorm watch means conditions are possible, while a warning means the storm is happening or imminent.",
+        aiResponse:
+          "Yes, according to National Weather Service weather safety guidance, a watch means conditions are possible, while a warning means hazardous weather is occurring or imminent in the warned area.",
+        betterResponse:
+          "This response gives a credible source organization and accurately explains what the source supports. It would be even stronger with the exact NWS page title and link.",
+        prompt: "What should you do with this AI response?",
+        topic: "Public safety source",
+        correctAnswer: "trust-it",
+        options: [
+          {
+            id: "trust-it",
+            label: "Trust It",
+            feedback:
+              "Correct. It names an appropriate official source and summarizes the supported distinction clearly.",
+          },
+          {
+            id: "verify-first",
+            label: "Verify First",
+            feedback:
+              "It could include a direct page title or link, but this is still a strong enough source pattern to cautiously trust.",
+          },
+        ],
+        concept:
+          "For public safety claims, official organizations and clear source-backed definitions matter.",
+      },
+      {
+        scenario:
+          "Someone pastes this claim into AI: A famous scientist said, 'Curiosity is more important than knowledge.'",
         aiResponse:
           "It sounds like something they would say, so the quote is probably real.",
         betterResponse:
           "I should not judge by style alone. I would look for the quote in a primary source, verified interview, book, speech transcript, or reputable quote archive with a citation.",
-        prompt: "Is this AI response reliable or risky?",
+        prompt: "What should you do with this AI response?",
         topic: "Fake expert quotes",
-        correctAnswer: "risky",
+        correctAnswer: "verify-first",
         options: [
           {
-            id: "reliable",
-            label: "Reliable",
+            id: "trust-it",
+            label: "Trust It",
             feedback:
               "A quote sounding believable is not enough. Famous people are often misquoted online.",
           },
           {
-            id: "risky",
-            label: "Risky",
+            id: "verify-first",
+            label: "Verify First",
             feedback:
-              "Correct. The AI used vibes instead of verification.",
+              "Correct. The AI judged by style instead of using a traceable source.",
           },
         ],
         concept:

@@ -5,7 +5,7 @@ import worldDetails from "./worlds";
 export const DEFAULT_TRACK_ID = "student";
 export const DEFAULT_STUDENT_GRADE_BAND_ID = "high-school";
 
-const plannedWorlds = {
+const defaultAudienceWorlds = {
   "World 1": {
     title: "Everyday Foundations",
     description:
@@ -37,7 +37,7 @@ const createAudienceTrack = ({
   label,
   levels,
   title,
-  worlds: plannedWorlds,
+  worlds: defaultAudienceWorlds,
 });
 
 const studentGradeBands = [
@@ -98,7 +98,7 @@ const audienceTracks = [
   },
   createAudienceTrack({
     description:
-      "Practice checking viral claims and suspicious messages before trusting, sharing, clicking, or replying.",
+      "Practice checking sourced claims and suspicious messages before trusting, sharing, clicking, or replying.",
     id: "everyday",
     label: "Playable",
     levels: everydayLevels,

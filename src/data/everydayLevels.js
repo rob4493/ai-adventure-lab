@@ -3,17 +3,17 @@ import { questionChoiceContent } from "./content";
 const everydayLevels = [
   {
     id: 1,
-    title: "Viral Claim Scanner",
+    title: "Claim Check",
     world: "World 1",
     unlocked: true,
     stars: 0,
     type: "question_choice",
     skill: "Claim verification",
     description:
-      "Check viral posts, screenshots, charts, old news, and quote claims before trusting or sharing them.",
+      "Review pasted claims and decide whether the AI response gives enough source detail to trust or needs more verification.",
     takeaway:
-      "You practiced checking original sources, dates, context, data details, and whether viral claims deserve trust.",
-    content: questionChoiceContent.viralClaimScanner,
+      "You practiced calibrated trust: checking source title, organization, date, and what the source actually supports before trusting a claim.",
+    content: questionChoiceContent.claimCheck,
   },
   {
     id: 2,

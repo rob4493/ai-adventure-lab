@@ -39,27 +39,21 @@ Everyday User content should focus on practical, common situations where AI can 
 
 Current playable categories:
 
-- News and Viral Claims
+- Claim Check
 - Scams and Suspicious Messages
 
 Core habits to reinforce:
 
 - pause before trusting, sharing, clicking, or replying
 - verify through original sources or official channels
-- check dates, context, author/organization, source quality, and independent confirmation
+- check dates, context, author/organization, source quality, and what the source actually supports
 - watch for pressure, urgency, suspicious links, requests for codes, and requests for payment
 - avoid sharing private details unless they are necessary and safe
 
-Possible future Everyday User categories:
+Possible future Everyday User categories, after playtesting current levels:
 
 - Health Caution
 - Shopping Research
 - Family And Personal Privacy
 - Everyday Finance Caution
 - Travel And Local Planning
-
-Possible future audience tracks:
-
-- Job Seeker
-- Small Business Owner
-- Workplace User
