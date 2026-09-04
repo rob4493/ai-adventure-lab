@@ -1,0 +1,15 @@
+{
+  "name": "AI Adventure Lab",
+  "short_name": "AI Lab",
+  "description": "A mobile-first AI literacy game prototype with bite-size challenges, feedback, XP, and level progression.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "categories": [
+    "education",
+    "games",
+    "productivity"
+  ],
+  "lang": "en-US"
+}
