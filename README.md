@@ -1,6 +1,6 @@
 # AI Adventure Lab
 
-AI Adventure Lab is a mobile-first React/Vite prototype for practicing everyday AI literacy through short, game-like lessons.
+AI Adventure Lab is a mobile-first React prototype for practicing everyday AI literacy through short, game-like lessons.
 
 The app teaches a practical habit: AI can help, but people still need to ask better questions, check sources, protect privacy, notice bias, and verify risky claims.
 
