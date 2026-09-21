@@ -7,6 +7,8 @@ export default function LevelCard({
   reviewLevel,
   startLevel,
 }) {
+  const isElementaryTheme = level.theme === "elementary";
+
   if (level.completed) {
     const hasReview = Boolean(level.reviewSummary);
 
@@ -54,7 +56,7 @@ export default function LevelCard({
               onClick={() => startLevel(level)}
               className="rounded-xl border border-cyan-300/35 bg-cyan-300/10 px-3 py-2 text-xs font-black text-cyan-100 transition hover:bg-cyan-300/20"
             >
-              Replay
+              {isElementaryTheme ? "Replay Mission" : "Replay"}
             </button>
           </div>
         </div>
@@ -97,13 +99,7 @@ export default function LevelCard({
           )}
         </div>
 
-        {level.completed && (
-          <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 p-1">
-            <CheckCircle className="text-emerald-300" size={18} />
-          </div>
-        )}
-
-        {!level.completed && !level.unlocked && (
+        {!level.unlocked && (
           <div className="rounded-full border border-slate-700 bg-slate-950/70 p-1">
             <Lock className="text-slate-500" size={16} />
           </div>
@@ -114,22 +110,21 @@ export default function LevelCard({
         <StarRating stars={level.stars} />
 
         <p className="shrink-0 text-sm text-slate-400">
-          {level.completed ? `${level.score} XP` : "Not completed"}
+          Not completed
         </p>
       </div>
 
       {!level.unlocked && (
         <p className="mb-3 text-sm text-slate-500">
-          Complete the previous level to unlock this challenge.
+          Complete the previous {isElementaryTheme ? "mission" : "level"} to
+          unlock this challenge.
         </p>
       )}
 
       <button
         aria-label={
           level.unlocked
-            ? level.completed
-              ? `Replay ${level.title}`
-              : `Play ${level.title}`
+            ? `Play ${level.title}`
             : `${level.title} is locked`
         }
         disabled={!level.unlocked}
@@ -139,8 +134,8 @@ export default function LevelCard({
         }`}
       >
         {level.unlocked
-          ? level.completed
-            ? "Replay Level"
+          ? isElementaryTheme
+            ? "Start Mission"
             : "Play Level"
           : "Locked"}
       </button>

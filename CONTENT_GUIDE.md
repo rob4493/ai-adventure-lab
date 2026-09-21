@@ -2,6 +2,39 @@
 
 This guide keeps new content aligned with the current playable paths.
 
+## Elementary Student Standard: Grades 3-5
+
+Elementary content should be concrete, encouraging, and easy to understand without turning each round into a reading test. Situations should stay close to school, family, friendship, creativity, games, and everyday safety.
+
+Good scenario areas:
+
+- animal reports, book responses, math practice, vocabulary, science posters, and story planning
+- simple factual claims with one clear detail to check
+- prompts that name the topic, goal, amount, reading level, or desired format
+- getting hints, examples, questions, practice, and feedback without copying finished work
+- usernames, passwords, school names, addresses, private messages, photos, locations, and routines
+- moments where a parent, guardian, teacher, school nurse, or other trusted adult should help
+
+Avoid:
+
+- long answer choices, abstract research terms, citation rules, or adult situations
+- asking children to judge whether writing was secretly produced by AI
+- scary scam, health, or safety scenarios with unnecessary detail
+- prompts that normalize sharing names, schools, addresses, schedules, passwords, or private messages
+- presenting AI as a person that knows feelings, keeps secrets, or makes real-world decisions
+
+Core habits to reinforce:
+
+- introduce AI with guided examples before asking a first-time child to complete scored judgment questions
+- provide a no-penalty guided first round and optional hints as children learn each new interaction
+- give a trusted clue when checking facts so the activity measures comparison and verification instead of uncommon background knowledge
+- AI can suggest ideas and explain concepts, but people make decisions and handle real-world safety
+- check an exact fact in a trusted book, classroom resource, official page, or with a trusted adult
+- ask clear questions that include the goal and the kind of help needed
+- use AI for learning support while keeping thinking, creativity, and final schoolwork with the student
+- use placeholders and general descriptions instead of identifying or private information
+- ask a trusted adult when a question involves health, safety, location, rules, or another person's wellbeing
+
 ## High School Student Standard
 
 High School content should feel realistic for grades 9-12. Scenarios should be clear, practical, and age-appropriate without becoming elementary or overly adult.

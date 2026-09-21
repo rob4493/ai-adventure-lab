@@ -59,11 +59,15 @@ export default function ResultsScreen({
   goLevels,
 }) {
   // Best-score context makes replay progress visible without changing stored XP rules.
+  const isGuidedTutorial = Boolean(level?.completionOnly);
+  const isElementaryTheme = level?.theme === "elementary";
   const improvement = score - previousBest;
   const hasPreviousBest = previousBest > 0;
 
   return (
-    <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
+    <div className={`app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white ${
+      isElementaryTheme ? "elementary-theme" : ""
+    }`}>
       
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -87,7 +91,11 @@ export default function ResultsScreen({
           </motion.div>
 
           <h1 className="text-3xl font-bold mb-2">
-            Level Complete!
+            {isGuidedTutorial
+              ? "Tutorial Complete!"
+              : isElementaryTheme
+                ? "Mission Complete!"
+                : "Level Complete!"}
           </h1>
 
           <p className="text-white/75">
@@ -122,11 +130,12 @@ export default function ResultsScreen({
 
           <div className="app-surface rounded-2xl p-4 mb-6 text-center">
             <p className="text-sm text-slate-400 mb-1">
-              Final Score
+              {isGuidedTutorial ? "Completion Reward" : "Final Score"}
             </p>
 
             <h2 className="text-4xl font-bold">
-              <CountUp value={score} />/{maxScore}
+              <CountUp value={score} />
+              {isGuidedTutorial ? " XP" : `/${maxScore}`}
             </h2>
           </div>
 
@@ -154,7 +163,7 @@ export default function ResultsScreen({
 
           <div className="app-surface mb-6 rounded-2xl p-4">
             <p className="app-kicker mb-2 text-xs font-bold uppercase">
-              What You Practiced
+              {isElementaryTheme ? "What You Discovered" : "What You Practiced"}
             </p>
 
             <h2 className="mb-2 text-lg font-bold text-white">
@@ -262,7 +271,7 @@ export default function ResultsScreen({
                 onClick={nextLevel}
                 className="app-button app-button-primary"
               >
-                Next Level -&gt;
+                {isElementaryTheme ? "Next Mission ->" : "Next Level ->"}
               </button>
             )}
 
@@ -271,7 +280,11 @@ export default function ResultsScreen({
               onClick={replayLevel}
               className="app-button app-button-secondary"
             >
-              Replay Level
+              {isGuidedTutorial
+                ? "Replay Tutorial"
+                : isElementaryTheme
+                  ? "Replay Mission"
+                  : "Replay Level"}
             </button>
 
             <button

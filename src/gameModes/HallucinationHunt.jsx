@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import {
   AlertTriangle,
   CheckCircle2,
+  Lightbulb,
   SearchCheck,
   ShieldQuestion,
 } from "lucide-react";
 import { useState } from "react";
+import ElementaryGuideCard from "../components/ElementaryGuideCard";
 import {
   getQuizRoundScore,
   getStarsFromScore,
@@ -13,10 +15,10 @@ import {
 import { createLevelReviewSummary } from "../utils/reviewSummary";
 
 // Map answer labels to visual cues because this mode reuses true/false and reliable/risky choices.
-const getAnswerTileStyle = (option) => {
+const getAnswerTileStyle = (option, isElementaryTheme) => {
   const label = option.label.toLowerCase();
 
-  if (label === "true") {
+  if (label === "true" || label === "matches") {
     return {
       Icon: CheckCircle2,
       accent: "text-emerald-200",
@@ -27,7 +29,18 @@ const getAnswerTileStyle = (option) => {
     };
   }
 
-  if (label === "false") {
+  if (label === "false" || label === "doesn't match") {
+    if (isElementaryTheme) {
+      return {
+        Icon: AlertTriangle,
+        accent: "text-rose-200",
+        glow: "rgba(251, 113, 133, 0.32)",
+        ring: "border-rose-300/45",
+        selected: "border-rose-300/80 bg-rose-300/15",
+        subtitle: "A clue that does not match",
+      };
+    }
+
     return {
       Icon: AlertTriangle,
       accent: "text-amber-200",
@@ -70,17 +83,32 @@ export default function HallucinationHunt({
   const [attempts, setAttempts] = useState(0);
   const [pendingScore, setPendingScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [showGuidance, setShowGuidance] = useState(false);
   const [totalScore, setTotalScore] = useState(0);
   const [roundReviews, setRoundReviews] = useState([]);
 
   const {
+    aiResponseLabel = "AI Response",
+    alwaysShowGuidance = false,
+    conceptLabel = "Concept",
+    guidance = null,
+    guidanceLabel = "Guide Tip",
+    guidedFirstRound = false,
     instructions,
     options,
     rounds,
     scoring,
+    studentPromptLabel = "Student Prompt",
   } = level.content;
 
   const round = rounds[roundIndex];
+  const isGuidedRound = guidedFirstRound && roundIndex === 0;
+  const roundGuidance = round.guidance ?? guidance;
+  const isElementaryTheme = level.theme === "elementary";
+  // Fact-check clues stay visible; optional hints appear only when requested.
+  const guidanceVisible =
+    Boolean(roundGuidance) &&
+    (alwaysShowGuidance || isGuidedRound || showGuidance);
   const hasPromptResponse = Boolean(
     round.studentPrompt || round.aiResponse
   );
@@ -89,9 +117,10 @@ export default function HallucinationHunt({
   // Store the round result until the player reads feedback and continues.
   const chooseAnswer = (answer) => {
     const isCorrect = answer === round.correctAnswer;
+    // The first guided round keeps full credit after a retry so exploration is not punished.
     const roundScore = getQuizRoundScore(
       isCorrect,
-      attempts,
+      isGuidedRound ? 0 : attempts,
       scoring
     );
 
@@ -116,7 +145,10 @@ export default function HallucinationHunt({
       ...roundReviews,
       {
         concept: round.concept,
-        status: correct && attempts === 0 ? "strong" : "review",
+        status:
+          correct && (attempts === 0 || isGuidedRound)
+            ? "strong"
+            : "review",
         topic: round.topic ?? level.skill,
       },
     ];
@@ -143,10 +175,13 @@ export default function HallucinationHunt({
     setAttempts(0);
     setSelectedAnswer(null);
     setPendingScore(0);
+    setShowGuidance(false);
   };
 
   return (
-    <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
+    <div className={`app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white ${
+      isElementaryTheme ? "elementary-theme" : ""
+    }`}>
 
       <div className="app-panel w-full max-w-sm rounded-2xl overflow-hidden">
 
@@ -168,6 +203,12 @@ export default function HallucinationHunt({
             Round {roundIndex + 1} of {rounds.length}
           </p>
 
+          {isGuidedRound && (
+            <p className="mt-1 text-sm font-bold text-cyan-100">
+              Guided round - try again without losing points.
+            </p>
+          )}
+
           <p className="text-white/70">
             {instructions}
           </p>
@@ -180,7 +221,7 @@ export default function HallucinationHunt({
               <div className="space-y-4">
                 <div className="app-inset-surface rounded-xl border border-cyan-300/25 p-3 text-left">
                   <p className="text-xs font-bold uppercase text-cyan-200">
-                    Student Prompt
+                    {studentPromptLabel}
                   </p>
 
                   <p className="mt-1 text-sm leading-relaxed text-slate-200">
@@ -188,15 +229,57 @@ export default function HallucinationHunt({
                   </p>
                 </div>
 
-                <div className="app-inset-surface rounded-xl border border-amber-300/25 p-3 text-left">
-                  <p className="text-xs font-bold uppercase text-amber-200">
-                    AI Response
+                <div className={`app-inset-surface rounded-xl border p-3 text-left ${
+                  isElementaryTheme ? "border-rose-300/25" : "border-amber-300/25"
+                }`}>
+                  <p className={`text-xs font-bold uppercase ${
+                    isElementaryTheme ? "text-rose-200" : "text-amber-200"
+                  }`}>
+                    {aiResponseLabel}
                   </p>
 
                   <p className="mt-1 text-sm leading-relaxed text-slate-200">
                     "{round.aiResponse}"
                   </p>
                 </div>
+
+                {guidanceVisible && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.97, y: 6 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    className={isElementaryTheme
+                      ? ""
+                      : "rounded-xl border border-violet-300/25 bg-violet-300/10 p-3 text-left"
+                    }
+                  >
+                    {isElementaryTheme ? (
+                      // Elementary guidance uses the shared fox card; older paths keep their own styling.
+                      <ElementaryGuideCard
+                        label={guidanceLabel}
+                        source={round.guidanceSource}
+                      >
+                        {roundGuidance}
+                      </ElementaryGuideCard>
+                    ) : (
+                      <>
+                        <p className="flex items-center gap-2 text-xs font-black uppercase text-violet-200">
+                          <Lightbulb size={15} aria-hidden="true" />
+                          {guidanceLabel}
+                        </p>
+
+                        {round.guidanceSource && (
+                          <p className="mt-2 inline-flex rounded-full border border-violet-200/20 bg-white/10 px-2 py-1 text-[11px] font-black text-violet-100">
+                            Source: {round.guidanceSource}
+                          </p>
+                        )}
+
+                        <p className="mt-2 text-sm font-bold leading-relaxed text-slate-200">
+                          {roundGuidance}
+                        </p>
+                      </>
+                    )}
+                  </motion.div>
+                )}
 
                 <p className="text-base font-bold text-white">
                   {round.prompt ?? "Is the AI response true or false?"}
@@ -209,10 +292,20 @@ export default function HallucinationHunt({
             )}
           </div>
 
+          {roundGuidance && !guidanceVisible && !answered && (
+            <button
+              onClick={() => setShowGuidance(true)}
+              className="app-button app-button-ghost mb-4"
+            >
+              <Lightbulb size={17} aria-hidden="true" />
+              Need a Hint?
+            </button>
+          )}
+
           <div className="grid grid-cols-2 gap-3">
 
             {options.map((option) => {
-              const style = getAnswerTileStyle(option);
+              const style = getAnswerTileStyle(option, isElementaryTheme);
               const Icon = style.Icon;
               const isSelected = selectedAnswer === option.value;
 
@@ -294,7 +387,7 @@ export default function HallucinationHunt({
 
               <div className="app-inset-surface rounded-xl p-3 text-left">
                 <p className="text-xs font-bold uppercase text-rose-300">
-                  Concept
+                  {conceptLabel}
                 </p>
 
                 <p className="text-sm text-slate-300">

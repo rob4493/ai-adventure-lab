@@ -4,7 +4,7 @@ This roadmap tracks near-term product direction without duplicating the README.
 
 ## Current Position
 
-AI Adventure Lab is becoming an interactive AI literacy training app. The current playable experiences are the Middle School Student path, the High School Student path, the College / Adult Learner path, and the Everyday User mini-path.
+AI Adventure Lab is becoming an interactive AI literacy training app. The current playable experiences are the Elementary: Grades 3-5, Middle School, High School, and College / Adult Learner Student paths, plus the Everyday User mini-path.
 
 The core value is teaching judgment around AI:
 
@@ -23,9 +23,29 @@ The app now separates broad audiences from narrower focus areas:
 2. Choose a focus area, such as a student grade range or an everyday category.
 3. Select levels inside that chosen focus.
 
-Playable focus areas currently exist for Student, including Middle School, High School, and College / Adult Learner, plus Everyday User. Planned focus areas are mapped for Job Seeker, Small Business Owner, and Workplace User so future expansion has a visible shape.
+Playable focus areas currently exist for Student, including Elementary: Grades 3-5, Middle School, High School, and College / Adult Learner, plus Everyday User. Planned focus areas are mapped for Job Seeker, Small Business Owner, and Workplace User so future expansion has a visible shape.
 
 ## Current Playable Paths
+
+### Student > Elementary: Grades 3-5
+
+Focus:
+
+- understanding what AI can and cannot do
+- checking simple science, animal, and book facts
+- guided first rounds, optional hints, and visible fact-check clues instead of trivia-only questions
+- adding a clear goal and useful details to a prompt
+- getting hints, practice, and feedback without copying finished work
+- protecting names, addresses, passwords, private messages, locations, and routines
+- asking a trusted adult for help with health, safety, and real-world decisions
+
+Current levels:
+
+1. Meet AI
+2. Fact Check Quest
+3. Ask It Clearly
+4. Learn, Don't Copy
+5. Privacy Power
 
 ### Student > Middle School
 
@@ -134,6 +154,8 @@ Prompt Builder uses a step-by-step block builder with live prompt preview, respo
 
 ### 1. Stabilize The Playable Student Paths
 
+- playtest Elementary: Grades 3-5 for reading level, clarity, and emotional safety
+- evaluate the Elementary Digital Discovery Lab and circuit-fox guide as the model for future path-specific visual treatments
 - playtest Middle School for reading level, clarity, and pacing
 - improve wording where players hesitate
 - balance difficulty and scoring across Middle School, High School, and College
@@ -160,8 +182,9 @@ The Everyday User playable path now exists with World 1 basics and early World 2
 Recommended next choices:
 
 1. Playtest the new Path -> Focus -> Levels navigation on phone and desktop.
-2. Playtest Middle School and tune any rounds that feel too easy, too wordy, or too close to High School.
-3. Expand Everyday User with more rounds and one carefully chosen next category.
+2. Playtest Elementary: Grades 3-5 with adults and children, then tune reading level and clarity.
+3. Playtest Middle School and tune any rounds that feel too easy, too wordy, or too close to High School.
+4. Expand Everyday User with more rounds and one carefully chosen next category.
 5. Improve the Review Hub with deeper targeted practice explanations.
 6. Run a deeper accessibility audit on phone and desktop.
 7. Add screenshots or short demo clips when the visuals feel final.

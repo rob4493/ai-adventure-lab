@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import {
   CheckCircle2,
   HelpCircle,
+  Lightbulb,
   MessageSquare,
   RotateCcw,
 } from "lucide-react";
 import { useState } from "react";
+import ElementaryGuideCard from "../components/ElementaryGuideCard";
 import {
   getQuizRoundScore,
   getStarsFromScore,
@@ -33,6 +35,28 @@ const optionStyles = [
   },
 ];
 
+// Elementary keeps the same choice behavior with its own cyan, mint, and coral palette.
+const elementaryOptionStyles = [
+  {
+    accent: "text-cyan-100",
+    glow: "rgba(34, 211, 238, 0.34)",
+    ring: "border-cyan-300/45",
+    selected: "border-cyan-300/80 bg-cyan-300/15",
+  },
+  {
+    accent: "text-emerald-100",
+    glow: "rgba(110, 231, 183, 0.32)",
+    ring: "border-emerald-300/45",
+    selected: "border-emerald-300/80 bg-emerald-300/15",
+  },
+  {
+    accent: "text-rose-100",
+    glow: "rgba(251, 113, 133, 0.3)",
+    ring: "border-rose-300/45",
+    selected: "border-rose-300/80 bg-rose-300/15",
+  },
+];
+
 export default function QuestionChoice({
   level,
   goBack,
@@ -44,19 +68,32 @@ export default function QuestionChoice({
   const [attempts, setAttempts] = useState(0);
   const [pendingScore, setPendingScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [showGuidance, setShowGuidance] = useState(false);
   const [totalScore, setTotalScore] = useState(0);
   const [roundReviews, setRoundReviews] = useState([]);
 
   const {
+    aiResponseLabel = "AI Response",
+    conceptLabel = "Concept",
+    guidance = null,
+    guidanceLabel = "Guide Tip",
+    guidedFirstRound = false,
     instructions,
     initialPromptLabel = "Initial Prompt",
     rounds,
     scoring,
     retryTitle = "Try Again",
+    scenarioLabel = "Scenario",
     successTitle = "Correct!",
   } = level.content;
 
   const round = rounds[roundIndex];
+  const isElementaryTheme = level.theme === "elementary";
+  const isGuidedRound = guidedFirstRound && roundIndex === 0;
+  const roundGuidance = round.guidance ?? guidance;
+  // The first round teaches the interaction; later rounds reveal help on request.
+  const guidanceVisible =
+    Boolean(roundGuidance) && (isGuidedRound || showGuidance);
   const selectedOption = round.options.find(
     (option) => option.id === selectedAnswer
   );
@@ -69,9 +106,10 @@ export default function QuestionChoice({
   // Score is held pending until the player continues, so retries do not double-count.
   const chooseAnswer = (answer) => {
     const isCorrect = answer === round.correctAnswer;
+    // Guided first rounds teach the interaction before retries begin affecting score.
     const roundScore = getQuizRoundScore(
       isCorrect,
-      attempts,
+      isGuidedRound ? 0 : attempts,
       scoring
     );
 
@@ -96,7 +134,10 @@ export default function QuestionChoice({
       ...roundReviews,
       {
         concept: round.concept,
-        status: correct && attempts === 0 ? "strong" : "review",
+        status:
+          correct && (attempts === 0 || isGuidedRound)
+            ? "strong"
+            : "review",
         topic: round.topic ?? level.skill,
       },
     ];
@@ -123,10 +164,13 @@ export default function QuestionChoice({
     setAttempts(0);
     setSelectedAnswer(null);
     setPendingScore(0);
+    setShowGuidance(false);
   };
 
   return (
-    <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
+    <div className={`app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white ${
+      isElementaryTheme ? "elementary-theme" : ""
+    }`}>
 
       <div className="app-panel w-full max-w-md rounded-2xl overflow-hidden">
 
@@ -148,6 +192,12 @@ export default function QuestionChoice({
             Round {roundIndex + 1} of {rounds.length}
           </p>
 
+          {isGuidedRound && (
+            <p className="mt-1 text-sm font-bold text-cyan-100">
+              Guided round - try again without losing points.
+            </p>
+          )}
+
           <p className="text-white/70">
             {instructions}
           </p>
@@ -161,7 +211,7 @@ export default function QuestionChoice({
             </div>
 
             <p className="text-sm font-bold uppercase text-cyan-200">
-              Scenario
+              {scenarioLabel}
             </p>
 
             <p className="mt-2 text-lg leading-relaxed text-white">
@@ -181,9 +231,13 @@ export default function QuestionChoice({
             )}
 
             {round.aiResponse && (
-              <div className="app-inset-surface mt-4 rounded-xl border border-amber-300/25 p-3 text-left">
-                <p className="text-xs font-bold uppercase text-amber-200">
-                  AI Response
+              <div className={`app-inset-surface mt-4 rounded-xl border p-3 text-left ${
+                isElementaryTheme ? "border-rose-300/25" : "border-amber-300/25"
+              }`}>
+                <p className={`text-xs font-bold uppercase ${
+                  isElementaryTheme ? "text-rose-200" : "text-amber-200"
+                }`}>
+                  {aiResponseLabel}
                 </p>
 
                 <p className="mt-1 text-sm leading-relaxed text-slate-200">
@@ -192,15 +246,48 @@ export default function QuestionChoice({
               </div>
             )}
 
+            {guidanceVisible && (
+              isElementaryTheme ? (
+                <ElementaryGuideCard className="mt-4" label={guidanceLabel}>
+                  {roundGuidance}
+                </ElementaryGuideCard>
+              ) : (
+                <div className="mt-4 rounded-xl border border-violet-300/25 bg-violet-300/10 p-3 text-left">
+                  <p className="flex items-center gap-2 text-xs font-bold uppercase text-violet-200">
+                    <Lightbulb size={15} aria-hidden="true" />
+                    {guidanceLabel}
+                  </p>
+
+                  <p className="mt-1 text-sm leading-relaxed text-slate-200">
+                    {roundGuidance}
+                  </p>
+                </div>
+              )
+            )}
+
             <p className="mt-4 text-base font-bold text-white">
               {round.prompt}
             </p>
           </div>
 
+          {roundGuidance && !guidanceVisible && !answered && (
+            <button
+              onClick={() => setShowGuidance(true)}
+              className="app-button app-button-ghost mb-4"
+            >
+              <Lightbulb size={17} aria-hidden="true" />
+              Need a Hint?
+            </button>
+          )}
+
           <div className="grid gap-3">
 
             {visibleOptions.map((option, index) => {
-              const style = optionStyles[index % optionStyles.length];
+              // Theme-specific styles avoid changing the shared mode for older audiences.
+              const styles = isElementaryTheme
+                ? elementaryOptionStyles
+                : optionStyles;
+              const style = styles[index % styles.length];
               const isSelected = selectedAnswer === option.id;
 
               return (
@@ -297,7 +384,7 @@ export default function QuestionChoice({
 
               <div className="app-inset-surface rounded-xl p-3 text-left">
                 <p className="text-xs font-bold uppercase text-cyan-300">
-                  Concept
+                  {conceptLabel}
                 </p>
 
                 <p className="text-sm text-slate-300">

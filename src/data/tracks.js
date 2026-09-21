@@ -1,8 +1,9 @@
 import levels from "./levels";
 import collegeLevels from "./collegeLevels";
+import elementaryLevels from "./elementaryLevels";
 import everydayLevels from "./everydayLevels";
 import middleSchoolLevels from "./middleSchoolLevels";
-import worldDetails from "./worlds";
+import worldDetails, { elementaryWorldDetails } from "./worlds";
 
 export const DEFAULT_TRACK_ID = "student";
 export const DEFAULT_STUDENT_GRADE_BAND_ID = "high-school";
@@ -55,13 +56,13 @@ const createAudienceTrack = ({
 const studentGradeBands = [
   {
     description:
-      "Simple AI literacy for younger learners. Focuses on asking for help, checking simple facts, and protecting privacy.",
+      "Short, concrete AI literacy for grades 3-5: helpful questions, fact checks, original schoolwork, and privacy.",
     id: "elementary",
-    isAvailable: false,
-    label: "Planned",
-    levels: [],
-    title: "Elementary",
-    worlds: worldDetails,
+    isAvailable: true,
+    label: "Playable",
+    levels: elementaryLevels,
+    title: "Elementary: Grades 3-5",
+    worlds: elementaryWorldDetails,
   },
   {
     description:

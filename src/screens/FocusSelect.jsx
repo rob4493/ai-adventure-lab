@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { getTrackSubPaths } from "../data/tracks";
 
-// Icons are tied to broad audience paths, not individual focus areas.
+// Icons are tied to audience paths, not individual focus areas.
 const focusIcons = {
   everyday: House,
   "job-seeker": BriefcaseBusiness,
@@ -31,7 +31,7 @@ export default function FocusSelect({
   const subPaths = getTrackSubPaths(track) ?? [];
   const Icon = focusIcons[track.id] ?? BrainCircuit;
   const isActiveTrack = track.id === activeTrack.id;
-  // The same screen handles grade bands for students and focus areas for other paths.
+  // The same screen handles grades for students and focus areas for other paths.
 
   return (
     <div className="app-screen min-h-screen p-4 py-8 text-white">
@@ -86,7 +86,7 @@ export default function FocusSelect({
                     subPath.isAvailable
                       ? "text-white"
                       : "cursor-not-allowed opacity-55"
-                  }`}
+                  } ${subPath.id === "elementary" ? "focus-card-elementary" : ""}`}
                 >
                   <div className="mb-3 flex items-center justify-between gap-3">
                     <p className="font-bold">{subPath.title}</p>

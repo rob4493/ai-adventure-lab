@@ -1,4 +1,5 @@
 import AiOrHuman from "../gameModes/AiOrHuman";
+import ElementaryIntro from "../gameModes/ElementaryIntro";
 import HallucinationHunt from "../gameModes/HallucinationHunt";
 import PromptBuilder from "../gameModes/PromptBuilder";
 import QuestionChoice from "../gameModes/QuestionChoice";
@@ -12,6 +13,14 @@ export default function GameplayScreen({
 
   return (
     <>
+      {level.type === "elementary_intro" && (
+        <ElementaryIntro
+          level={level}
+          goBack={goBack}
+          finishLevel={finishLevel}
+        />
+      )}
+
       {level.type === "ai_or_human" && (
         <AiOrHuman
           level={level}

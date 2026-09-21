@@ -6,7 +6,7 @@ The app teaches a practical habit: AI can help, but people still need to ask bet
 
 ## Current Status
 
-This is a playable local-first prototype. The active playable paths are currently `Student > Middle School`, `Student > High School`, `Student > College / Adult Learner`, and `Everyday User`. Planned paths are visible in the UI but are not playable yet.
+This is a playable local-first prototype. The active playable paths are currently `Student > Elementary: Grades 3-5`, `Student > Middle School`, `Student > High School`, `Student > College / Adult Learner`, and `Everyday User`. Planned paths are visible in the UI but are not playable yet.
 
 Built features:
 
@@ -25,6 +25,20 @@ Built features:
 There is no backend yet. Progress is saved only in the current browser on the current device.
 
 ## Current Levels
+
+The Elementary: Grades 3-5 Student path currently includes:
+
+- Meet AI
+- Fact Check Quest
+- Ask It Clearly
+- Learn, Don't Copy
+- Privacy Power
+
+`Meet AI` is a guided, completion-only introduction rather than a scored quiz. It explains what AI is, what it can help with, where its limits are, and why people remain responsible for checking answers and making decisions. Completing it awards participation XP and unlocks the first scored elementary level.
+
+The remaining elementary games keep support available: each level begins with a no-penalty guided round, later choice rounds offer an optional hint, and Fact Check Quest always supplies a short trusted clue. This keeps the activity focused on using evidence rather than already knowing trivia.
+
+Elementary is also the first path-specific visual-design pilot. It keeps the shared AI Adventure Lab navigation and progression while using an AI Detective identity, mission language, larger controls, a navy/cyan/mint/sky-blue/coral palette, and prominent source-labeled Detective Clue cards. Its custom Digital Discovery Lab background distinguishes the path, while a circuit-fox guide appears only during supported clue moments.
 
 The Middle School Student path currently includes:
 
@@ -101,6 +115,7 @@ Most app content is data-driven:
 
 - `CONTENT_GUIDE.md`: content standards for playable paths
 - `src/data/tracks.js`: audience paths, focus areas, student grade bands, and path availability
+- `src/data/elementaryLevels.js`: Elementary: Grades 3-5 level sequence
 - `src/data/middleSchoolLevels.js`: Middle School Student level sequence
 - `src/data/levels.js`: High School Student level sequence
 - `src/data/collegeLevels.js`: College / Adult Learner level sequence
@@ -138,6 +153,7 @@ npm test
 
 - `src/components/`: shared UI components
 - `src/data/`: track, level, world, and content data
+- `src/data/elementaryLevels.js`: Elementary: Grades 3-5 level sequence
 - `src/data/middleSchoolLevels.js`: Middle School Student level sequence
 - `src/data/levels.js`: High School Student level sequence
 - `src/data/collegeLevels.js`: College / Adult Learner level sequence
@@ -150,6 +166,7 @@ npm test
 ## Next Improvements
 
 - Playtest the new Path -> Focus -> Levels navigation on phone and desktop.
+- Playtest Elementary: Grades 3-5 with adults and children for reading level, clarity, and emotional safety.
 - Playtest Middle School for reading level, clarity, and round pacing.
 - Continue expanding Everyday User content with careful, realistic examples.
 - Improve the Review Hub with deeper explanations for each recommended practice topic.

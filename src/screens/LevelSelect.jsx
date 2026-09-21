@@ -1,4 +1,5 @@
 import LevelCard from "../components/LevelCard";
+import { SearchCheck } from "lucide-react";
 export default function LevelSelect({
   learningPath,
   levels,
@@ -9,6 +10,7 @@ export default function LevelSelect({
   goToReviewHub,
 }) {
   const worldDetails = learningPath.worlds ?? track.worlds ?? {};
+  const isElementaryPath = learningPath.id === "elementary";
   // Group levels under their world headers while preserving the level order inside each world.
   const worlds = levels.reduce((groups, level) => {
     const worldLevels = groups[level.world] ?? [];
@@ -20,7 +22,9 @@ export default function LevelSelect({
   }, {});
 
   return (
-    <div className="app-screen min-h-screen p-4 py-6 text-white">
+    <div className={`app-screen min-h-screen p-4 py-6 text-white ${
+      isElementaryPath ? "elementary-theme" : ""
+    }`}>
       
       <div className="max-w-md mx-auto">
         
@@ -33,8 +37,9 @@ export default function LevelSelect({
         </button>
 
         <div className="app-panel mb-5 rounded-2xl p-5">
-          <p className="app-kicker mb-2 text-xs font-bold uppercase">
-            Learning Path
+          <p className="app-kicker mb-2 flex items-center gap-2 text-xs font-bold uppercase">
+            {isElementaryPath && <SearchCheck size={16} aria-hidden="true" />}
+            {isElementaryPath ? "AI Detective Path" : "Learning Path"}
           </p>
 
           <h1 className="text-3xl font-bold mb-2 leading-tight">
@@ -47,8 +52,9 @@ export default function LevelSelect({
           </p>
 
           <p className="mt-3 text-sm text-slate-400">
-            Progress unlocks one challenge at a time. Replay completed
-            levels to improve your best XP and stars.
+            {isElementaryPath
+              ? "Complete one mission at a time. Guided rounds and clues are here whenever you need them."
+              : "Progress unlocks one challenge at a time. Replay completed levels to improve your best XP and stars."}
           </p>
 
           <button
