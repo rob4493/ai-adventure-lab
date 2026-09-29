@@ -3,6 +3,18 @@ import test from "node:test";
 
 import { createReviewHubSummary } from "./reviewHub.js";
 
+test("topic cards contain only missed concepts belonging to that topic", () => {
+  const summary = createReviewHubSummary([{ id: 1, completed: true, reviewSummary: {
+    needsReview: ["Check dates", "Hide personal data"],
+    reviewTopics: ["Sources", "Privacy"],
+    conceptResults: [
+      { topic: "Sources", concept: "Check dates", status: "review" },
+      { topic: "Privacy", concept: "Hide personal data", status: "review" },
+    ],
+  } }]);
+  assert.deepEqual(summary.targetedPractice.find((item) => item.topic === "Sources").concepts, ["Check dates"]);
+});
+
 test("review hub separates levels using their latest review", () => {
   const summary = createReviewHubSummary([
     {

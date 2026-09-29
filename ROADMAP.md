@@ -166,7 +166,8 @@ Prompt Builder uses a step-by-step block builder with live prompt preview, respo
 - targeted practice now groups missed concepts by topic
 - each targeted topic can recommend the best level to replay
 - next, add deeper explanations for why each topic matters
-- later, add a dedicated practice flow beyond replaying levels
+- short topic practice is available using up to three rounds from completed lessons
+- next, playtest practice pacing and add fresh question variants
 
 ### 3. Expand Everyday User Carefully
 

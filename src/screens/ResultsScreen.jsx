@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Sparkles, Trophy } from "lucide-react";
 import StarRating from "../components/StarRating";
 
-const FEEDBACK_URL = "https://forms.gle/Y4RE3SGALJJzw9bo6";
+const feedbackUrl = "https://forms.gle/Y4RE3SGALJJzw9bo6";
 // Keep score animation respectful of the user's system motion setting.
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
@@ -55,7 +55,7 @@ export default function ResultsScreen({
   reviewSummary,
   replayLevel,
   nextLevel,
-  canAdvanceToNextLevel,
+  canAdvance,
   goLevels,
 }) {
   // Best-score context makes replay progress visible without changing stored XP rules.
@@ -265,7 +265,7 @@ export default function ResultsScreen({
 
           <div className="space-y-3">
 
-            {canAdvanceToNextLevel && (
+            {canAdvance && (
               <button
                 aria-label="Go to next level"
                 onClick={nextLevel}
@@ -297,7 +297,7 @@ export default function ResultsScreen({
 
             <a
               aria-label="Send feedback using Google Forms"
-              href={FEEDBACK_URL}
+              href={feedbackUrl}
               target="_blank"
               rel="noreferrer"
               className="flex w-full items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/10 p-3 text-sm font-bold text-cyan-200 transition hover:border-cyan-300/50 hover:bg-cyan-400/15 hover:text-white"

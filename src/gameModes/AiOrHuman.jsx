@@ -1,3 +1,5 @@
+import PathHeader from "../components/PathHeader";
+import RetryFeedback from "../components/RetryFeedback";
 import { motion } from "framer-motion";
 import { BrainCircuit, Fingerprint } from "lucide-react";
 import { useState } from "react";
@@ -67,7 +69,7 @@ export default function AiOrHuman({
   };
 
   const tryAgain = () => {
-    setAttempts((currentAttempts) => currentAttempts + 1);
+    setAttempts((tries) => tries + 1);
     setAnswered(false);
     setCorrect(false);
     setSelectedAnswer(null);
@@ -77,7 +79,7 @@ export default function AiOrHuman({
   // First-try correct answers become strengths; retries or misses become review items.
   const continueLevel = () => {
     const nextScore = totalScore + pendingScore;
-    const nextRoundReviews = [
+    const nextReviews = [
       ...roundReviews,
       {
         concept: round.concept,
@@ -93,7 +95,7 @@ export default function AiOrHuman({
         maxScore,
         createLevelReviewSummary({
           maxScore,
-          roundReviews: nextRoundReviews,
+          roundReviews: nextReviews,
           score: nextScore,
         })
       );
@@ -101,8 +103,8 @@ export default function AiOrHuman({
     }
 
     setTotalScore(nextScore);
-    setRoundReviews(nextRoundReviews);
-    setRoundIndex((currentIndex) => currentIndex + 1);
+    setRoundReviews(nextReviews);
+    setRoundIndex((index) => index + 1);
     setAnswered(false);
     setCorrect(false);
     setAttempts(0);
@@ -115,10 +117,13 @@ export default function AiOrHuman({
 
       <div className="app-panel w-full max-w-sm rounded-2xl overflow-hidden">
 
+        {["middle", "high", "college"].includes(level.theme) ? (
+          <PathHeader level={level} round={roundIndex + 1} total={rounds.length} goBack={goBack} />
+        ) : (
         <div className="app-mode-header p-5">
 
           <button
-            aria-label="Back to level select"
+            aria-label={level.isPractice ? "Back to Review Hub" : "Back to level select"}
             onClick={goBack}
             className="app-back-button mb-4"
           >
@@ -137,6 +142,7 @@ export default function AiOrHuman({
             {instructions}
           </p>
         </div>
+        )}
 
         <div className="p-5">
 
@@ -223,16 +229,10 @@ export default function AiOrHuman({
                 {correct ? "Correct!" : "Not Quite"}
               </h2>
 
-              <p className="text-slate-300 mb-3">
-                {correct
-                  ? round.feedback.correct
-                  : round.feedback.incorrect}
-              </p>
+              <div>{correct ? <p className="text-slate-300 mb-3">{round.feedback.correct}</p> : <RetryFeedback round={round} level={level} explanation={round.feedback.incorrect} />}</div>
 
               <div className="app-inset-surface rounded-xl p-3 text-left">
-                <p className="text-xs font-bold uppercase text-indigo-300">
-                  Concept
-                </p>
+                <p className="text-xs font-bold uppercase text-indigo-300">{correct ? "Concept" : "Next time"}</p>
 
                 <p className="text-sm text-slate-300">
                   {round.concept}
@@ -254,7 +254,7 @@ export default function AiOrHuman({
                   className="app-button app-button-primary"
                 >
                   {roundIndex === rounds.length - 1
-                    ? "Finish Level"
+                    ? (level.isPractice ? "Continue Practice" : "Finish Level")
                     : "Next Round"}
                 </button>
               </div>

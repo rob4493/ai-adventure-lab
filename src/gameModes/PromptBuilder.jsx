@@ -1,8 +1,9 @@
+import PathHeader from "../components/PathHeader";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import {
-  getPromptBuilderMaxRoundScore,
-  getPromptBuilderRoundScore,
+  getMaxPromptScore,
+  getPromptScore,
   getSelectedOptions,
   getStarsFromScore,
 } from "../utils/scoring";
@@ -14,6 +15,7 @@ export default function PromptBuilder({
   finishLevel,
 }) {
   const [roundIndex, setRoundIndex] = useState(0);
+  const [hadRetry, setHadRetry] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedBlocks, setSelectedBlocks] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -36,7 +38,7 @@ export default function PromptBuilder({
       )
   );
 
-  const round = rounds[roundIndex] ?? { categories: [] };
+  const round = (hasValidRounds ? rounds[roundIndex] : null) ?? { categories: [] };
   const currentCategory = round.categories[stepIndex] ?? {
     id: "missing",
     label: "Content",
@@ -51,8 +53,9 @@ export default function PromptBuilder({
   const strongestOptions = useMemo(
     () =>
       round.categories.map((category) =>
-        category.options.reduce((bestOption, option) =>
-          option.points > bestOption.points ? option : bestOption
+        (category.options ?? []).reduce((bestOption, option) =>
+          !bestOption || option.points > bestOption.points ? option : bestOption,
+          null
         )
       ),
     [round.categories]
@@ -64,17 +67,18 @@ export default function PromptBuilder({
       (option) => option.id === selectedBlocks[category.id]
     ),
   }));
-  const roundScore = getPromptBuilderRoundScore(selectedOptions);
-  const maxRoundScore = getPromptBuilderMaxRoundScore(round.categories);
-  const maxScore = rounds.reduce(
+  const roundScore = getPromptScore(selectedOptions);
+  const maxRoundScore = getMaxPromptScore(round.categories);
+  const maxScore = (hasValidRounds ? rounds : []).reduce(
     (total, currentRound) =>
-      total + getPromptBuilderMaxRoundScore(currentRound.categories ?? []),
+      total + getMaxPromptScore(currentRound.categories ?? []),
     0
   );
   const promptPreview = selectedOptions
     .map((option) => option.text)
     .join(" ");
   const strongestPromptPreview = strongestOptions
+    .filter(Boolean)
     .map((option) => option.text)
     .join(" ");
   const readyToSubmit =
@@ -95,13 +99,13 @@ export default function PromptBuilder({
   const goToPreviousStep = () => {
     if (submitted || isFirstStep) return;
 
-    setStepIndex((currentIndex) => currentIndex - 1);
+    setStepIndex((index) => index - 1);
   };
 
   const goToNextStep = () => {
     if (submitted || !currentStepComplete || isLastStep) return;
 
-    setStepIndex((currentIndex) => currentIndex + 1);
+    setStepIndex((index) => index + 1);
   };
 
   const submitPrompt = () => {
@@ -111,6 +115,7 @@ export default function PromptBuilder({
   };
 
   const tryAgain = () => {
+    setHadRetry(true);
     setSubmitted(false);
     setStepIndex(0);
   };
@@ -118,12 +123,12 @@ export default function PromptBuilder({
   // Prompt Builder scores the whole assembled prompt before moving to the next round.
   const continueLevel = () => {
     const nextScore = totalScore + roundScore;
-    const nextRoundReviews = [
+    const nextReviews = [
       ...roundReviews,
       {
         concept: round.concept,
         status:
-          roundScore === maxRoundScore ? "strong" : "review",
+          roundScore === maxRoundScore && !hadRetry ? "strong" : "review",
         topic: round.topic ?? level.skill,
       },
     ];
@@ -135,7 +140,7 @@ export default function PromptBuilder({
         maxScore,
         createLevelReviewSummary({
           maxScore,
-          roundReviews: nextRoundReviews,
+          roundReviews: nextReviews,
           score: nextScore,
         })
       );
@@ -143,8 +148,9 @@ export default function PromptBuilder({
     }
 
     setTotalScore(nextScore);
-    setRoundReviews(nextRoundReviews);
-    setRoundIndex((currentIndex) => currentIndex + 1);
+    setRoundReviews(nextReviews);
+    setRoundIndex((index) => index + 1);
+    setHadRetry(false);
     setStepIndex(0);
     setSelectedBlocks({});
     setSubmitted(false);
@@ -155,7 +161,7 @@ export default function PromptBuilder({
       <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
         <div className="app-panel w-full max-w-md rounded-2xl p-6">
           <button
-            aria-label="Back to level select"
+            aria-label={level.isPractice ? "Back to Review Hub" : "Back to level select"}
             onClick={goBack}
             className="app-back-button mb-4"
           >
@@ -181,9 +187,12 @@ export default function PromptBuilder({
   return (
     <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
       <div className="app-panel w-full max-w-md overflow-hidden rounded-2xl lg:max-w-5xl">
+        {["middle", "high", "college"].includes(level.theme) ? (
+          <PathHeader level={level} round={roundIndex + 1} total={rounds.length} goBack={goBack} />
+        ) : (
         <div className="app-mode-header p-5">
           <button
-            aria-label="Back to level select"
+            aria-label={level.isPractice ? "Back to Review Hub" : "Back to level select"}
             onClick={goBack}
             className="app-back-button mb-4"
           >
@@ -202,6 +211,7 @@ export default function PromptBuilder({
             {instructions}
           </p>
         </div>
+        )}
 
         <div className="p-5 lg:p-6">
           <div className="app-surface mb-4 rounded-2xl p-4">
@@ -424,7 +434,7 @@ export default function PromptBuilder({
               </p>
 
               <div className="space-y-2">
-                {selectedOptions.map((option) => (
+                {selectedOptions.map((option, index) => (
                   <div
                     key={option.id}
                     className="app-inset-surface rounded-xl p-3"
@@ -436,6 +446,7 @@ export default function PromptBuilder({
                     <p className="mt-1 text-sm text-slate-300">
                       {option.feedback}
                     </p>
+                    {option.points < strongestOptions[index].points && <p className="mt-2 text-sm text-emerald-200">Try “{strongestOptions[index].label}”: {strongestOptions[index].feedback}</p>}
                   </div>
                 ))}
               </div>
@@ -445,7 +456,7 @@ export default function PromptBuilder({
                 className="app-button app-button-primary mt-4"
               >
                 {roundIndex === rounds.length - 1
-                  ? "Finish Level"
+                  ? (level.isPractice ? "Continue Practice" : "Finish Level")
                   : "Next Round"}
               </button>
 

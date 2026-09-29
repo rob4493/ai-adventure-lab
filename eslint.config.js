@@ -17,5 +17,10 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      // React components use PascalCase; other names use camelCase without underscores.
+      'id-match': ['error', '^[a-zA-Z][a-zA-Z0-9]*$', { properties: false }],
+      camelcase: ['error', { properties: 'never' }],
+    },
   },
 ])

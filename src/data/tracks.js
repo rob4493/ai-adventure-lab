@@ -1,12 +1,12 @@
-import levels from "./levels";
-import collegeLevels from "./collegeLevels";
-import elementaryLevels from "./elementaryLevels";
-import everydayLevels from "./everydayLevels";
-import middleSchoolLevels from "./middleSchoolLevels";
-import worldDetails, { elementaryWorldDetails } from "./worlds";
+import levels from "./levels.js";
+import collegeLevels from "./collegeLevels.js";
+import elementaryLevels from "./elementaryLevels.js";
+import everydayLevels from "./everydayLevels.js";
+import middleSchoolLevels from "./middleSchoolLevels.js";
+import worldDetails, { elementaryWorldDetails } from "./worlds.js";
 
-export const DEFAULT_TRACK_ID = "student";
-export const DEFAULT_STUDENT_GRADE_BAND_ID = "high-school";
+export const defaultTrackId = "student";
+export const defaultGradeId = "high-school";
 
 // Non-student paths reuse generic world framing until custom worlds are needed.
 const defaultAudienceWorlds = {
@@ -77,7 +77,7 @@ const studentGradeBands = [
   {
     description:
       "Current playable student path for stronger source checks, prompt building, privacy, bias, job-search examples, and health caution.",
-    id: DEFAULT_STUDENT_GRADE_BAND_ID,
+    id: defaultGradeId,
     isAvailable: true,
     label: "Playable",
     levels,
@@ -162,9 +162,9 @@ const audienceTracks = [
   {
     description:
       "Schoolwork, projects, tutoring, sources, privacy with friends, and classroom fairness.",
-    id: DEFAULT_TRACK_ID,
+    id: defaultTrackId,
     isAvailable: true,
-    defaultGradeBandId: DEFAULT_STUDENT_GRADE_BAND_ID,
+    defaultGradeBandId: defaultGradeId,
     gradeBands: studentGradeBands,
     label: "Choose Grade",
     levels: [],
@@ -267,24 +267,24 @@ const audienceTracks = [
 
 export const getTrackById = (trackId) =>
   audienceTracks.find((track) => track.id === trackId) ??
-  audienceTracks.find((track) => track.id === DEFAULT_TRACK_ID);
+  audienceTracks.find((track) => track.id === defaultTrackId);
 
-export const getDefaultPathIdForTrack = (track) =>
+export const getDefaultPathId = (track) =>
   track?.defaultGradeBandId ?? track?.defaultFocusAreaId ?? null;
 
-export const getTrackSubPaths = (track) =>
+export const getSubPaths = (track) =>
   track?.gradeBands ?? track?.focusAreas ?? null;
 
 // Resolve a playable sub-path while falling back to each track's default choice.
 export const getTrackPathById = (track, pathId) => {
-  const subPaths = getTrackSubPaths(track);
+  const subPaths = getSubPaths(track);
 
   if (!subPaths) return track;
 
   return (
     subPaths.find((subPath) => subPath.id === pathId) ??
     subPaths.find(
-      (subPath) => subPath.id === getDefaultPathIdForTrack(track)
+      (subPath) => subPath.id === getDefaultPathId(track)
     ) ??
     subPaths[0]
   );

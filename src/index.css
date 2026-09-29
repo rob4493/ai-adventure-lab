@@ -397,6 +397,46 @@
     0 0 28px rgba(45, 212, 191, 0.16);
 }
 
+/* A phone needs artwork inside the header: full-width panels hide the page backdrop. */
+@media (max-width: 639px) {
+  .elementary-theme.app-screen {
+    padding: 0.75rem;
+    align-items: flex-start;
+    background-size: auto, auto 100svh, auto;
+    background-position: center, center top, center;
+    background-repeat: no-repeat;
+  }
+
+  .elementary-theme .missionHeader,
+  .elementary-theme .missionOverview,
+  .elementary-theme .app-mode-header {
+    background:
+      linear-gradient(90deg, rgba(3, 16, 42, 0.94), rgba(3, 16, 42, 0.64)),
+      url("./assets/elementary-discovery-lab.jpg") center 42% / cover no-repeat;
+    border-bottom: 1px solid rgba(103, 232, 249, 0.4);
+  }
+
+  .elementary-theme .missionOverview,
+  .elementary-theme .app-mode-header {
+    padding: 1rem;
+  }
+
+  .elementary-theme .missionOverview h1 {
+    font-size: 1.35rem;
+  }
+
+  .elementary-theme .app-mode-header .app-back-button {
+    margin-bottom: 0.25rem;
+    min-height: 2.75rem;
+  }
+
+  /* Keep reading surfaces opaque enough while reducing stacked card gutters. */
+  .elementary-theme .app-panel > .p-5,
+  .elementary-theme .app-surface.p-5 {
+    padding: 1rem;
+  }
+}
+
 @media (max-width: 360px) {
   .elementary-clue-layout {
     grid-template-columns: minmax(0, 1fr) 3.75rem;

@@ -1,5 +1,6 @@
-const CACHE_NAME = "ai-adventure-lab-v2";
-const APP_SHELL = [
+const cachePrefix = "ai-adventure-lab-";
+const appCache = `${cachePrefix}v3`;
+const appShell = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
@@ -9,20 +10,23 @@ const APP_SHELL = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
-      .open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
+      .open(appCache)
+      .then((cache) => cache.addAll(appShell))
       .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener("activate", (event) => {
+  // Other applications on this origin may own caches too.
   event.waitUntil(
     caches
       .keys()
       .then((cacheNames) =>
         Promise.all(
           cacheNames
-            .filter((cacheName) => cacheName !== CACHE_NAME)
+            .filter((cacheName) =>
+              cacheName.startsWith(cachePrefix) && cacheName !== appCache
+            )
             .map((cacheName) => caches.delete(cacheName))
         )
       )
@@ -33,38 +37,36 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const { request } = event;
 
-  if (request.method !== "GET") return;
+  if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
+
+  const readCache = (key) => caches.open(appCache)
+    .then((cache) => cache.match(key)).catch(() => undefined);
+  const saveCache = (key, response) => {
+    if (response.status !== 200) return;
+    const copy = response.clone();
+    // Cache storage may be unavailable or full; network responses must still work.
+    event.waitUntil(caches.open(appCache)
+      .then((cache) => cache.put(key, copy)).catch(() => {}));
+  };
 
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const copy = response.clone();
-
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put("/index.html", copy);
-          });
-
+          saveCache("/index.html", response);
           return response;
         })
-        .catch(() => caches.match("/index.html"))
+        .catch(() => readCache("/index.html"))
     );
     return;
   }
 
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
+    readCache(request).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
 
       return fetch(request).then((response) => {
-        if (!response || response.status !== 200) return response;
-
-        const copy = response.clone();
-
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(request, copy);
-        });
-
+        saveCache(request, response);
         return response;
       });
     })

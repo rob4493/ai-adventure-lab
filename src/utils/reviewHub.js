@@ -35,7 +35,12 @@ export const createReviewHubSummary = (levels, conceptStatsByTopic = {}) => {
         review.topics.includes(topic)
       );
       const concepts = unique(
-        matchingLevels.flatMap((review) => review.concepts)
+        matchingLevels.flatMap((review) => {
+          const results = review.level.reviewSummary?.conceptResults;
+          return results
+            ? results.filter((result) => result.topic === topic && result.status === "review").map((result) => result.concept)
+            : review.concepts;
+        })
       ).slice(0, 3);
 
       return {

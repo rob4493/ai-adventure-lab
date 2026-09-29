@@ -1,4 +1,4 @@
-import elementaryContent from "./content/elementary";
+import elementaryContent from "./content/elementary.js";
 
 // Grades 3-5 begin with concrete AI habits before moving into schoolwork and privacy.
 const elementaryLevels = [
@@ -8,7 +8,7 @@ const elementaryLevels = [
     world: "World 1",
     unlocked: true,
     stars: 0,
-    type: "elementary_intro",
+    type: "elementaryIntro",
     theme: "elementary",
     // Completion-only levels award progress for participation rather than quiz performance.
     completionOnly: true,
@@ -40,7 +40,7 @@ const elementaryLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     theme: "elementary",
     skill: "Prompt clarity",
     description:
@@ -55,7 +55,7 @@ const elementaryLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     theme: "elementary",
     skill: "Responsible schoolwork",
     description:
@@ -70,7 +70,7 @@ const elementaryLevels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     theme: "elementary",
     skill: "Privacy and safety",
     description:

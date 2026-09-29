@@ -1,5 +1,7 @@
 import LevelCard from "../components/LevelCard";
 import { SearchCheck } from "lucide-react";
+import BackgroundDetails from "../components/BackgroundDetails";
+import { pathThemes } from "../data/pathThemes";
 export default function LevelSelect({
   learningPath,
   levels,
@@ -11,6 +13,7 @@ export default function LevelSelect({
 }) {
   const worldDetails = learningPath.worlds ?? track.worlds ?? {};
   const isElementaryPath = learningPath.id === "elementary";
+  const theme = pathThemes[learningPath.id];
   // Group levels under their world headers while preserving the level order inside each world.
   const worlds = levels.reduce((groups, level) => {
     const worldLevels = groups[level.world] ?? [];
@@ -36,26 +39,28 @@ export default function LevelSelect({
           &lt; Back
         </button>
 
-        <div className="app-panel mb-5 rounded-2xl p-5">
+        <div className={`app-panel mb-5 rounded-2xl p-5 ${isElementaryPath ? "missionOverview" : ""} ${theme ? "pathOverview" : ""}`}>
+          {theme && <BackgroundDetails path={theme.id} />}
           <p className="app-kicker mb-2 flex items-center gap-2 text-xs font-bold uppercase">
             {isElementaryPath && <SearchCheck size={16} aria-hidden="true" />}
-            {isElementaryPath ? "AI Detective Path" : "Learning Path"}
+            {isElementaryPath ? "AI Detective Path" : theme?.label ?? "Learning Path"}
           </p>
 
           <h1 className="text-3xl font-bold mb-2 leading-tight">
-            {track.title}
-            {learningPath?.id !== track.id ? `: ${learningPath.title}` : ""}
+            {theme ? theme.title : `${track.title}${learningPath?.id !== track.id ? `: ${learningPath.title}` : ""}`}
           </h1>
 
-          <p className="text-slate-300 leading-relaxed">
+          <p className={isElementaryPath ? "hidden sm:block text-slate-300 leading-relaxed" : "text-slate-300 leading-relaxed"}>
             {learningPath.description}
           </p>
 
-          <p className="mt-3 text-sm text-slate-400">
+          <p className={`mt-3 text-sm text-slate-400 ${isElementaryPath ? "hidden sm:block" : ""}`}>
             {isElementaryPath
               ? "Complete one mission at a time. Guided rounds and clues are here whenever you need them."
               : "Progress unlocks one challenge at a time. Replay completed levels to improve your best XP and stars."}
           </p>
+
+          {isElementaryPath && <p className="mt-2 text-sm text-cyan-100 sm:hidden">Solve missions. Check clues. Think for yourself.</p>}
 
           <button
             aria-label="Open review hub"

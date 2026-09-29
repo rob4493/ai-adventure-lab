@@ -3,7 +3,6 @@ const promptBuilderContent = {
     instructions:
       "Build a complete prompt by choosing the strongest block from each section.",
     submitLabel: "Score Prompt",
-    placeholder: "Choose blocks to see the prompt take shape.",
     rounds: [
       {
         goal: "Create a prompt that explains dogs for young learners.",
@@ -442,7 +441,6 @@ const promptBuilderContent = {
     instructions:
       "Build a strong prompt by choosing one block from each section.",
     submitLabel: "Score Prompt",
-    placeholder: "Choose blocks to build your prompt.",
     rounds: [
       {
         goal: "Create a prompt that helps a student learn photosynthesis.",
@@ -881,7 +879,6 @@ const promptBuilderContent = {
     instructions:
       "Build a useful prompt that protects private information.",
     submitLabel: "Score Prompt",
-    placeholder: "Choose safe blocks to build a privacy-aware prompt.",
     rounds: [
       {
         goal: "Create a safe bio prompt for a school club page.",
@@ -1181,7 +1178,6 @@ const promptBuilderContent = {
     instructions:
       "Build a fairer prompt by choosing evidence-based blocks.",
     submitLabel: "Score Prompt",
-    placeholder: "Choose fair criteria to build the prompt.",
     rounds: [
       {
         goal: "Create a prompt for comparing candidates fairly.",

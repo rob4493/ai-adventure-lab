@@ -2,7 +2,6 @@ import {
   ArrowLeft,
   BrainCircuit,
   BriefcaseBusiness,
-  FlaskConical,
   GraduationCap,
   House,
   BookOpenCheck,
@@ -11,6 +10,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import SkillProgress from "../components/SkillProgress";
 
 const trackIcons = {
   everyday: House,
@@ -21,6 +21,7 @@ const trackIcons = {
 };
 
 export default function HomeScreen({
+  skillProgress,
   activePath,
   activeTrack,
   dashboardGuidance,
@@ -151,9 +152,9 @@ export default function HomeScreen({
           <div className="mb-6 grid grid-cols-3 gap-2 text-center">
             <div className="app-inset-surface rounded-xl p-3">
               <p className="text-[11px] font-bold uppercase text-slate-500">
-                Worlds
+                Skills practiced
               </p>
-              <p className="mt-1 text-lg font-bold">3</p>
+              <p className="mt-1 text-lg font-bold">{skillProgress.practiced}/{skillProgress.total}</p>
             </div>
 
             <div className="app-inset-surface rounded-xl p-3">
@@ -191,6 +192,7 @@ export default function HomeScreen({
         </section>
 
         <aside className="app-panel rounded-2xl p-5 sm:p-6">
+          <SkillProgress summary={skillProgress} goToReviewHub={goToReviewHub} />
           <div className="app-hero-orb mb-5">
             <Route className="app-hero-icon" size={96} strokeWidth={1.5} aria-hidden="true" />
           </div>
@@ -249,26 +251,6 @@ export default function HomeScreen({
             </div>
           )}
 
-          <div className="mt-4 app-surface rounded-2xl p-4">
-            <div className="mb-3 flex items-center gap-3">
-              <FlaskConical className="text-cyan-200" size={22} aria-hidden="true" />
-              <p className="font-bold text-white">What You Practice</p>
-            </div>
-
-            <div className="grid gap-2 text-sm text-slate-300">
-              <div className="rounded-xl border border-slate-700/70 bg-slate-950/30 p-3">
-                Ask for context before accepting easy answers.
-              </div>
-
-              <div className="rounded-xl border border-slate-700/70 bg-slate-950/30 p-3">
-                Check source details before trusting claims.
-              </div>
-
-              <div className="rounded-xl border border-slate-700/70 bg-slate-950/30 p-3">
-                Protect personal details and notice unfair shortcuts.
-              </div>
-            </div>
-          </div>
         </aside>
       </div>
     </div>

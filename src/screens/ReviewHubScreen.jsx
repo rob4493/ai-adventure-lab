@@ -6,10 +6,13 @@ import {
   Target,
 } from "lucide-react";
 
+import { createPracticeRounds } from "../utils/targetedPractice";
 import { createReviewHubSummary } from "../utils/reviewHub";
 
 export default function ReviewHubScreen({
   conceptStatsByTopic,
+  startPractice,
+  practiceByTopic = {},
   goBack,
   learningPath,
   levels,
@@ -42,7 +45,7 @@ export default function ReviewHubScreen({
           <h1 className="mt-1 text-3xl font-bold">Your Learning Check-In</h1>
           <p className="mt-2 max-w-2xl leading-relaxed text-slate-300">
             See what is clicking, find concepts worth another look, and replay
-            the levels that will help most in {pathTitle}.
+            try short skill practice in {pathTitle}.
           </p>
 
           <div className="mt-5 grid grid-cols-3 gap-2 text-center">
@@ -107,23 +110,25 @@ export default function ReviewHubScreen({
                               </p>
                             </div>
 
-                            {level && (
+                            {createPracticeRounds(levels, topic).length > 0 && (
                               <button
-                                aria-label={`Practice ${topic} by replaying ${level.title}`}
-                                onClick={() => replayLevel(level)}
+                                aria-label={`Start short practice for ${topic}`}
+                                onClick={() => startPractice(topic)}
                                 className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-cyan-300/35 bg-cyan-300/10 px-3 text-sm font-bold text-cyan-100 transition hover:bg-cyan-300/20"
                               >
                                 <RotateCcw size={15} aria-hidden="true" />
-                                Practice
+                                Practice skill
                               </button>
                             )}
                           </div>
 
                           {level && (
                             <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                              Best replay: <span className="font-bold text-white">{level.title}</span>
+                              {createPracticeRounds(levels, topic).length} focused rounds from completed lessons. Full replays are available below.
                             </p>
                           )}
+
+                          {practiceByTopic[topic] && <p className="mt-2 text-sm text-cyan-100">Last practice: {practiceByTopic[topic].strong} of {practiceByTopic[topic].total} strong on the first try.</p>}
 
                           {concepts.length > 0 && (
                             <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-300">

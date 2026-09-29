@@ -1,5 +1,6 @@
+import { createAppProgress, normalizeSave } from "./utils/appProgress";
 import { MotionConfig } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import IntroScreen from "./screens/IntroScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -10,15 +11,19 @@ import ResultsScreen from "./screens/ResultsScreen";
 import ReviewScreen from "./screens/ReviewScreen";
 import ReviewHubScreen from "./screens/ReviewHubScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import PracticeScreen from "./screens/PracticeScreen";
+import { pathThemes } from "./data/pathThemes";
+import "./pathThemes.css";
+import { createSkillProgress } from "./utils/skillProgress";
+import { createPracticeRounds, applyPracticeResult } from "./utils/targetedPractice";
 
 import audienceTracks, {
-  DEFAULT_TRACK_ID,
-  DEFAULT_STUDENT_GRADE_BAND_ID,
-  getDefaultPathIdForTrack,
+  defaultTrackId,
+  getDefaultPathId,
   getProgressKey,
   getTrackById,
   getTrackPathById,
-  getTrackSubPaths,
+  getSubPaths,
 } from "./data/tracks";
 import {
   applyLevelResult,
@@ -27,116 +32,40 @@ import {
   getTotalXp,
 } from "./utils/progress";
 import { createDashboardGuidance } from "./utils/dashboardGuidance";
+import { saveProgress, storageKey } from "./utils/progressStorage";
 
-const STORAGE_KEY = "ai-learning-progress";
-const EMPTY_LEVELS = [];
-const DEFAULT_PROGRESS_KEY = getProgressKey(
-  DEFAULT_TRACK_ID,
-  DEFAULT_STUDENT_GRADE_BAND_ID
-);
-
-const createInitialAppProgress = () => ({
-  activePathIdByTrackId: {
-    [DEFAULT_TRACK_ID]: DEFAULT_STUDENT_GRADE_BAND_ID,
-  },
-  activeTrackId: DEFAULT_TRACK_ID,
-  progressByPathId: {
-    [DEFAULT_PROGRESS_KEY]: createInitialProgress(),
-  },
-});
-
-// Fill in missing fields so older saved progress still works after app updates.
-const normalizeTrackProgress = (progress = {}) => ({
-  ...createInitialProgress(),
-  ...(progress ?? {}),
-});
-
-const normalizeSavedProgress = (savedProgress) => {
-  const initialAppProgress = createInitialAppProgress();
-
-  // Current storage shape keeps separate progress for each playable path.
-  if (savedProgress?.progressByPathId) {
-    const activeTrack = getTrackById(savedProgress.activeTrackId);
-
-    return {
-      activePathIdByTrackId: {
-        ...initialAppProgress.activePathIdByTrackId,
-        ...(savedProgress.activePathIdByTrackId ?? {}),
-      },
-      activeTrackId: activeTrack?.id ?? DEFAULT_TRACK_ID,
-      progressByPathId: {
-        ...initialAppProgress.progressByPathId,
-        ...Object.fromEntries(
-          Object.entries(savedProgress.progressByPathId).map(
-            ([pathId, pathProgress]) => [
-              pathId,
-              normalizeTrackProgress(pathProgress),
-            ]
-          )
-        ),
-      },
-    };
-  }
-
-  // Legacy migration from the earlier track-only progress structure.
-  if (savedProgress?.progressByTrackId) {
-    const activeTrack = getTrackById(savedProgress.activeTrackId);
-    const legacyStudentProgress =
-      savedProgress.progressByTrackId[DEFAULT_TRACK_ID];
-
-    return {
-      activePathIdByTrackId: {
-        ...initialAppProgress.activePathIdByTrackId,
-      },
-      activeTrackId: activeTrack?.id ?? DEFAULT_TRACK_ID,
-      progressByPathId: {
-        ...initialAppProgress.progressByPathId,
-        ...(legacyStudentProgress
-          ? {
-              [DEFAULT_PROGRESS_KEY]:
-                normalizeTrackProgress(legacyStudentProgress),
-            }
-          : {}),
-      },
-    };
-  }
-
-  return {
-    ...initialAppProgress,
-    progressByPathId: {
-      [DEFAULT_PROGRESS_KEY]: normalizeTrackProgress(savedProgress),
-    },
-  };
-};
-
+const emptyLevels = [];
 const loadProgress = () => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(storageKey);
 
-    if (!saved) return createInitialAppProgress();
+    if (!saved) return createAppProgress();
 
-    return normalizeSavedProgress(JSON.parse(saved));
+    return normalizeSave(JSON.parse(saved));
   } catch {
-    return createInitialAppProgress();
+    return createAppProgress();
   }
-};
-
-const saveProgress = (progress) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
 };
 
 export default function App() {
   const [screen, setScreen] = useState("intro");
 
   const [selectedLevel, setSelectedLevel] = useState(null);
-  const [focusTrackId, setFocusTrackId] = useState(DEFAULT_TRACK_ID);
+  const [focusTrackId, setFocusTrackId] = useState(defaultTrackId);
 
   const [appProgress, setAppProgress] = useState(loadProgress);
+  const [saveFailed, setSaveFailed] = useState(false);
+  const [practiceSession, setPracticeSession] = useState(null);
+
+  // Screen changes share one page, so reset its scroll to reveal the new header.
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [screen, selectedLevel?.id]);
 
   const [lastScore, setLastScore] = useState(0);
   const [lastMaxScore, setLastMaxScore] = useState(40);
   const [lastStars, setLastStars] = useState(0);
-  const [lastPreviousBest, setLastPreviousBest] = useState(0);
+  const [previousBest, setPreviousBest] = useState(0);
   const [lastIsNewBest, setLastIsNewBest] = useState(false);
   const [lastWorldSummary, setLastWorldSummary] = useState(null);
   const [lastReviewSummary, setLastReviewSummary] = useState(null);
@@ -148,15 +77,15 @@ export default function App() {
   );
   const activePathId =
     appProgress.activePathIdByTrackId?.[activeTrack.id] ??
-    getDefaultPathIdForTrack(activeTrack);
+    getDefaultPathId(activeTrack);
   const activePath = getTrackPathById(activeTrack, activePathId);
-  const activeTrackSubPaths = getTrackSubPaths(activeTrack);
+  const activePaths = getSubPaths(activeTrack);
   const focusTrack = getTrackById(focusTrackId);
   const progressKey = getProgressKey(
     activeTrack.id,
-    activeTrackSubPaths ? activePath?.id : null
+    activePaths ? activePath?.id : null
   );
-  const activeLevels = activePath?.levels ?? EMPTY_LEVELS;
+  const activeLevels = activePath?.levels ?? emptyLevels;
   const activeWorldDetails = activePath?.worlds ?? activeTrack.worlds;
   const progress =
     appProgress.progressByPathId[progressKey] ??
@@ -185,18 +114,18 @@ export default function App() {
     [levelsWithProgress, progress.conceptStatsByTopic]
   );
 
-  const saveAppProgress = (nextAppProgress) => {
-    saveProgress(nextAppProgress);
-    setAppProgress(nextAppProgress);
+  const saveAppProgress = (nextSave) => {
+    setAppProgress(nextSave);
+    setSaveFailed(!saveProgress(nextSave));
   };
 
   // Persist only the currently active path while keeping other paths untouched.
-  const saveTrackProgress = (nextTrackProgress) => {
+  const saveTrackProgress = (nextProgress) => {
     saveAppProgress({
       ...appProgress,
       progressByPathId: {
         ...appProgress.progressByPathId,
-        [progressKey]: nextTrackProgress,
+        [progressKey]: nextProgress,
       },
     });
   };
@@ -233,7 +162,7 @@ export default function App() {
 
   // Switching tracks creates progress lazily so planned paths do not create empty records.
   const activateTrack = (track) => {
-    const defaultPathId = getDefaultPathIdForTrack(track);
+    const defaultPathId = getDefaultPathId(track);
     const nextProgressKey = getProgressKey(track.id, defaultPathId);
 
     saveAppProgress({
@@ -257,7 +186,7 @@ export default function App() {
 
   const selectTrack = (trackId) => {
     const nextTrack = getTrackById(trackId);
-    const subPaths = getTrackSubPaths(nextTrack);
+    const subPaths = getSubPaths(nextTrack);
 
     if (subPaths) {
       setFocusTrackId(nextTrack.id);
@@ -329,7 +258,7 @@ export default function App() {
     setLastScore(score);
     setLastMaxScore(maxScore);
     setLastStars(stars);
-    setLastPreviousBest(previousBest);
+    setPreviousBest(previousBest);
     setLastIsNewBest(isNewBest);
     setLastReviewSummary(reviewSummary);
 
@@ -369,14 +298,14 @@ export default function App() {
   const nextPlayableLevel = useMemo(() => {
     if (!selectedLevel) return null;
 
-    const currentIndex = levelsWithProgress.findIndex(
+    const index = levelsWithProgress.findIndex(
       (level) => level.id === selectedLevel.id
     );
 
-    return levelsWithProgress[currentIndex + 1] ?? null;
+    return levelsWithProgress[index + 1] ?? null;
   }, [levelsWithProgress, selectedLevel]);
 
-  const canAdvanceToNextLevel = Boolean(
+  const canAdvance = Boolean(
     nextPlayableLevel?.unlocked
   );
 
@@ -392,7 +321,7 @@ export default function App() {
   };
 
   const nextLevel = () => {
-    if (canAdvanceToNextLevel) {
+    if (canAdvance) {
       setSelectedLevel(nextPlayableLevel);
       setScreen("gameplay");
     } else {
@@ -408,7 +337,7 @@ export default function App() {
     setLastScore(0);
     setLastMaxScore(40);
     setLastStars(0);
-    setLastPreviousBest(0);
+    setPreviousBest(0);
     setLastIsNewBest(false);
     setLastWorldSummary(null);
     setLastReviewSummary(null);
@@ -421,7 +350,22 @@ export default function App() {
         Skip to main content
       </a>
 
-      <div id="app-main">
+      <div id="app-main" className={pathThemes[activePath?.id] && ["levels", "gameplay", "results", "review", "reviewHub", "practice"].includes(screen) ? `pathTheme theme${pathThemes[activePath.id].id}` : ""}>
+        {saveFailed && (
+          <div role="status" className="relative z-50 bg-amber-100 px-4 py-3 text-center text-amber-950">
+            <p>
+              Your progress is available for this session, but couldn’t be saved
+              on this device. Keep this page open to avoid losing your latest changes.
+            </p>
+            <button
+              type="button"
+              className="mt-2 rounded border border-amber-950 px-3 py-1 font-semibold"
+              onClick={() => setSaveFailed(!saveProgress(appProgress))}
+            >
+              Try saving again
+            </button>
+          </div>
+        )}
         {screen === "intro" && (
           <IntroScreen
             goToHome={goToHome}
@@ -433,7 +377,7 @@ export default function App() {
 
         {screen === "home" && (
           <HomeScreen
-            goToLevels={goToLevels}
+            skillProgress={createSkillProgress(activeLevels, progress)}
             goToIntro={goToIntro}
             activeTrack={activeTrack}
             activePath={activePath}
@@ -486,12 +430,27 @@ export default function App() {
 
         {screen === "reviewHub" && (
           <ReviewHubScreen
+            practiceByTopic={progress.practiceByTopic}
+            startPractice={(topic) => {
+              const rounds = createPracticeRounds(levelsWithProgress, topic);
+              if (!rounds.length) return;
+              setPracticeSession({ topic, rounds });
+              setScreen("practice");
+            }}
             conceptStatsByTopic={progress.conceptStatsByTopic}
             goBack={() => setScreen(reviewHubReturnScreen)}
             learningPath={activePath}
             levels={levelsWithProgress}
             replayLevel={replaySpecificLevel}
             track={activeTrack}
+          />
+        )}
+
+        {screen === "practice" && practiceSession && (
+          <PracticeScreen
+            session={practiceSession}
+            goBack={() => setScreen("reviewHub")}
+            finishPractice={(topic, results) => saveTrackProgress(applyPracticeResult(progress, topic, results))}
           />
         )}
 
@@ -517,13 +476,13 @@ export default function App() {
             score={lastScore}
             maxScore={lastMaxScore}
             stars={lastStars}
-            previousBest={lastPreviousBest}
+            previousBest={previousBest}
             isNewBest={lastIsNewBest}
             worldSummary={lastWorldSummary}
             reviewSummary={lastReviewSummary}
             replayLevel={replayLevel}
             nextLevel={nextLevel}
-            canAdvanceToNextLevel={canAdvanceToNextLevel}
+            canAdvance={canAdvance}
             goLevels={() => setScreen("levels")}
           />
         )}

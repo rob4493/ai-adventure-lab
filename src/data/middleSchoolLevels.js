@@ -3,7 +3,7 @@ import {
   hallucinationHuntContent,
   promptBuilderContent,
   questionChoiceContent,
-} from "./content";
+} from "./content/index.js";
 
 // Middle school path mirrors the high school structure with simpler scenarios and wording.
 const middleSchoolLevels = [
@@ -13,7 +13,8 @@ const middleSchoolLevels = [
     world: "World 1",
     unlocked: true,
     stars: 0,
-    type: "ai_or_human",
+    theme: "middle",
+    type: "aiOrHuman",
     skill: "AI voice detection",
     description:
       "Spot the difference between polished AI-style writing and student voice.",
@@ -27,6 +28,7 @@ const middleSchoolLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
+    theme: "middle",
     type: "hallucination",
     skill: "Fact checking",
     description:
@@ -41,7 +43,8 @@ const middleSchoolLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "middle",
+    type: "questionChoice",
     skill: "Learning support",
     description:
       "Choose prompts that help you learn without asking AI to do the work.",
@@ -55,7 +58,8 @@ const middleSchoolLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "prompt_builder",
+    theme: "middle",
+    type: "promptBuilder",
     skill: "Prompt structure",
     description:
       "Build clear school prompts from simple blocks: role, task, context, and format.",
@@ -69,7 +73,8 @@ const middleSchoolLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "middle",
+    type: "questionChoice",
     skill: "Source checking",
     description:
       "Decide whether AI source responses give enough details to verify.",
@@ -83,7 +88,8 @@ const middleSchoolLevels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "middle",
+    type: "questionChoice",
     skill: "Privacy and safety",
     description:
       "Ask AI for help without sharing names, passwords, addresses, or private messages.",
@@ -97,7 +103,8 @@ const middleSchoolLevels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "middle",
+    type: "questionChoice",
     skill: "Bias and fairness",
     description:
       "Replace unfair shortcuts with clearer criteria and better context.",
@@ -111,7 +118,8 @@ const middleSchoolLevels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "middle",
+    type: "questionChoice",
     skill: "Safe next steps",
     description:
       "Know when AI advice needs a trusted adult, teacher, official source, or safer pause.",

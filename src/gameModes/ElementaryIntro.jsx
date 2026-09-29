@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import ElementaryGuideCard from "../components/ElementaryGuideCard";
+import MissionHeader from "../components/MissionHeader";
 
 const lessonIcons = {
   brain: BrainCircuit,
@@ -52,7 +53,8 @@ export default function ElementaryIntro({ level, goBack, finishLevel }) {
   return (
     <div className="app-screen elementary-theme min-h-screen p-4 py-8 text-white">
       <div className="app-panel mx-auto w-full max-w-md overflow-hidden rounded-2xl">
-        <div className="app-mode-header p-5">
+        <MissionHeader level={level} round={stepIndex + 1} total={totalParts} guided goBack={goBack} />
+        <div className="app-mode-header hidden p-5 sm:block">
           <button
             aria-label="Back to level select"
             onClick={goBack}
@@ -79,7 +81,7 @@ export default function ElementaryIntro({ level, goBack, finishLevel }) {
             aria-valuemax={totalParts}
             aria-valuenow={stepIndex + 1}
           >
-            {Array.from({ length: totalParts }, (_, index) => (
+            {Array.from({ length: totalParts }, (part, index) => (
               <span
                 aria-hidden="true"
                 className={`h-2 flex-1 rounded-full transition ${

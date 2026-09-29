@@ -1,4 +1,5 @@
 export const createInitialProgress = () => ({
+  practiceByTopic: {},
   conceptStatsByTopic: {},
   completedLevelIds: [],
   reviewSummariesByLevelId: {},
@@ -7,7 +8,7 @@ export const createInitialProgress = () => ({
 });
 
 // Convert a level review into counts the Review Hub can aggregate over time.
-export const getConceptStatsFromReviewSummary = (reviewSummary) =>
+export const getConceptStats = (reviewSummary) =>
   (reviewSummary?.conceptResults ?? []).reduce((stats, result) => {
     const topic = result.topic ?? "General AI literacy";
     const currentStats = stats[topic] ?? {
@@ -126,6 +127,7 @@ export const applyLevelResult = (
   stars,
   reviewSummary = null
 ) => ({
+  ...progress,
   completedLevelIds: [
     ...new Set([
       ...progress.completedLevelIds,
@@ -134,7 +136,7 @@ export const applyLevelResult = (
   ],
   conceptStatsByTopic: mergeConceptStats(
     progress.conceptStatsByTopic ?? {},
-    getConceptStatsFromReviewSummary(reviewSummary)
+    getConceptStats(reviewSummary)
   ),
   reviewSummariesByLevelId: {
     ...(progress.reviewSummariesByLevelId ?? {}),

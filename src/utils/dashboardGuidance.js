@@ -41,7 +41,7 @@ export const createDashboardGuidance = (
       buttonLabel: "Open Review Hub",
       title: `Practice ${weakTopic.topic}`,
       message:
-        "Your recent answers show this concept could use another look. The Review Hub will point you to the best replay.",
+        "Your completed attempts show this concept could use another look. Open the Review Hub for practice and lesson replays.",
       topic: weakTopic.topic,
     };
   }

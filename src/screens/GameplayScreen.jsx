@@ -13,7 +13,7 @@ export default function GameplayScreen({
 
   return (
     <>
-      {level.type === "elementary_intro" && (
+      {level.type === "elementaryIntro" && (
         <ElementaryIntro
           level={level}
           goBack={goBack}
@@ -21,7 +21,7 @@ export default function GameplayScreen({
         />
       )}
 
-      {level.type === "ai_or_human" && (
+      {level.type === "aiOrHuman" && (
         <AiOrHuman
           level={level}
           goBack={goBack}
@@ -37,7 +37,7 @@ export default function GameplayScreen({
         />
       )}
 
-      {level.type === "prompt_builder" && (
+      {level.type === "promptBuilder" && (
         <PromptBuilder
           level={level}
           goBack={goBack}
@@ -45,7 +45,7 @@ export default function GameplayScreen({
         />
       )}
 
-      {level.type === "question_choice" && (
+      {level.type === "questionChoice" && (
         <QuestionChoice
           level={level}
           goBack={goBack}

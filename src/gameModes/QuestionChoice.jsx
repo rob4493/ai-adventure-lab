@@ -1,3 +1,6 @@
+import PathHeader from "../components/PathHeader";
+import MissionHeader from "../components/MissionHeader";
+import RetryFeedback from "../components/RetryFeedback";
 import { motion } from "framer-motion";
 import {
   CheckCircle2,
@@ -120,7 +123,7 @@ export default function QuestionChoice({
   };
 
   const tryAgain = () => {
-    setAttempts((currentAttempts) => currentAttempts + 1);
+    setAttempts((tries) => tries + 1);
     setAnswered(false);
     setCorrect(false);
     setSelectedAnswer(null);
@@ -130,7 +133,7 @@ export default function QuestionChoice({
   // Each completed round records both score and concept strength for later review.
   const continueLevel = () => {
     const nextScore = totalScore + pendingScore;
-    const nextRoundReviews = [
+    const nextReviews = [
       ...roundReviews,
       {
         concept: round.concept,
@@ -149,7 +152,7 @@ export default function QuestionChoice({
         maxScore,
         createLevelReviewSummary({
           maxScore,
-          roundReviews: nextRoundReviews,
+          roundReviews: nextReviews,
           score: nextScore,
         })
       );
@@ -157,8 +160,8 @@ export default function QuestionChoice({
     }
 
     setTotalScore(nextScore);
-    setRoundReviews(nextRoundReviews);
-    setRoundIndex((currentIndex) => currentIndex + 1);
+    setRoundReviews(nextReviews);
+    setRoundIndex((index) => index + 1);
     setAnswered(false);
     setCorrect(false);
     setAttempts(0);
@@ -174,10 +177,14 @@ export default function QuestionChoice({
 
       <div className="app-panel w-full max-w-md rounded-2xl overflow-hidden">
 
-        <div className="app-mode-header p-5">
+        {isElementaryTheme && <MissionHeader level={level} round={roundIndex + 1} total={rounds.length} guided={isGuidedRound} goBack={goBack} />}
+        {["middle", "high", "college"].includes(level.theme) ? (
+          <PathHeader level={level} round={roundIndex + 1} total={rounds.length} goBack={goBack} />
+        ) : (
+        <div className={`app-mode-header p-5 ${isElementaryTheme ? "hidden sm:block" : ""}`}>
 
           <button
-            aria-label="Back to level select"
+            aria-label={level.isPractice ? "Back to Review Hub" : "Back to level select"}
             onClick={goBack}
             className="app-back-button mb-4"
           >
@@ -202,6 +209,7 @@ export default function QuestionChoice({
             {instructions}
           </p>
         </div>
+        )}
 
         <div className="p-5">
 
@@ -366,9 +374,7 @@ export default function QuestionChoice({
                 {correct ? successTitle : retryTitle}
               </h2>
 
-              <p className="text-slate-300 mb-3">
-                {selectedOption?.feedback}
-              </p>
+              <div>{correct ? <p className="text-slate-300 mb-3">{selectedOption?.feedback}</p> : <RetryFeedback round={round} level={level} explanation={selectedOption?.feedback} />}</div>
 
               {correct && round.betterResponse && (
                 <div className="app-inset-surface mb-3 rounded-xl border border-emerald-300/25 p-3 text-left">
@@ -384,7 +390,7 @@ export default function QuestionChoice({
 
               <div className="app-inset-surface rounded-xl p-3 text-left">
                 <p className="text-xs font-bold uppercase text-cyan-300">
-                  {conceptLabel}
+                  {correct ? conceptLabel : "Next time"}
                 </p>
 
                 <p className="text-sm text-slate-300">
@@ -407,7 +413,7 @@ export default function QuestionChoice({
                   className="app-button app-button-primary"
                 >
                   {roundIndex === rounds.length - 1
-                    ? "Finish Level"
+                    ? (level.isPractice ? "Continue Practice" : "Finish Level")
                     : "Next Round"}
                 </button>
               </div>

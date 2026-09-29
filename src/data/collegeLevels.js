@@ -2,7 +2,7 @@ import {
   aiOrHumanContent,
   hallucinationHuntContent,
   questionChoiceContent,
-} from "./content";
+} from "./content/index.js";
 
 // College path uses familiar mechanics with higher-stakes academic and adult-life scenarios.
 const collegeLevels = [
@@ -12,7 +12,8 @@ const collegeLevels = [
     world: "World 1",
     unlocked: true,
     stars: 0,
-    type: "ai_or_human",
+    theme: "college",
+    type: "aiOrHuman",
     skill: "Academic voice detection",
     description:
       "Spot generic AI polish versus specific college reflection and experience.",
@@ -26,6 +27,7 @@ const collegeLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
+    theme: "college",
     type: "hallucination",
     skill: "Academic fact checking",
     description:
@@ -40,7 +42,8 @@ const collegeLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "college",
+    type: "questionChoice",
     skill: "College prompt clarity",
     description:
       "Replace vague college prompts with prompts that include task boundaries, evidence, and academic rules.",
@@ -54,7 +57,8 @@ const collegeLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "college",
+    type: "questionChoice",
     skill: "Research source checking",
     description:
       "Judge whether AI-provided research sources are verifiable, relevant, and specific enough to use.",
@@ -68,7 +72,8 @@ const collegeLevels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "college",
+    type: "questionChoice",
     skill: "Campus privacy",
     description:
       "Ask AI for help with campus life, health, money, and forms without exposing sensitive details.",
@@ -82,7 +87,8 @@ const collegeLevels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "college",
+    type: "questionChoice",
     skill: "Fair decision-making",
     description:
       "Spot biased shortcuts in recommendations about people, leadership, applications, and access.",
@@ -96,7 +102,8 @@ const collegeLevels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "college",
+    type: "questionChoice",
     skill: "Research judgment",
     description:
       "Decide when AI is helping the research process and when it is pretending to be a source.",

@@ -1,4 +1,4 @@
-import { questionChoiceContent } from "./content";
+import { questionChoiceContent } from "./content/index.js";
 
 const everydayLevels = [
   {
@@ -7,7 +7,7 @@ const everydayLevels = [
     world: "World 1",
     unlocked: true,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Claim verification",
     description:
       "Review pasted claims and decide whether the AI response gives enough source detail to trust or needs more verification.",
@@ -21,7 +21,7 @@ const everydayLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "AI basics",
     description:
       "Practice spotting when AI is guessing, overconfident, outdated, or missing real-world context.",
@@ -35,7 +35,7 @@ const everydayLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Scam detection",
     description:
       "Spot suspicious links, credential requests, verification-code tricks, gift-card pressure, and marketplace scams.",
@@ -49,7 +49,7 @@ const everydayLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Safe first actions",
     description:
       "Choose the safest first move when texts, emails, and DMs create urgency or ask for sensitive details.",
@@ -63,7 +63,7 @@ const everydayLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Link inspection",
     description:
       "Inspect domains, lookalike links, shortened URLs, and safer ways to reach official sites.",
@@ -77,7 +77,7 @@ const everydayLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Account protection",
     description:
       "Protect one-time codes, password reset links, and account recovery steps from scam requests.",
@@ -91,7 +91,7 @@ const everydayLevels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Payment safety",
     description:
       "Spot risky payment requests involving gift cards, wires, overpayments, and off-platform money movement.",
@@ -105,7 +105,7 @@ const everydayLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Prompt clarity",
     description:
       "Choose stronger prompts for common tasks like planning, shopping, repairs, and comparing options.",
@@ -119,7 +119,7 @@ const everydayLevels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    type: "questionChoice",
     skill: "Follow-up questions",
     description:
       "Learn what to ask after AI gives a first answer so you can improve, verify, or personalize the result.",

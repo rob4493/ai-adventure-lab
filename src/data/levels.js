@@ -3,7 +3,7 @@ import {
   hallucinationHuntContent,
   promptBuilderContent,
   questionChoiceContent,
-} from "./content";
+} from "./content/index.js";
 
 // High school path: metadata controls progression while content files hold the rounds.
 const levels = [
@@ -13,7 +13,8 @@ const levels = [
     world: "World 1",
     unlocked: true,
     stars: 0,
-    type: "ai_or_human",
+    theme: "high",
+    type: "aiOrHuman",
     skill: "AI voice detection",
     description:
       "Spot signals that make writing feel AI-generated or personally human.",
@@ -27,6 +28,7 @@ const levels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
+    theme: "high",
     type: "hallucination",
     skill: "Fact checking",
     description:
@@ -41,7 +43,8 @@ const levels = [
     world: "World 1",
     unlocked: false,
     stars: 0,
-    type: "ai_or_human",
+    theme: "high",
+    type: "aiOrHuman",
     skill: "Reasoning style",
     description:
       "Compare polished explanations with messy, human thinking patterns.",
@@ -55,7 +58,8 @@ const levels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "prompt_builder",
+    theme: "high",
+    type: "promptBuilder",
     skill: "Prompt structure",
     description:
       "Learn prompt building blocks, then assemble stronger complete prompts.",
@@ -69,7 +73,8 @@ const levels = [
     world: "World 2",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "high",
+    type: "questionChoice",
     skill: "Prompt clarity",
     description:
       "Replace vague student prompts with clearer prompts that guide useful AI help.",
@@ -83,7 +88,8 @@ const levels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "high",
+    type: "questionChoice",
     skill: "Source checking",
     description:
       "Inspect AI-provided source details and decide whether they are reliable or risky.",
@@ -97,7 +103,8 @@ const levels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "high",
+    type: "questionChoice",
     skill: "Privacy and safety",
     description:
       "Choose safer ways to ask AI for help without oversharing private details.",
@@ -111,7 +118,8 @@ const levels = [
     world: "World 3",
     unlocked: false,
     stars: 0,
-    type: "question_choice",
+    theme: "high",
+    type: "questionChoice",
     skill: "Bias and fairness",
     description:
       "Spot unfair shortcuts and choose more balanced AI responses.",

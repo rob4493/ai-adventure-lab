@@ -19,6 +19,7 @@ Built features:
 - dashboard guidance for the next suggested action
 - basic accessibility improvements for focus states, screen-reader labels, selected states, skip navigation, and reduced motion
 - data-driven lesson content
+- dedicated Middle School lab, High School tech, and College study-space themes with compact mobile game headers
 - PWA groundwork with manifest and service worker
 - feedback link, creator note, and reset-progress controls
 
@@ -125,7 +126,11 @@ Most app content is data-driven:
 
 ## Progress Storage
 
+Use `http://localhost:5177/` consistently for local playtesting. Development and preview use port 5177 with strict port checking, so a busy port produces an error instead of silently opening a separate browser save. Stop the existing server before starting another. Completed lessons and finished practice sessions persist across reloads; unfinished rounds do not yet have resume checkpoints. Do not clear site data to refresh the design, since that also deletes progress.
+
 Progress is stored in `localStorage` under `ai-learning-progress`.
+
+Reset Progress clears only the selected focus. Earlier track-only saves migrate into the matching focuses without overwriting newer saves or intentional resets. Save failures display a retry option.
 
 Stored data includes the active path, completed levels, best scores, earned stars, review summaries, and concept stats.
 
@@ -140,6 +145,8 @@ The Review Hub turns missed concepts into targeted practice by topic. It shows t
 The app includes keyboard-reachable controls, visible focus states, clearer labels for navigation and icon-heavy buttons, screen-reader-friendly star ratings, selected states on choice controls, skip navigation, and reduced-motion support for Framer Motion and score animations.
 
 ## Scripts
+
+Install dependencies with `npm ci` before running these commands. In Windows PowerShell, use `npm.cmd` if execution policy blocks `npm.ps1`.
 
 ```bash
 npm run dev
@@ -174,3 +181,11 @@ npm test
 - Keep tuning Middle School and High School prompt games so feedback shows useful AI examples, not just correct/incorrect labels.
 
 See [ROADMAP.md](./ROADMAP.md) for near-term planning.
+
+## Focused Skill Practice
+
+The dashboard also shows **Your growing skills** for the active focus: unique skills practiced, strong answers, answers to revisit, concrete lesson takeaways, and the latest targeted-practice result. Counts include completed attempts and replays; they are not mastery ratings. Completion-only introductions do not count as scored skill evidence.
+
+In the Review Hub, choose **Practice skill** to answer up to three existing rounds about a missed topic. Practice draws only from completed, unlocked lessons and prioritizes missed concepts. Finish the session to save concept counts and a last-practice summary; leaving early discards the unfinished session. Practice does not change level scores, stars, unlocks, or full-lesson reviews.
+
+Wrong-answer feedback now pairs answer-specific explanations with a clue and a next-time takeaway. Prompt Builder identifies stronger alternatives for weaker blocks. Elementary feedback stays short and supportive.

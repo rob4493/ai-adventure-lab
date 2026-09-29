@@ -38,21 +38,6 @@ export const getQuizRoundScore = (isCorrect, attempts, scoring) => {
     : scoring.retryCorrectScore;
 };
 
-// Simple phrase matching powers the older freeform prompt scoring.
-export const getMatchedCriteria = (prompt, criteria) => {
-  const normalizedPrompt = prompt.toLowerCase();
-
-  return criteria.filter((criterion) =>
-    normalizedPrompt.includes(criterion.phrase.toLowerCase())
-  );
-};
-
-export const getCriteriaScore = (criteria) =>
-  criteria.reduce(
-    (total, criterion) => total + criterion.points,
-    0
-  );
-
 // Turn selected block ids into full option objects for scoring and previews.
 export const getSelectedOptions = (categories, selectedBlocks) =>
   categories
@@ -63,13 +48,13 @@ export const getSelectedOptions = (categories, selectedBlocks) =>
     )
     .filter(Boolean);
 
-export const getPromptBuilderRoundScore = (selectedOptions) =>
+export const getPromptScore = (selectedOptions) =>
   selectedOptions.reduce(
     (score, option) => score + option.points,
     0
   );
 
-export const getPromptBuilderMaxRoundScore = (categories) =>
+export const getMaxPromptScore = (categories) =>
   categories.reduce(
     (score, category) =>
       score +

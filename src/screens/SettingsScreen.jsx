@@ -8,7 +8,7 @@ import {
   UserRound,
 } from "lucide-react";
 
-const FEEDBACK_URL = "https://forms.gle/Y4RE3SGALJJzw9bo6";
+const feedbackUrl = "https://forms.gle/Y4RE3SGALJJzw9bo6";
 
 export default function SettingsScreen({
   activePath,
@@ -25,7 +25,7 @@ export default function SettingsScreen({
     if (!hasProgress) return;
 
     const shouldReset = window.confirm(
-      "Reset all saved XP, stars, and unlocked levels?"
+      `Reset XP, stars, practice, and unlocked levels for ${activePath?.title ?? activeTrack.title}? Other focuses will keep their progress.`
     );
 
     if (shouldReset) resetProgress();
@@ -123,9 +123,11 @@ export default function SettingsScreen({
               </div>
 
               <p className="text-sm leading-relaxed text-slate-300">
-                Progress is saved only in this browser on this device.
-                Clearing browser data or using another device starts
-                fresh.
+                Completed lessons and practice sessions are saved in this browser
+                on this device. Keep using the same address, including its port.
+                A different browser or address has separate progress. Unfinished
+                rounds restart when you leave or reload. Reset Progress clears
+                the current focus only.
               </p>
             </div>
 
@@ -159,7 +161,7 @@ export default function SettingsScreen({
 
           <div className="mt-6 space-y-3">
             <a
-              href={FEEDBACK_URL}
+              href={feedbackUrl}
               target="_blank"
               rel="noreferrer"
               className="app-button app-button-secondary"

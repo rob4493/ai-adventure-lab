@@ -7,7 +7,7 @@ import {
   Lock,
   Users,
 } from "lucide-react";
-import { getTrackSubPaths } from "../data/tracks";
+import { getSubPaths } from "../data/tracks";
 
 // Icons are tied to audience paths, not individual focus areas.
 const focusIcons = {
@@ -28,7 +28,7 @@ export default function FocusSelect({
   selectTrackPath,
   track,
 }) {
-  const subPaths = getTrackSubPaths(track) ?? [];
+  const subPaths = getSubPaths(track) ?? [];
   const Icon = focusIcons[track.id] ?? BrainCircuit;
   const isActiveTrack = track.id === activeTrack.id;
   // The same screen handles grades for students and focus areas for other paths.

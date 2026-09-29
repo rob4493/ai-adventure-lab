@@ -2,10 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
-  getCriteriaScore,
-  getMatchedCriteria,
-  getPromptBuilderMaxRoundScore,
-  getPromptBuilderRoundScore,
+  getMaxPromptScore,
+  getPromptScore,
   getQuizRoundScore,
   getSelectedOptions,
   getStarsFromScore,
@@ -28,34 +26,6 @@ test("star scoring is based on percentage thresholds", () => {
   assert.equal(getStarsFromScore(60, 120), 2);
   assert.equal(getStarsFromScore(10, 120), 1);
   assert.equal(getStarsFromScore(0, 120), 0);
-});
-
-test("prompt criteria matching scores only included phrases", () => {
-  const criteria = [
-    {
-      phrase: "science",
-      points: 10,
-    },
-    {
-      phrase: "quiz",
-      points: 10,
-    },
-    {
-      phrase: "answers",
-      points: 10,
-    },
-  ];
-
-  const matches = getMatchedCriteria(
-    "Make a science quiz for me.",
-    criteria
-  );
-
-  assert.deepEqual(
-    matches.map((criterion) => criterion.phrase),
-    ["science", "quiz"]
-  );
-  assert.equal(getCriteriaScore(matches), 20);
 });
 
 test("prompt builder scores selected blocks against the best possible round score", () => {
@@ -93,6 +63,6 @@ test("prompt builder scores selected blocks against the best possible round scor
     format: "story",
   });
 
-  assert.equal(getPromptBuilderRoundScore(selectedOptions), 20);
-  assert.equal(getPromptBuilderMaxRoundScore(categories), 35);
+  assert.equal(getPromptScore(selectedOptions), 20);
+  assert.equal(getMaxPromptScore(categories), 35);
 });

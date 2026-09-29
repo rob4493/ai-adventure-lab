@@ -1,0 +1,43 @@
+/* Theme wrappers change presentation only; saved path IDs and game rules stay stable. */
+.pathTheme { --pathAccent: #b6f56b; --pathInk: #edf4ff; --pathMuted: #b4c4d9; --pathPanel: #111e35; --pathCard: #192b45; --pathBorder: #7894ac55; color: var(--pathInk); }
+.pathTheme .app-screen { background: radial-gradient(ellipse at 5% 25%, #1c626960, transparent 45%), radial-gradient(ellipse at 95% 70%, #47378e55, transparent 45%), radial-gradient(#7dddc02b 1px, transparent 1px) 0 0 / 24px 24px, #0b1428; }
+.pathTheme .app-panel { background: var(--pathPanel); border-color: var(--pathBorder); backdrop-filter: none; }
+.pathTheme .app-surface, .pathTheme .app-inset-surface { background: var(--pathCard); border-color: var(--pathBorder); }
+.pathTheme .app-kicker, .pathTheme .app-human-kicker { color: var(--pathAccent); text-shadow: none; }
+.pathTheme .app-button-primary { background: var(--pathAccent); color: #10251b; border-color: var(--pathAccent); box-shadow: 0 6px 24px #0002; }
+.pathTheme .app-button-secondary { background: var(--pathCard); color: var(--pathInk); border-color: var(--pathBorder); }
+.pathTheme .app-level-card::before { background: var(--pathAccent); }
+.pathTheme .app-back-button { color: var(--pathInk); min-height: 44px; }
+.pathHeader, .pathOverview { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(100deg, #172540, #184149) !important; }
+.pathHeader { padding: 24px; border-bottom: 1px solid var(--pathBorder); }
+.pathHeaderContent, .pathOverview > :not(svg) { position: relative; z-index: 1; }
+.pathTop { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pathTop > span { border: 1px solid var(--pathBorder); border-radius: 20px; padding: 5px 12px; font: 12px ui-monospace, monospace; }
+.pathBrand { margin-top: 12px; color: var(--pathAccent); font-size: 11px; text-transform: uppercase; font-weight: 800; letter-spacing: .12em; }
+.pathHeader h1 { margin: 8px 0; font-size: clamp(23px, 3vw, 34px); font-weight: 800; line-height: 1.15; letter-spacing: -.025em; }
+.pathSkill { font-size: 13px; color: var(--pathMuted); }
+.pathInstructions { margin-top: 10px; font-size: 13px; }
+.pathInstructions summary { min-height: 44px; padding-block: 12px; cursor: pointer; color: var(--pathAccent); }
+.pathInstructions p { padding: 12px; background: var(--pathPanel); border-radius: 8px; line-height: 1.6; }
+.pathTheme .backgroundDetails { position: absolute; right: -45px; bottom: 0; width: 85%; height: 100%; opacity: .22; color: var(--pathAccent); pointer-events: none; mask-image: linear-gradient(90deg, transparent, #000 60%); }
+.themehigh { --pathAccent: #a8cfff; --pathPanel: #101521; --pathCard: #1d2540; }
+.themehigh .app-screen { background: radial-gradient(ellipse at 85% 10%, #49338c55, transparent 50%), repeating-linear-gradient(135deg, transparent 0 79px, #5c9bdd18 80px, transparent 81px), #0a101e; }
+.themehigh .pathHeader, .themehigh .pathOverview { background: linear-gradient(110deg, #151c2a, #303260) !important; }
+.themecollege { --pathAccent: #176a62; --pathInk: #25332e; --pathMuted: #54645c; --pathPanel: #f8f7f1; --pathCard: #e9eee8; --pathBorder: #9bad9b80; color-scheme: light; }
+.themecollege .app-screen { color: var(--pathInk); background: radial-gradient(ellipse at top right, #72988233, transparent 55%), repeating-linear-gradient(0deg, transparent 0 27px, #a5b39a12 28px), #172723; }
+.themecollege .pathHeader, .themecollege .pathOverview { background: linear-gradient(115deg, #f0f2e8, #e4ede4) !important; }
+.themecollege .pathHeader h1, .themecollege .pathOverview h1 { font-family: Georgia, serif; font-weight: 400; }
+.themecollege .app-panel { border-radius: 6px; }
+.themecollege .app-surface, .themecollege .app-inset-surface { border-radius: 5px; box-shadow: none; }
+/* Shared games use dark-theme text utilities, remapped inside paper-colored panels only. */
+.themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-white"], .themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-slate-"], .themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-cyan-"], .themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-indigo-"], .themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-violet-"], .themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-emerald-"], .themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-amber-"], .themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="text-rose-"] { color: var(--pathInk); }
+.themecollege :is(.app-panel, .app-surface, .app-inset-surface) [class*="bg-slate-"] { background-color: var(--pathCard); }
+.themecollege .app-button-primary { color: #fff; }
+.themecollege .app-panel button[aria-pressed="true"] { outline: 2px solid var(--pathAccent); outline-offset: 2px; }
+@media (max-width: 639px) {
+  .pathTheme .app-screen { padding: 12px; align-items: flex-start; }
+  .pathHeader { padding: 14px 18px; }
+  .pathBrand { margin-top: 6px; }
+  .pathHeader h1 { font-size: 23px; }
+  .pathTheme .backgroundDetails { width: 100%; right: -65px; opacity: .18; }
+}
