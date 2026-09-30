@@ -47,13 +47,13 @@ const loadProgress = () => {
   }
 };
 
-export default function App() {
+export default function App({ initialProgress, persistProgress = saveProgress }) {
   const [screen, setScreen] = useState("intro");
 
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [focusTrackId, setFocusTrackId] = useState(defaultTrackId);
 
-  const [appProgress, setAppProgress] = useState(loadProgress);
+  const [appProgress, setAppProgress] = useState(() => initialProgress ?? loadProgress());
   const [saveFailed, setSaveFailed] = useState(false);
   const [practiceSession, setPracticeSession] = useState(null);
 
@@ -116,7 +116,7 @@ export default function App() {
 
   const saveAppProgress = (nextSave) => {
     setAppProgress(nextSave);
-    setSaveFailed(!saveProgress(nextSave));
+    setSaveFailed(!persistProgress(nextSave));
   };
 
   // Persist only the currently active path while keeping other paths untouched.
@@ -350,7 +350,7 @@ export default function App() {
         Skip to main content
       </a>
 
-      <div id="app-main" className={pathThemes[activePath?.id] && ["levels", "gameplay", "results", "review", "reviewHub", "practice"].includes(screen) ? `pathTheme theme${pathThemes[activePath.id].id}` : ""}>
+      <div id="app-main" className={pathThemes[activePath?.id] && ["levels", "gameplay", "results", "review", "reviewHub", "practice"].includes(screen) ? `pathTheme theme${pathThemes[activePath.id].id} ${pathThemes[activePath.id].family ?? ""}` : ""}>
         {saveFailed && (
           <div role="status" className="relative z-50 bg-amber-100 px-4 py-3 text-center text-amber-950">
             <p>
@@ -360,7 +360,7 @@ export default function App() {
             <button
               type="button"
               className="mt-2 rounded border border-amber-950 px-3 py-1 font-semibold"
-              onClick={() => setSaveFailed(!saveProgress(appProgress))}
+              onClick={() => setSaveFailed(!persistProgress(appProgress))}
             >
               Try saving again
             </button>

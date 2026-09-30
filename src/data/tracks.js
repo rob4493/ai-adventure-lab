@@ -138,11 +138,11 @@ const everydayFocusAreas = [
   },
   {
     description:
-      "Future practice for protecting family details, personal routines, accounts, and sensitive questions.",
+      "Protect personal details, other people's privacy, connected accounts, and shared conversations.",
     id: "privacy-safety",
-    isAvailable: false,
-    label: "Planned",
-    levels: [],
+    isAvailable: true,
+    label: "Playable",
+    levels: getLevelsByTitle(["Private Prompts", "Shared Lives, Shared Privacy", "Access Check"]),
     title: "Privacy & Safety",
     worlds: defaultAudienceWorlds,
   },

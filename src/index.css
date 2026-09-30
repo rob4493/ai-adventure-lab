@@ -269,6 +269,15 @@
   background: linear-gradient(180deg, rgba(148, 163, 184, 0.32), rgba(71, 85, 105, 0.24));
 }
 
+.reviewHeader { padding: 20px; }
+
+/* Keep the mission illustration visible in reviews at both phone and desktop sizes. */
+.elementary-theme .reviewHeader {
+  background: linear-gradient(90deg, rgba(3, 16, 42, 0.95), rgba(3, 16, 42, 0.68)),
+    url("./assets/elementary-discovery-lab.jpg") center 42% / cover no-repeat;
+  border-bottom: 1px solid rgba(103, 232, 249, 0.4);
+}
+
 /* Elementary uses a path-specific Digital Discovery Lab while retaining shared UI behavior. */
 .elementary-theme.app-screen {
   background:
@@ -469,3 +478,11 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Account controls remain separate from lesson themes and use clear form labels. */
+.accountBar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; background: #0c2034; color: #e3f2ff; font-size: 14px; }
+.accountBar button, .accountNotice button { min-height: 44px; padding: 8px 14px; border: 1px solid #9bd5df; border-radius: 10px; font-weight: 700; }
+.accountNotice { padding: 16px; background: #fff1cd; color: #49330c; }
+.accountNotice button { border-color: currentColor; margin-top: 8px; }
+.accountInput { width: 100%; min-height: 48px; padding: 12px; border: 1px solid #648ba6; border-radius: 10px; background: #0d223b; color: #fff; }
+.accountInput:focus-visible { outline: 3px solid #67e8f9; outline-offset: 2px; }

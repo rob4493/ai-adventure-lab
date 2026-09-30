@@ -1,3 +1,5 @@
+import BackgroundDetails from "../components/BackgroundDetails";
+import { pathThemes } from "../data/pathThemes";
 import {
   ArrowLeft,
   BookOpenCheck,
@@ -20,13 +22,15 @@ export default function ReviewHubScreen({
   track,
 }) {
   // The hub is derived from saved level summaries rather than separate review state.
+  const theme = pathThemes[learningPath?.id];
+  const elementary = learningPath?.id === "elementary";
   const review = createReviewHubSummary(levels, conceptStatsByTopic);
   const pathTitle = learningPath?.id !== track.id
     ? `${track.title}: ${learningPath.title}`
     : track.title;
 
   return (
-    <div className="app-screen min-h-screen p-4 py-8 text-white">
+    <div className={`app-screen min-h-screen p-4 py-8 text-white ${elementary ? "elementary-theme" : ""}`}>
       <main className="mx-auto w-full max-w-3xl">
         <button
           aria-label="Back to previous screen"
@@ -37,15 +41,15 @@ export default function ReviewHubScreen({
           <span className="ml-1">Back</span>
         </button>
 
-        <header className="app-panel mb-5 rounded-2xl p-5 sm:p-6">
+        <header className={`app-panel mb-5 rounded-2xl p-5 sm:p-6 ${theme ? "pathOverview" : elementary ? "missionOverview" : ""}`}>
+          {theme && <BackgroundDetails path={theme.id} />}
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-300/25 bg-cyan-300/10 text-cyan-100">
             <BookOpenCheck size={25} aria-hidden="true" />
           </div>
-          <p className="app-kicker text-xs font-bold uppercase">Review Hub</p>
+          <p className="app-kicker text-xs font-bold uppercase">{elementary ? "AI Detective · Review Hub" : theme ? `${theme.title} · Review Hub` : "Review Hub"}</p>
           <h1 className="mt-1 text-3xl font-bold">Your Learning Check-In</h1>
           <p className="mt-2 max-w-2xl leading-relaxed text-slate-300">
-            See what is clicking, find concepts worth another look, and replay
-            try short skill practice in {pathTitle}.
+            See what is clicking, find concepts worth another look, and try short skill practice in {pathTitle}.
           </p>
 
           <div className="mt-5 grid grid-cols-3 gap-2 text-center">

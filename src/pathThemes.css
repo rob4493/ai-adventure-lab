@@ -41,3 +41,25 @@
   .pathHeader h1 { font-size: 23px; }
   .pathTheme .backgroundDetails { width: 100%; right: -65px; opacity: .18; }
 }
+
+/* Everyday Toolkit uses warm paper surfaces and focus-specific ink accents. */
+.toolkit { --pathAccent: #21695f; --pathInk: #263b38; --pathMuted: #586864; --pathPanel: #fffdf7; --pathCard: #f2f0e7; --pathBorder: #bbbca580; color-scheme: light; }
+.themenews { --pathAccent: #295b83; }
+.themescams { --pathAccent: #805413; }
+.themeprivacy { --pathAccent: #74486b; }
+.toolkit .app-screen { color: var(--pathInk); background: radial-gradient(ellipse at 90% 0%, #c9d9ce88, transparent 55%), radial-gradient(#857d6020 .8px, transparent .8px) 0 0 / 7px 7px, #eee9dc; }
+.toolkit .pathHeader, .toolkit .pathOverview { background: linear-gradient(110deg, #fffdf6, #e6e9da) !important; }
+.toolkit .app-panel { border-radius: 22px; box-shadow: 0 12px 35px #3c46331a; }
+.toolkit .app-surface, .toolkit .app-inset-surface { border-radius: 16px; box-shadow: none; }
+.toolkit [class*="text-white"], .toolkit [class*="text-slate-"], .toolkit [class*="text-cyan-"], .toolkit [class*="text-indigo-"], .toolkit [class*="text-violet-"], .toolkit [class*="text-emerald-"], .toolkit [class*="text-amber-"], .toolkit [class*="text-rose-"] { color: var(--pathInk); }
+.toolkit [class*="bg-slate-"] { background-color: var(--pathCard); }
+.toolkit .app-button-primary { color: #fff; border-radius: 14px; }
+.toolkit .app-button-secondary { border-radius: 14px; }
+.toolkit .app-panel button[aria-pressed="true"] { outline: 2px solid var(--pathAccent); outline-offset: 2px; }
+.toolkit .pathHeaderContent { padding-right: 20%; }
+.toolkit .backgroundDetails { opacity: .28; }
+.toolkit .pathHeader h1 { font-size: clamp(23px, 3vw, 30px); }
+@media (max-width: 639px) {
+  .toolkit .pathHeaderContent { padding-right: 8%; }
+  .toolkit .backgroundDetails { width: 110%; right: -80px; opacity: .2; }
+}

@@ -137,6 +137,7 @@ Current playable categories:
 - Scams and Suspicious Messages
 - Better Everyday Prompts
 - Follow-Up Coach
+- Privacy & Safety: personal information, other people's privacy, permissions, and sharing controls
 
 Core habits to reinforce:
 

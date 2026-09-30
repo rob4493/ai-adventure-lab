@@ -1,3 +1,4 @@
+import privacySafety from "./content/privacySafety.js";
 import { questionChoiceContent } from "./content/index.js";
 
 const everydayLevels = [
@@ -127,6 +128,49 @@ const everydayLevels = [
       "You practiced using follow-up questions to make AI responses safer, clearer, more useful, and easier to verify.",
     content: questionChoiceContent.followUpCoach,
   },
+  {
+    "id": 10,
+    "title": "Private Prompts",
+    "world": "World 3",
+    "unlocked": false,
+    "stars": 0,
+    "type": "questionChoice",
+    "skill": "Share less",
+    "description": "Get useful AI help without sharing unnecessary personal details.",
+    "takeaway": "Use placeholders and only the details needed for the task."
+,
+    content: privacySafety.privatePrompts
+  },
+  {
+    "id": 11,
+    "title": "Shared Lives, Shared Privacy",
+    "world": "World 3",
+    "unlocked": false,
+    "stars": 0,
+    "type": "questionChoice",
+    "skill": "Other people's privacy",
+    "description": "Protect family, friends, photos, and private conversations.",
+    "takeaway": "Summarize only what is needed, without exposing someone else's private message."
+,
+    content: privacySafety.sharedPrivacy
+  },
+  {
+    "id": 12,
+    "title": "Access Check",
+    "world": "World 3",
+    "unlocked": false,
+    "stars": 0,
+    "type": "questionChoice",
+    "skill": "Permission scope",
+    "description": "Review connected accounts, privacy claims, and sharing controls.",
+    "takeaway": "Choose the least account access needed for the task; decline unnecessary permissions."
+,
+    content: privacySafety.accessCheck
+  },
 ];
 
-export default everydayLevels;
+// Presentation follows each focus while stable level IDs keep existing saves intact.
+export default everydayLevels.map((level) => ({
+  ...level,
+  theme: level.id <= 2 ? "news" : level.id <= 7 ? "scams" : level.id <= 9 ? "prompts" : "privacy",
+}));

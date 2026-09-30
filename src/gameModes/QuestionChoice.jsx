@@ -1,3 +1,4 @@
+import { getTheme } from "../data/pathThemes";
 import PathHeader from "../components/PathHeader";
 import MissionHeader from "../components/MissionHeader";
 import RetryFeedback from "../components/RetryFeedback";
@@ -178,7 +179,7 @@ export default function QuestionChoice({
       <div className="app-panel w-full max-w-md rounded-2xl overflow-hidden">
 
         {isElementaryTheme && <MissionHeader level={level} round={roundIndex + 1} total={rounds.length} guided={isGuidedRound} goBack={goBack} />}
-        {["middle", "high", "college"].includes(level.theme) ? (
+        {getTheme(level.theme) ? (
           <PathHeader level={level} round={roundIndex + 1} total={rounds.length} goBack={goBack} />
         ) : (
         <div className={`app-mode-header p-5 ${isElementaryTheme ? "hidden sm:block" : ""}`}>

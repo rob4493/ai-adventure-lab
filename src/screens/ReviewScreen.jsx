@@ -1,4 +1,5 @@
-import { BookOpenCheck } from "lucide-react";
+import BackgroundDetails from "../components/BackgroundDetails";
+import { getTheme } from "../data/pathThemes";
 
 export default function ReviewScreen({
   level,
@@ -6,10 +7,13 @@ export default function ReviewScreen({
   replayLevel,
 }) {
   const reviewSummary = level?.reviewSummary;
+  const theme = getTheme(level?.theme);
+  const elementary = level?.theme === "elementary";
+  const screenClass = `app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white ${elementary ? "elementary-theme" : ""}`;
 
   if (!level || !reviewSummary) {
     return (
-      <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
+      <div className={screenClass}>
         <div className="app-panel w-full max-w-sm rounded-2xl p-5">
           <button
             aria-label="Back to level select"
@@ -32,33 +36,22 @@ export default function ReviewScreen({
   }
 
   return (
-    <div className="app-screen min-h-screen flex items-center justify-center p-4 py-8 text-white">
+    <div className={screenClass}>
       <div className="app-panel w-full max-w-md overflow-hidden rounded-2xl">
-        <div className="app-mode-header p-5">
-          <button
-            aria-label="Back to level select"
-            onClick={goLevels}
-            className="app-back-button mb-4"
-          >
-            &lt; Back
-          </button>
-
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-300/25 bg-cyan-300/10 text-cyan-100">
-            <BookOpenCheck size={25} aria-hidden="true" />
+        <header className={`reviewHeader ${theme ? "pathHeader" : "app-mode-header"}`}>
+          {theme && <BackgroundDetails path={theme.id} />}
+          <div className="pathHeaderContent">
+            <button aria-label={elementary ? "Back to missions" : "Back to level select"}
+              onClick={goLevels} className="app-back-button min-h-11">&lt; Back</button>
+            <p className={theme ? "pathBrand" : "app-kicker mt-2 text-xs font-bold uppercase"}>
+              {elementary ? "AI Detective · Mission Review" : theme ? `${theme.title} · Level Review` : "Level Review"}
+            </p>
+            <h1 className="mt-2 text-2xl font-bold leading-tight">{level.title}</h1>
+            <p className={theme ? "pathSkill" : "mt-2 text-sm text-cyan-100"}>
+              {elementary ? "Look back at what you learned." : "Your latest completed run."}
+            </p>
           </div>
-
-          <p className="text-xs font-bold uppercase text-cyan-100">
-            Level Review
-          </p>
-
-          <h1 className="mt-1 text-2xl font-bold">
-            {level.title}
-          </h1>
-
-          <p className="mt-2 text-white/70">
-            Revisit the concepts from your latest completed run.
-          </p>
-        </div>
+        </header>
 
         <div className="p-5">
           <div className="app-surface mb-4 rounded-2xl p-4">
@@ -99,8 +92,7 @@ export default function ReviewScreen({
               </ul>
             ) : (
               <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                Nothing urgent showed up in your latest run. Replay later
-                if you want to improve your score.
+                {level.completionOnly ? "You completed this introduction. Replay whenever you want a reminder." : "No concepts need another look from this run. Replay whenever you want more practice."}
               </p>
             )}
           </div>
@@ -124,7 +116,7 @@ export default function ReviewScreen({
               onClick={() => replayLevel(level)}
               className="app-button app-button-primary"
             >
-              Replay Level
+              {elementary ? "Replay Mission" : "Replay Level"}
             </button>
 
             <button
@@ -132,7 +124,7 @@ export default function ReviewScreen({
               onClick={goLevels}
               className="app-button app-button-secondary"
             >
-              Back to Levels
+              {elementary ? "Back to Missions" : "Back to Levels"}
             </button>
           </div>
         </div>

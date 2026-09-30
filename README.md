@@ -23,7 +23,7 @@ Built features:
 - PWA groundwork with manifest and service worker
 - feedback link, creator note, and reset-progress controls
 
-There is no backend yet. Progress is saved only in the current browser on the current device.
+Guest progress stays in the current browser. Optional Supabase accounts save progress to a private cloud profile. See [account setup](supabase/SETUP.md) for email configuration, age policy, and sync limits.
 
 ## Current Levels
 
@@ -86,6 +86,11 @@ The Everyday User mini-path includes:
 - Payment Pressure
 - Better Everyday Prompts
 - Follow-Up Coach
+- Private Prompts
+- Shared Lives, Shared Privacy
+- Access Check
+
+The Privacy & Safety focus contains three lessons and twelve choice-based scenarios about limiting personal details, protecting other people's information, and checking permissions and sharing controls. It has its own saved progress and uses the shared review and targeted-practice features.
 
 These levels focus on high-risk everyday AI use cases:
 

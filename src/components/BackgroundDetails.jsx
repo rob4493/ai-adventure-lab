@@ -2,7 +2,16 @@
 export default function BackgroundDetails({ path }) {
   return (
     <svg className="backgroundDetails" viewBox="0 0 600 280" fill="none" aria-hidden="true" focusable="false">
-      {path === "middle" ? <g stroke="currentColor" strokeWidth="2">
+      {["news", "scams", "prompts", "privacy"].includes(path) ? <g stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="350" y="40" width="130" height="194" rx="18" />
+        <path d="M392 54H438M403 219H426M310 253H553" />
+        <rect x="180" y="140" width="125" height="95" rx="9" transform="rotate(-12 180 140)" />
+        <path d="M201 158L274 143M207 179L270 166M212 201L250 193M502 76H553M527 52V101" />
+        {path === "privacy" ? <g><rect x="378" y="120" width="74" height="64" rx="10" /><path d="M391 120V101a24 24 0 0 1 48 0V120M415 145V159" /><circle cx="415" cy="145" r="4" /></g>
+          : path === "scams" ? <path d="M415 87L451 103V137Q451 170 415 188Q379 170 379 137V103ZM399 136L411 148L433 121" />
+          : path === "news" ? <g><path d="M373 91H456M373 109H416M373 127H416M373 145H400" /><circle cx="430" cy="155" r="24" /><path d="M448 174L465 191" /></g>
+          : <g><path d="M374 98H453V151H411L391 171V151H374ZM388 114H438M388 131H423M428 175L434 187L447 193L434 199L428 212L422 199L409 193L422 187Z" /></g>}
+      </g> : path === "middle" ? <g stroke="currentColor" strokeWidth="2">
         <path d="M28 230H575M60 230V150H170V230M75 166H155V205H75ZM93 215H139M180 230V208H287V230" />
         <path d="M220 118V160L195 198Q191 208 206 208H267Q279 208 274 198L250 160V118M212 118H258M208 183H261" />
         <circle cx="232" cy="175" r="4" /><circle cx="247" cy="191" r="3" />
