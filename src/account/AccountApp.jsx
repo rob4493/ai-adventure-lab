@@ -7,6 +7,9 @@ import { createSync } from "./sync";
 import { normalizeSave } from "../utils/appProgress";
 import { storageKey } from "../utils/progressStorage";
 
+// Keep the completed account system dormant until production email is configured.
+const accountsEnabled = import.meta.env.VITE_ACCOUNTS_ENABLED === "true";
+
 const readLocal = (key) => {
   try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
 };
@@ -91,11 +94,11 @@ function LearnerApp({ user }) {
 
 export default function AccountApp() {
   const [session, setSession] = useState(null);
-  const [ready, setReady] = useState(!client);
+  const [ready, setReady] = useState(!client || !accountsEnabled);
   const [authOpen, setAuthOpen] = useState(false);
   const [recovery, setRecovery] = useState(false);
   useEffect(() => {
-    if (!client) return;
+    if (!client || !accountsEnabled) return;
     // Keep this callback synchronous: Supabase auth holds an internal lock here.
     const { data } = client.auth.onAuthStateChange((event, next) => {
       setSession(next); setReady(true);
@@ -108,5 +111,5 @@ export default function AccountApp() {
   if (recovery) return <AuthScreen key="recovery" recovery finishRecovery={() => setRecovery(false)} goBack={() => setRecovery(false)} />;
   if (session) return <LearnerApp key={session.user.id} user={session.user} />;
   if (authOpen) return <AuthScreen goBack={() => setAuthOpen(false)} />;
-  return <><nav className="accountBar" aria-label="Account"><span>Guest · Progress saved on this device</span><button onClick={() => setAuthOpen(true)}>Sign in / Create account</button></nav><App key="guest" /></>;
+  return <><nav className="accountBar" aria-label="Account"><span>Guest mode · Progress saved on this device</span>{accountsEnabled ? <button onClick={() => setAuthOpen(true)}>Sign in / Create account</button> : <span className="accountComingSoon">Accounts coming soon</span>}</nav><App key="guest" /></>;
 }

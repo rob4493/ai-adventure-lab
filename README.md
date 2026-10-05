@@ -21,9 +21,10 @@ Built features:
 - data-driven lesson content
 - dedicated Middle School lab, High School tech, and College study-space themes with compact mobile game headers
 - PWA groundwork with manifest and service worker
+- Pixel guide artwork, responsive path portals, and audience-specific level themes
 - feedback link, creator note, and reset-progress controls
 
-Guest progress stays in the current browser. Optional Supabase accounts save progress to a private cloud profile. See [account setup](supabase/SETUP.md) for email configuration, age policy, and sync limits.
+Guest progress stays in the current browser. The cloud-account system is implemented but currently shown as coming soon while production email delivery is prepared. See [account setup](supabase/SETUP.md) for activation, email configuration, age policy, and sync limits.
 
 ## Current Levels
 

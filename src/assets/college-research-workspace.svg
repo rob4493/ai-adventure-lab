@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" fill="none">
+  <!-- A quiet research desk: academic marks stay near the edges so content remains readable. -->
+  <g opacity=".22" stroke="#5edcf2" stroke-width="2">
+    <path d="M44 138h286v196H44z"/>
+    <path d="M74 181h174M74 215h224M74 249h145M74 286h205"/>
+    <path d="M95 112l41-42 164 41"/>
+    <path d="M1298 70h238v306h-238z"/>
+    <path d="M1332 126h149M1332 166h111M1332 206h166M1332 246h129"/>
+    <path d="M1328 310c54-42 98-21 161-82"/>
+    <path d="M1365 305l-37 5 10-36"/>
+    <path d="M66 809h260v202H66zM97 851h166M97 885h203M97 919h122"/>
+    <path d="M1310 786h238v220h-238zM1340 830h152M1340 866h112M1340 902h170"/>
+  </g>
+
+  <g opacity=".18" stroke="#a98cf4" stroke-width="3" stroke-linecap="round">
+    <path d="M366 92c42 10 87 4 126-18M383 109c54 13 101 10 147-9"/>
+    <path d="M1125 456c78-20 151-21 222 2"/>
+    <path d="M1090 482c95-17 187-12 271 20"/>
+    <path d="M389 952c80 20 164 16 241-13"/>
+  </g>
+
+  <g opacity=".18" stroke="#f080c6" stroke-width="2.5">
+    <path d="M404 264l32 32 65-82"/>
+    <path d="M1170 116l24 24 46-59"/>
+    <path d="M1186 824l30 30 58-75"/>
+    <circle cx="146" cy="572" r="63"/>
+    <circle cx="146" cy="572" r="47"/>
+  </g>
+
+  <g opacity=".2" fill="#84c9f4" font-family="Georgia, serif" font-style="italic">
+    <text x="74" y="386" font-size="28">compare the evidence</text>
+    <text x="1260" y="425" font-size="26">source?</text>
+    <text x="82" y="1054" font-size="24">notes + questions</text>
+    <text x="1304" y="1050" font-size="23">[1] verify</text>
+  </g>
+
+  <g opacity=".16" stroke="#8ba9ff" stroke-width="2">
+    <path d="M490 438h128l35 35-35 35H490l-35-35 35-35z"/>
+    <path d="M1011 642h116l35 35-35 35h-116l-35-35 35-35z"/>
+    <path d="M755 74v124M693 136h124"/>
+    <path d="M760 938l42 42m-42 0 42-42"/>
+  </g>
+</svg>

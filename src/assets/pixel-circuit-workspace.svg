@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" fill="none">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1920" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11133f"/>
+      <stop offset=".48" stop-color="#152d69"/>
+      <stop offset="1" stop-color="#071333"/>
+    </linearGradient>
+    <linearGradient id="edgeLeft" x1="0" y1="1200" x2="430" y2="530" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ed5fae" stop-opacity=".72"/>
+      <stop offset=".55" stop-color="#7c4ed7" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#7c4ed7" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="edgeRight" x1="1920" y1="1120" x2="1510" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#39d8f5" stop-opacity=".5"/>
+      <stop offset=".6" stop-color="#376dda" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#376dda" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="circuit" x1="0" y1="0" x2="1920" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9bc8ff"/>
+      <stop offset=".48" stop-color="#638dde"/>
+      <stop offset="1" stop-color="#75e7ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark central workspace with Pixel-colored energy held around the perimeter. -->
+  <rect width="1920" height="1200" fill="url(#base)"/>
+  <path d="M0 520C165 414 294 445 420 526v674H0V520Z" fill="url(#edgeLeft)"/>
+  <path d="M1920 450c-172-66-281 7-392 119v631h392V450Z" fill="url(#edgeRight)"/>
+
+  <g opacity=".68" stroke="url(#circuit)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 78h184l43 34h151l29-30h155"/>
+    <path d="M0 132h96l38 38h221l46-46h210"/>
+    <path d="M0 208h174l30-31h124l42 42h170"/>
+    <path d="M0 300h108l43-43h218l37 37h123"/>
+    <path d="M0 394h214l38-37h159l35 35h137"/>
+    <path d="M0 778h151l35-33h179l42 41h172"/>
+    <path d="M0 874h249l30-30h167l39 39h132"/>
+    <path d="M0 986h128l36-34h206l45 45h199"/>
+    <path d="M0 1088h218l32-31h151l38 38h219"/>
+
+    <path d="M1920 110h-176l-42 40h-165l-33-33h-149"/>
+    <path d="M1920 220h-122l-39 39h-193l-42-42h-173"/>
+    <path d="M1920 354h-221l-36-35h-136l-38 38h-144"/>
+    <path d="M1920 475h-138l-44 42h-225l-32-31h-129"/>
+    <path d="M1920 741h-191l-40 40h-181l-38-38h-141"/>
+    <path d="M1920 846h-104l-39 38h-236l-35-34h-168"/>
+    <path d="M1920 963h-205l-41-39h-148l-37 36h-162"/>
+    <path d="M1920 1092h-137l-41-40h-204l-36 36h-190"/>
+  </g>
+
+  <g fill="#8fc6ff" opacity=".82">
+    <circle cx="226" cy="112" r="8"/><circle cx="407" cy="82" r="7"/><circle cx="204" cy="177" r="7"/>
+    <circle cx="151" cy="257" r="8"/><circle cx="411" cy="357" r="7"/><circle cx="186" cy="745" r="7"/>
+    <circle cx="407" cy="786" r="8"/><circle cx="279" cy="844" r="7"/><circle cx="415" cy="997" r="7"/>
+    <circle cx="1744" cy="150" r="8"/><circle cx="1566" cy="259" r="7"/><circle cx="1699" cy="319" r="7"/>
+    <circle cx="1738" cy="517" r="8"/><circle cx="1689" cy="781" r="7"/><circle cx="1777" cy="884" r="8"/>
+    <circle cx="1674" cy="924" r="7"/><circle cx="1783" cy="1052" r="8"/><circle cx="1502" cy="1088" r="7"/>
+  </g>
+
+  <g opacity=".5" stroke="#dcecff" stroke-width="3">
+    <circle cx="255" cy="632" r="58"/><circle cx="255" cy="632" r="40"/><circle cx="255" cy="632" r="18"/>
+    <circle cx="1652" cy="621" r="64"/><circle cx="1652" cy="621" r="45"/><circle cx="1652" cy="621" r="20"/>
+    <circle cx="1174" cy="76" r="50"/><circle cx="1174" cy="76" r="31"/>
+    <path d="M97 538l26-45h52l26 45-26 45h-52l-26-45Z"/>
+    <path d="M1743 54l23-40h46l23 40-23 40h-46l-23-40Z"/>
+    <path d="M92 1144l25-43h50l25 43-25 43h-50l-25-43Z"/>
+  </g>
+
+  <g opacity=".52" fill="#74e7ff">
+    <circle cx="94" cy="452" r="3"/><circle cx="147" cy="430" r="4"/><circle cx="327" cy="523" r="3"/>
+    <circle cx="469" cy="168" r="3"/><circle cx="504" cy="458" r="4"/><circle cx="194" cy="1029" r="3"/>
+    <circle cx="1823" cy="385" r="4"/><circle cx="1755" cy="694" r="3"/><circle cx="1547" cy="1005" r="4"/>
+    <circle cx="1441" cy="187" r="3"/><circle cx="1865" cy="1017" r="3"/>
+  </g>
+
+  <g opacity=".34" fill="#d5e9ff">
+    <path d="M1452 82h30v30h-30zM1494 82h30v30h-30zM1536 82h30v30h-30zM1473 121h30v30h-30zM1515 121h30v30h-30z"/>
+    <path d="M318 1102h30v30h-30zM360 1102h30v30h-30zM402 1102h30v30h-30zM339 1141h30v30h-30zM381 1141h30v30h-30z"/>
+  </g>
+</svg>

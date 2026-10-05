@@ -12,6 +12,7 @@ The initial migration and transactional database checks were applied successfull
 4. Configure production SMTP. Supabase's default email delivery has development restrictions; external users need a suitable email provider.
 5. To support the optional email-code login, configure the Magic Link email template to include `{{ .Token }}` as the sign-in code. Keep confirmation and recovery templates using their appropriate confirmation URLs. After verifying delivery, set `VITE_EMAIL_CODES_ENABLED=true` and restart Vite; the code option is hidden until then.
 6. Copy `.env.example` to `.env.local`, fill in the project URL and public publishable key, then restart Vite. This project's local environment has already been filled in. Never put secret/service-role keys in VITE variables.
+7. Leave `VITE_ACCOUNTS_ENABLED=false` while accounts are presented as coming soon. Set it to `true` only after SMTP, redirects, and live signup testing are complete, then rebuild and redeploy the app.
 
 ## Age policy
 

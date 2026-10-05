@@ -2,6 +2,7 @@ import LevelCard from "../components/LevelCard";
 import { SearchCheck } from "lucide-react";
 import BackgroundDetails from "../components/BackgroundDetails";
 import { pathThemes } from "../data/pathThemes";
+import pixelGuide from "../assets/pixel-guide.webp";
 export default function LevelSelect({
   learningPath,
   levels,
@@ -13,7 +14,12 @@ export default function LevelSelect({
 }) {
   const worldDetails = learningPath.worlds ?? track.worlds ?? {};
   const isElementaryPath = learningPath.id === "elementary";
-  const theme = pathThemes[learningPath.id];
+  const theme = isElementaryPath
+    ? {
+        label: "Solve missions. Follow clues. Stay curious.",
+        title: "Digital Discovery Lab",
+      }
+    : pathThemes[learningPath.id];
   // Group levels under their world headers while preserving the level order inside each world.
   const worlds = levels.reduce((groups, level) => {
     const worldLevels = groups[level.world] ?? [];
@@ -40,10 +46,17 @@ export default function LevelSelect({
         </button>
 
         <div className={`app-panel mb-5 rounded-2xl p-5 ${isElementaryPath ? "missionOverview" : ""} ${theme ? "pathOverview" : ""}`}>
-          {theme && <BackgroundDetails path={theme.id} />}
+          {theme?.id && <BackgroundDetails path={theme.id} />}
+          {isElementaryPath && (
+            <img
+              className="elementary-path-pixel"
+              src={pixelGuide}
+              alt="Pixel, the circuit fox guide, ready for the next discovery mission"
+            />
+          )}
           <p className="app-kicker mb-2 flex items-center gap-2 text-xs font-bold uppercase">
             {isElementaryPath && <SearchCheck size={16} aria-hidden="true" />}
-            {isElementaryPath ? "AI Detective Path" : theme?.label ?? "Learning Path"}
+            {isElementaryPath ? theme.label : theme?.label ?? "Learning Path"}
           </p>
 
           <h1 className="text-3xl font-bold mb-2 leading-tight">

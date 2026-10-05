@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 260" fill="none">
+  <!-- Loose research annotations stay faint so card content remains the primary reading layer. -->
+  <g stroke="#477a70" stroke-linecap="round" stroke-linejoin="round" opacity="0.34">
+    <path d="M328 35c36 7 73 6 112-2M331 40c29 5 63 5 93 0" stroke-width="2" />
+    <path d="M443 52l13 11 23-28" stroke-width="3" />
+    <path d="M350 97c26-9 61-10 91-1 12 4 22 9 29 16" stroke-width="2" />
+    <path d="M463 105l17 9-18 7" stroke-width="2" />
+    <path d="M316 178c31 6 64 5 96-2M316 186c25 4 52 4 78-1" stroke-width="2" />
+    <path d="M425 174c13-14 29-19 50-16M472 151l5 7-8 4" stroke-width="2" />
+    <path d="M289 217c11-9 20-9 28 0s17 9 28 0 20-9 28 0 17 9 28 0" stroke-width="2" />
+    <circle cx="452" cy="213" r="22" stroke-width="2" />
+    <path d="M440 213l8 8 16-20" stroke-width="3" />
+  </g>
+
+  <g fill="#426f66" font-family="Segoe Print, Bradley Hand, cursive" font-style="italic" opacity="0.42">
+    <text x="322" y="29" font-size="15" transform="rotate(-3 322 29)">check source</text>
+    <text x="356" y="88" font-size="14" transform="rotate(2 356 88)">evidence?</text>
+    <text x="305" y="167" font-size="13" transform="rotate(-2 305 167)">compare claims</text>
+    <text x="417" y="242" font-size="12">[1] verify</text>
+  </g>
+
+  <g stroke="#986a69" stroke-width="2" stroke-linecap="round" opacity="0.28">
+    <path d="M265 68c17 5 30 4 44-2M271 74c11 3 22 2 33-2" />
+    <path d="M278 117l8 8 14-20" />
+    <path d="M250 235c20-4 37-3 54 2" />
+  </g>
+</svg>

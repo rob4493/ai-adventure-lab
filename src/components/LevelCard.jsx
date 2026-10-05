@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { CheckCircle, Lock } from "lucide-react";
+import { CheckCircle, FileText, Lock, Sparkles } from "lucide-react";
 import StarRating from "./StarRating";
+import { getElementaryLevelArt } from "../data/elementaryLevelArt";
 
 export default function LevelCard({
   level,
@@ -8,6 +9,13 @@ export default function LevelCard({
   startLevel,
 }) {
   const isElementaryTheme = level.theme === "elementary";
+  const isCollegeTheme = level.theme === "college";
+  const levelArt = isElementaryTheme ? getElementaryLevelArt(level.title) : null;
+  // Rotate research-note accents without tying presentation colors to lesson content.
+  const collegeAccentClass = isCollegeTheme
+    ? `college-card-accent-${((Number(level.id) - 1) % 4) + 1}`
+    : "";
+  const themeClass = `level-card-theme level-card-${level.theme ?? "default"} ${collegeAccentClass}`;
 
   if (level.completed) {
     const hasReview = Boolean(level.reviewSummary);
@@ -17,8 +25,16 @@ export default function LevelCard({
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.28 }}
-        className="app-surface rounded-2xl border border-emerald-300/20 p-3"
+        className={`app-surface level-card-complete rounded-2xl border border-emerald-300/20 p-3 ${themeClass}`}
       >
+        {levelArt && (
+          <img
+            className="elementary-card-art elementary-card-art-complete"
+            src={levelArt}
+            alt=""
+            aria-hidden="true"
+          />
+        )}
         <div className="flex items-center gap-3">
           <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 p-1">
             <CheckCircle className="text-emerald-300" size={17} />
@@ -80,14 +96,33 @@ export default function LevelCard({
             : "0 0 0 rgba(103, 232, 249, 0)",
       }}
       transition={{ duration: 0.34 }}
-      className={`app-level-card rounded-2xl border p-4 pl-5 transition ${
+      className={`app-level-card rounded-2xl border p-4 pl-5 transition ${themeClass} ${
         level.unlocked
           ? "app-surface border-slate-700/70"
           : "app-level-card-locked bg-slate-950/50 border-slate-800/80 opacity-70"
       }`}
     >
-      <div className="flex items-start justify-between gap-3 mb-4">
+      {levelArt && (
+        <img
+          className="elementary-card-art"
+          src={levelArt}
+          alt=""
+          aria-hidden="true"
+        />
+      )}
+
+      <div className="elementary-card-heading flex items-start justify-between gap-3 mb-4">
         <div className="min-w-0">
+          {isElementaryTheme && (
+            <span className="elementary-level-tag">
+              <Sparkles size={12} aria-hidden="true" /> Discovery Mission
+            </span>
+          )}
+          {isCollegeTheme && (
+            <span className="college-note-label">
+              <FileText size={12} aria-hidden="true" /> Research note · {level.skill}
+            </span>
+          )}
           <h3 className="text-lg font-bold text-white leading-snug">
             {level.title}
           </h3>

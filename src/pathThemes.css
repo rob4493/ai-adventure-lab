@@ -20,12 +20,63 @@
 .pathInstructions summary { min-height: 44px; padding-block: 12px; cursor: pointer; color: var(--pathAccent); }
 .pathInstructions p { padding: 12px; background: var(--pathPanel); border-radius: 8px; line-height: 1.6; }
 .pathTheme .backgroundDetails { position: absolute; right: -45px; bottom: 0; width: 85%; height: 100%; opacity: .22; color: var(--pathAccent); pointer-events: none; mask-image: linear-gradient(90deg, transparent, #000 60%); }
-.themehigh { --pathAccent: #a8cfff; --pathPanel: #101521; --pathCard: #1d2540; }
-.themehigh .app-screen { background: radial-gradient(ellipse at 85% 10%, #49338c55, transparent 50%), repeating-linear-gradient(135deg, transparent 0 79px, #5c9bdd18 80px, transparent 81px), #0a101e; }
-.themehigh .pathHeader, .themehigh .pathOverview { background: linear-gradient(110deg, #151c2a, #303260) !important; }
-.themecollege { --pathAccent: #176a62; --pathInk: #25332e; --pathMuted: #54645c; --pathPanel: #f8f7f1; --pathCard: #e9eee8; --pathBorder: #9bad9b80; color-scheme: light; }
-.themecollege .app-screen { color: var(--pathInk); background: radial-gradient(ellipse at top right, #72988233, transparent 55%), repeating-linear-gradient(0deg, transparent 0 27px, #a5b39a12 28px), #172723; }
-.themecollege .pathHeader, .themecollege .pathOverview { background: linear-gradient(115deg, #f0f2e8, #e4ede4) !important; }
+.thememiddle { --pathAccent: #6ee7b7; --pathPanel: #071b31; --pathCard: #102b43; --pathBorder: #67e8f955; }
+.thememiddle .app-screen { background: linear-gradient(145deg, #07162b, #0c2940 58%, #12324b); }
+.thememiddle .pathHeader, .thememiddle .pathOverview { background: linear-gradient(110deg, #08233c, #0b4c5d) !important; }
+/* High school uses recognizable STEM working marks instead of a generic tech grid. */
+.themehigh { --pathAccent: #67e8f9; --pathInk: #f5f7ff; --pathMuted: #c4d3ed; --pathPanel: #0d1933; --pathCard: #17284a; --pathBorder: #60a5fa66; }
+.themehigh .app-screen {
+  background:
+    linear-gradient(rgba(5, 10, 26, 0.7), rgba(20, 12, 46, 0.78)),
+    url("./assets/high-school-stem.svg") center top / min(78rem, 96vw) auto repeat-y,
+    linear-gradient(125deg, rgba(5, 10, 26, 0.98), rgba(20, 31, 77, 0.92) 55%, rgba(66, 25, 87, 0.82)),
+    #070b19;
+}
+.themehigh .pathHeader, .themehigh .pathOverview {
+  background:
+    linear-gradient(108deg, rgba(10, 34, 67, 0.98), rgba(31, 78, 163, 0.92) 55%, rgba(98, 39, 132, 0.9) 82%, rgba(157, 45, 102, 0.84)) !important;
+  border-color: rgba(103, 232, 249, 0.48);
+  box-shadow: 0 18px 45px rgba(2, 6, 23, 0.42), 0 0 28px rgba(96, 165, 250, 0.18);
+}
+.themehigh .pathOverview::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  height: 3px;
+  background: linear-gradient(90deg, #67e8f9, #60a5fa, #c084fc, #f472b6);
+}
+.themehigh .app-panel {
+  background: linear-gradient(145deg, rgba(14, 31, 66, 0.96), rgba(24, 30, 70, 0.94));
+  border-color: rgba(96, 165, 250, 0.42);
+  box-shadow: 0 18px 48px rgba(2, 6, 23, 0.42), 0 0 26px rgba(96, 165, 250, 0.12);
+}
+.themehigh .app-surface, .themehigh .app-inset-surface {
+  background: linear-gradient(145deg, rgba(24, 49, 91, 0.96), rgba(32, 35, 82, 0.94));
+  border-color: rgba(125, 211, 252, 0.34);
+}
+.themehigh .app-kicker { color: #a5f3fc; }
+.themehigh .app-human-kicker { color: #f9a8d4; }
+.themehigh .app-button-primary {
+  color: #fff;
+  border-color: rgba(165, 243, 252, 0.72);
+  background: linear-gradient(100deg, #0891b2, #2563eb 55%, #7c3aed);
+  box-shadow: 0 0 0 1px rgba(224, 242, 254, 0.24) inset, 0 0 24px rgba(59, 130, 246, 0.38), 0 0 34px rgba(192, 132, 252, 0.22);
+}
+.themehigh .app-button-primary:not(:disabled):hover {
+  box-shadow: 0 0 0 1px rgba(224, 242, 254, 0.4) inset, 0 0 30px rgba(34, 211, 238, 0.38), 0 0 42px rgba(192, 132, 252, 0.3);
+}
+.themehigh .backgroundDetails { color: #a5f3fc; opacity: .34; }
+.themecollege { --pathAccent: #256fae; --pathInk: #263044; --pathMuted: #59657a; --pathPanel: #f6f6f4; --pathCard: #e9edf4; --pathBorder: #829bc180; color-scheme: light; }
+.themecollege .app-screen {
+  color: var(--pathInk);
+  background:
+    linear-gradient(90deg, rgba(3, 8, 26, 0.8), rgba(12, 28, 65, 0.66) 50%, rgba(19, 9, 45, 0.8)),
+    url("./assets/college-research-workspace.svg") center top / min(100rem, 116vw) auto repeat-y,
+    radial-gradient(ellipse at 50% -12%, rgba(60, 160, 222, 0.14), transparent 46%),
+    linear-gradient(135deg, #05091c, #101f4b 58%, #22103d);
+}
+.themecollege .pathHeader, .themecollege .pathOverview { background: linear-gradient(115deg, #f2f3f7, #e4e9f3) !important; }
 .themecollege .pathHeader h1, .themecollege .pathOverview h1 { font-family: Georgia, serif; font-weight: 400; }
 .themecollege .app-panel { border-radius: 6px; }
 .themecollege .app-surface, .themecollege .app-inset-surface { border-radius: 5px; box-shadow: none; }
@@ -42,18 +93,27 @@
   .pathTheme .backgroundDetails { width: 100%; right: -65px; opacity: .18; }
 }
 
-/* Everyday Toolkit uses warm paper surfaces and focus-specific ink accents. */
-.toolkit { --pathAccent: #21695f; --pathInk: #263b38; --pathMuted: #586864; --pathPanel: #fffdf7; --pathCard: #f2f0e7; --pathBorder: #bbbca580; color-scheme: light; }
-.themenews { --pathAccent: #295b83; }
-.themescams { --pathAccent: #805413; }
-.themeprivacy { --pathAccent: #74486b; }
-.toolkit .app-screen { color: var(--pathInk); background: radial-gradient(ellipse at 90% 0%, #c9d9ce88, transparent 55%), radial-gradient(#857d6020 .8px, transparent .8px) 0 0 / 7px 7px, #eee9dc; }
-.toolkit .pathHeader, .toolkit .pathOverview { background: linear-gradient(110deg, #fffdf6, #e6e9da) !important; }
-.toolkit .app-panel { border-radius: 22px; box-shadow: 0 12px 35px #3c46331a; }
-.toolkit .app-surface, .toolkit .app-inset-surface { border-radius: 16px; box-shadow: none; }
+/* Everyday Toolkit uses Pixel's cool spectrum while keeping screen glare low. */
+.toolkit { --pathAccent: #67e8f9; --pathInk: #f1f5ff; --pathMuted: #b9c6df; --pathPanel: #0d1732; --pathCard: #162342; --pathBorder: #7697d066; color-scheme: dark; }
+.themenews { --pathAccent: #7dd3fc; }
+.themescams { --pathAccent: #f4c56f; }
+.themeprivacy { --pathAccent: #d8b4fe; }
+.toolkit .app-screen {
+  color: var(--pathInk);
+  background:
+    radial-gradient(#78bde51a .8px, transparent .8px) 0 0 / 9px 9px,
+    linear-gradient(125deg, #05091d, #102653 58%, #251342);
+}
+.toolkit .pathHeader, .toolkit .pathOverview {
+  background: linear-gradient(110deg, #101b3b, #19376e 62%, #44205c) !important;
+  border-color: color-mix(in srgb, var(--pathAccent) 38%, transparent);
+  box-shadow: 0 14px 34px rgba(1, 5, 18, 0.4);
+}
+.toolkit .app-panel { border-radius: 22px; box-shadow: 0 12px 35px rgba(1, 8, 7, 0.3); }
+.toolkit .app-surface, .toolkit .app-inset-surface { border-radius: 16px; box-shadow: 0 8px 22px rgba(1, 8, 7, 0.2); }
 .toolkit [class*="text-white"], .toolkit [class*="text-slate-"], .toolkit [class*="text-cyan-"], .toolkit [class*="text-indigo-"], .toolkit [class*="text-violet-"], .toolkit [class*="text-emerald-"], .toolkit [class*="text-amber-"], .toolkit [class*="text-rose-"] { color: var(--pathInk); }
 .toolkit [class*="bg-slate-"] { background-color: var(--pathCard); }
-.toolkit .app-button-primary { color: #fff; border-radius: 14px; }
+.toolkit .app-button-primary { color: #071126; border-radius: 14px; }
 .toolkit .app-button-secondary { border-radius: 14px; }
 .toolkit .app-panel button[aria-pressed="true"] { outline: 2px solid var(--pathAccent); outline-offset: 2px; }
 .toolkit .pathHeaderContent { padding-right: 20%; }
@@ -62,4 +122,201 @@
 @media (max-width: 639px) {
   .toolkit .pathHeaderContent { padding-right: 8%; }
   .toolkit .backgroundDetails { width: 110%; right: -80px; opacity: .2; }
+}
+
+/* Level cards retain the visual identity introduced by each student grade portal. */
+.level-card-theme {
+  --levelAccent: #67e8f9;
+  --levelSecondary: #3b82f6;
+  border-color: color-mix(in srgb, var(--levelAccent) 34%, transparent) !important;
+  border-top: 3px solid var(--levelAccent) !important;
+}
+
+.level-card-theme.app-level-card::before {
+  width: 3px;
+  background: linear-gradient(180deg, var(--levelAccent), var(--levelSecondary));
+}
+
+.level-card-theme:not(.app-level-card-locked) {
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.24), 0 0 20px color-mix(in srgb, var(--levelAccent) 8%, transparent);
+}
+
+.level-card-elementary {
+  --levelAccent: #6ee7b7;
+  --levelSecondary: #fb7185;
+  min-height: 15rem;
+  background:
+    linear-gradient(rgba(103, 232, 249, 0.07) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(90deg, rgba(110, 231, 183, 0.06) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(125deg, rgba(7, 81, 91, 0.98), rgba(5, 35, 76, 0.97) 61%, rgba(91, 38, 94, 0.9)) !important;
+  box-shadow: 0 14px 32px rgba(2, 6, 23, 0.34), 0 0 22px rgba(45, 212, 191, 0.16) !important;
+}
+
+.level-card-elementary > :not(.elementary-card-art) {
+  position: relative;
+  z-index: 1;
+}
+
+.elementary-card-art {
+  position: absolute;
+  z-index: 0;
+  top: 0.25rem;
+  right: -1.4rem;
+  width: 11rem;
+  height: 8.5rem;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 14px rgba(2, 6, 23, 0.5));
+}
+
+.level-card-elementary .elementary-card-heading {
+  min-height: 6.75rem;
+  padding-right: 7rem;
+}
+
+.level-card-elementary.app-level-card-locked .elementary-card-art {
+  opacity: 0.42;
+  filter: grayscale(0.55) drop-shadow(0 8px 12px rgba(2, 6, 23, 0.45));
+}
+
+.level-card-elementary.level-card-complete {
+  min-height: 6.5rem;
+}
+
+.level-card-elementary .elementary-card-art-complete {
+  top: auto;
+  right: 6.5rem;
+  bottom: -0.8rem;
+  width: 6.25rem;
+  height: 5.75rem;
+  opacity: 0.48;
+}
+
+@media (max-width: 380px) {
+  .elementary-card-art {
+    right: -2rem;
+    width: 9.5rem;
+  }
+
+  .level-card-elementary .elementary-card-heading {
+    padding-right: 5.5rem;
+  }
+}
+
+.level-card-middle {
+  --levelAccent: #67e8f9;
+  --levelSecondary: #a3e635;
+  background:
+    radial-gradient(#67e8f91c 1px, transparent 1px) 0 0 / 18px 18px,
+    linear-gradient(145deg, #12344d, #091d32 72%) !important;
+}
+
+.level-card-high {
+  --levelAccent: #67e8f9;
+  --levelSecondary: #c084fc;
+  background:
+    linear-gradient(90deg, rgba(17, 48, 89, 0.94), rgba(34, 42, 101, 0.85) 62%, rgba(73, 32, 91, 0.76)),
+    url("./assets/high-school-stem.svg") 75% 48% / 34rem auto no-repeat,
+    linear-gradient(122deg, rgba(17, 48, 89, 0.98), rgba(34, 42, 101, 0.96) 62%, rgba(73, 32, 91, 0.92)) !important;
+}
+
+.themehigh .level-card-high:not(.app-level-card-locked) {
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.38), 0 0 24px rgba(96, 165, 250, 0.18), 0 0 18px rgba(192, 132, 252, 0.1);
+}
+
+.themehigh .level-card-high.app-level-card-locked {
+  background:
+    linear-gradient(rgba(8, 19, 42, 0.82), rgba(18, 19, 48, 0.86)),
+    url("./assets/high-school-stem.svg") 75% 48% / 34rem auto no-repeat,
+    linear-gradient(122deg, rgba(13, 27, 53, 0.92), rgba(28, 29, 63, 0.9)) !important;
+  border-color: rgba(96, 165, 250, 0.22) !important;
+}
+
+.level-card-college {
+  --levelAccent: #2779b8;
+  --levelSecondary: #8a74d7;
+  --collegeMargin: rgba(221, 74, 158, 0.42);
+  --collegePaper: #f1f2f5;
+  padding-left: 3.25rem !important;
+  border-radius: 0.35rem !important;
+  background:
+    linear-gradient(90deg, rgba(241, 240, 231, 0.96) 0 54%, rgba(241, 240, 231, 0.68) 76%, rgba(241, 240, 231, 0.42)),
+    url("./assets/college-paper-notes.svg") right 0.25rem top 0.2rem / 20rem auto no-repeat,
+    radial-gradient(rgba(43, 51, 72, 0.075) 0.55px, transparent 0.7px) 0 0 / 5px 5px,
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(55, 103, 170, 0.12) 31px 32px),
+    linear-gradient(96deg, color-mix(in srgb, var(--levelAccent) 9%, var(--collegePaper)), var(--collegePaper) 28%) !important;
+  box-shadow: 0 11px 24px rgba(4, 9, 28, 0.26), 0 1px 0 rgba(255, 255, 255, 0.72) inset !important;
+}
+
+.level-card-college.app-level-card::before {
+  inset: 0 auto 0 2.25rem;
+  width: 1px;
+  background: var(--collegeMargin);
+  opacity: 1;
+}
+
+.level-card-college::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  background: linear-gradient(225deg, #d9deea 0 48%, rgba(67, 81, 117, 0.22) 49% 52%, transparent 53%);
+}
+
+.college-card-accent-1 { --levelAccent: #167da7; --levelSecondary: #42b9d2; }
+.college-card-accent-2 { --levelAccent: #6652a8; --levelSecondary: #9a75d5; }
+.college-card-accent-3 { --levelAccent: #2f63ae; --levelSecondary: #649be4; }
+.college-card-accent-4 { --levelAccent: #a3488e; --levelSecondary: #d66cb3; }
+
+.college-note-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--levelAccent) 30%, transparent);
+  border-radius: 0.2rem;
+  background: color-mix(in srgb, var(--levelAccent) 9%, transparent);
+  padding: 0.25rem 0.4rem;
+  color: var(--levelAccent);
+  font: 700 0.61rem/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  text-transform: uppercase;
+}
+
+.level-card-college h3 {
+  font-family: Georgia, serif;
+  color: #293249 !important;
+  font-weight: 400;
+}
+
+.level-card-college.app-level-card-locked {
+  --collegePaper: #e3e4dc;
+  border-color: color-mix(in srgb, var(--levelAccent) 35%, #9ca3a0) !important;
+  filter: saturate(0.72);
+}
+
+.level-card-college.level-card-complete {
+  min-height: 6rem;
+  border-left: 4px solid var(--levelAccent) !important;
+  background:
+    linear-gradient(90deg, rgba(241, 240, 231, 0.96) 0 58%, rgba(241, 240, 231, 0.58)),
+    url("./assets/college-paper-notes.svg") right center / 13rem auto no-repeat,
+    radial-gradient(rgba(43, 51, 72, 0.065) 0.55px, transparent 0.7px) 0 0 / 5px 5px,
+    repeating-linear-gradient(0deg, transparent 0 27px, rgba(55, 103, 170, 0.1) 27px 28px),
+    var(--collegePaper) !important;
+}
+
+.level-card-college [class*="text-slate-"] { color: #5e687d !important; }
+.level-card-college [class*="text-emerald-"] { color: #256fae !important; }
+.level-card-college [class*="text-cyan-"] { color: #256fae !important; }
+.level-card-college [class*="text-amber-"] { color: #715816 !important; }
+
+.level-card-complete {
+  border-top-width: 3px !important;
+}
+
+@media (max-width: 639px) {
+  .level-card-theme { border-top-width: 2px !important; }
 }
